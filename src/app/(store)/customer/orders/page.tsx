@@ -5,6 +5,7 @@ import { buildMetadata } from '@/lib/seo';
 import AccountShell, { paymentLabel, requireCustomer, statusLabel } from '@/components/store/AccountShell';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { Order, accountOrders } from '@/models/Order';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'dashboard' });
@@ -38,9 +39,9 @@ export default async function OrdersPage() {
                 <i className="ri-shopping-bag-line"></i>
                 <div className="db-empty-title">No orders yet</div>
                 <p>Once you place an order it will appear here.</p>
-                <a href="/" className="db-btn db-btn-dark" style={{ marginTop: 16, display: 'inline-flex' }}>
+                <StoreLink href="/" className="db-btn db-btn-dark" style={{ marginTop: 16, display: 'inline-flex' }}>
                   <i className="ri-store-line"></i> Browse Collection
-                </a>
+                </StoreLink>
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
@@ -65,9 +66,9 @@ export default async function OrdersPage() {
                           <td style={{ fontSize: '.78rem', color: 'var(--dc-muted)' }}>{paymentLabel(order.payment_method)}</td>
                           <td><strong>PKR {numberFormat(order.total, 2)}</strong></td>
                           <td>
-                            <a href={`/customer/orders/${order._id}`} className="db-btn db-btn-outline db-btn-sm">
+                            <StoreLink href={`/customer/orders/${order._id}`} className="db-btn db-btn-outline db-btn-sm">
                               <i className="ri-eye-line"></i> View
-                            </a>
+                            </StoreLink>
                           </td>
                         </tr>
                       );

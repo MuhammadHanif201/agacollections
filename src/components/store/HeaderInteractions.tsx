@@ -1,19 +1,29 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useNavKey } from './useNavKey';
 
 /**
  * The header's inline script: side drawer open/close (button, overlay, Esc), the sticky
  * header shadow and the announcement marquee speed. It works on the server-rendered
- * markup by id, exactly as before.
+ * markup by id, exactly as before. The header stays mounted while the visitor moves
+ * between pages, so it binds again after every navigation to pick up the new page's
+ * .sticky-header and [data-dc-reveal] elements.
  */
 export default function HeaderInteractions() {
+  const navKey = useNavKey();
   useEffect(() => {
     const btn = document.getElementById('dcMenuBtn');
     const drawer = document.getElementById('dcSideDrawer');
     const overlay = document.getElementById('dcDrawerOverlay');
     const closeBtn = document.getElementById('dcDrawerClose');
     if (!drawer || !overlay) return;
+
+    // Arriving on another page leaves the menu closed, as the full page load used to
+    if (drawer.classList.contains('is-open')) {
+      drawer.classList.remove('is-open'); overlay.classList.remove('is-open'); document.body.style.overflow = '';
+      drawer.setAttribute('aria-hidden', 'true'); btn?.setAttribute('aria-expanded', 'false');
+    }
 
     const openDrawer = () => {
       drawer.classList.add('is-open'); overlay.classList.add('is-open'); document.body.style.overflow = 'hidden';
@@ -28,6 +38,9 @@ export default function HeaderInteractions() {
     // Opening search from the menu closes the menu first
     const searchBtns = Array.from(drawer.querySelectorAll('.trigger-search'));
     searchBtns.forEach((el) => el.addEventListener('click', closeDrawer));
+    // A link in the menu to the page already open does not change the route
+    const onDrawerLink = (e: Event) => { if ((e.target as Element).closest('a[href]')) closeDrawer(); };
+    drawer.addEventListener('click', onDrawerLink);
     btn?.addEventListener('click', openDrawer);
     closeBtn?.addEventListener('click', closeDrawer);
     overlay.addEventListener('click', closeDrawer);
@@ -72,6 +85,7 @@ export default function HeaderInteractions() {
 
     return () => {
       searchBtns.forEach((el) => el.removeEventListener('click', closeDrawer));
+      drawer.removeEventListener('click', onDrawerLink);
       btn?.removeEventListener('click', openDrawer);
       closeBtn?.removeEventListener('click', closeDrawer);
       overlay.removeEventListener('click', closeDrawer);
@@ -81,7 +95,7 @@ export default function HeaderInteractions() {
       ro?.disconnect();
       io.disconnect();
     };
-  }, []);
+  }, [navKey]);
 
   return null;
 }

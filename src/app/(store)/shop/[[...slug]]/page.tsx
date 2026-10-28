@@ -15,6 +15,7 @@ import { toCards } from '@/services/catalog';
 import { mediaExists } from '@/services/media';
 import { getCompanySetting, getMenuCategories } from '@/services/settings';
 import { shopQuery } from '@/services/shop';
+import StoreLink from '@/components/store/StoreLink';
 
 type Props = { params: Promise<{ slug?: string[] }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -127,17 +128,17 @@ export default async function ShopPage(props: Props) {
   const categoryList = (
     <ul className="dc-sf-cats">
       <li>
-        <a href="/shop" className={!cat ? 'is-active' : ''}>
+        <StoreLink href="/shop" className={!cat ? 'is-active' : ''}>
           All Products
           <span className="dc-sf-count">{total}</span>
-        </a>
+        </StoreLink>
       </li>
       {mainCategories.filter((c) => c.title.toUpperCase() !== 'HOME PAGE - NEW ARRIVAL').map((c) => (
         <li key={c._id}>
-          <a href={`/shop/${c.slug ?? ''}`} className={c._id === cat?._id ? 'is-active' : ''}>
+          <StoreLink href={`/shop/${c.slug ?? ''}`} className={c._id === cat?._id ? 'is-active' : ''}>
             {c.title}
             <span className="dc-sf-count">{c.products_count ?? 0}</span>
-          </a>
+          </StoreLink>
         </li>
       ))}
     </ul>
@@ -166,9 +167,9 @@ export default async function ShopPage(props: Props) {
             <div className="dc-sf-head">
               <span className="dc-sf-head-label">Filter</span>
               {hasFilters && (
-                <a href="/shop" className="dc-sf-clear">
+                <StoreLink href="/shop" className="dc-sf-clear">
                   <i className="ri-close-line"></i> Clear all
-                </a>
+                </StoreLink>
               )}
             </div>
             <div className="dc-sf-section">
@@ -192,9 +193,9 @@ export default async function ShopPage(props: Props) {
 
               <div className="dc-shop-controls">
                 {hasFilters && (
-                  <a href={path} className="dc-clear-btn">
+                  <StoreLink href={path} className="dc-clear-btn">
                     <i className="ri-close-line"></i> Clear
-                  </a>
+                  </StoreLink>
                 )}
 
                 <form method="GET" action={path} className="dc-sort-wrap" id="dcSortForm">
@@ -236,9 +237,9 @@ export default async function ShopPage(props: Props) {
                   <p className="dc-shop-empty-msg">
                     {search ? <>No products found for &ldquo;{search}&rdquo;</> : 'No products found in this category yet.'}
                   </p>
-                  <a href="/shop" className="dc-clear-btn">
+                  <StoreLink href="/shop" className="dc-clear-btn">
                     View All Products
-                  </a>
+                  </StoreLink>
                 </div>
               )}
             </div>
@@ -262,7 +263,7 @@ export default async function ShopPage(props: Props) {
                     Browse:{' '}
                     {guideCats.map((gc, i) => (
                       <Fragment key={gc._id}>
-                        <a href={`/shop/${gc.slug ?? ''}`}>{strTitle(gc.title)}</a>
+                        <StoreLink href={`/shop/${gc.slug ?? ''}`}>{strTitle(gc.title)}</StoreLink>
                         {i < guideCats.length - 1 && <span aria-hidden="true"> · </span>}
                         {' '}
                       </Fragment>
@@ -297,9 +298,9 @@ export default async function ShopPage(props: Props) {
           </div>
           {hasFilters && (
             <div style={{ marginTop: 24, paddingTop: 20, borderTop: '1px solid var(--dc-border)' }}>
-              <a href="/shop" className="dc-clear-btn" style={{ width: '100%', justifyContent: 'center' }}>
+              <StoreLink href="/shop" className="dc-clear-btn" style={{ width: '100%', justifyContent: 'center' }}>
                 <i className="ri-close-line"></i> Clear All Filters
-              </a>
+              </StoreLink>
             </div>
           )}
         </div>

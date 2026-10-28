@@ -7,6 +7,7 @@ import { buildMetadata } from '@/lib/seo';
 import AffiliateApplyForm from '@/components/store/AffiliateApplyForm';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { Affiliate } from '@/models/Affiliate';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'default', metaTitle: 'Affiliate Application', metaDesc: 'Apply to become a AGA Collections affiliate.' });
@@ -35,14 +36,14 @@ export default async function AffiliateApplyPage() {
               You already have an affiliate application — current status:{' '}
               <strong>{existing.status.charAt(0).toUpperCase() + existing.status.slice(1)}</strong>.
               {existing.status === 'approved' && (
-                <>{' '}<a href="/affiliate/dashboard" style={{ color: 'var(--dc-accent)', fontWeight: 600 }}>Go to your dashboard →</a></>
+                <>{' '}<StoreLink href="/affiliate/dashboard" style={{ color: 'var(--dc-accent)', fontWeight: 600 }}>Go to your dashboard →</StoreLink></>
               )}
             </div>
           ) : !customer ? (
             <>
               <h1>Become an Affiliate</h1>
               <p className="sub">Your affiliate dashboard, earnings and payouts are linked to your AGA Collections account. Please log in or create a free account first, then fill in the short application.</p>
-              <a href="/customer/login" className="aff-submit" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>Log in or create an account</a>
+              <StoreLink href="/customer/login" className="aff-submit" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>Log in or create an account</StoreLink>
             </>
           ) : (
             <>

@@ -1,6 +1,7 @@
 // partials/zq-hero.blade.php — one hero design and height for home, shop, category and policies.
 import { Fragment } from 'react';
 import HeroVideo from './HeroVideo';
+import StoreLink from './StoreLink';
 
 export interface Crumb { label: string; url?: string }
 
@@ -49,7 +50,7 @@ export default function ZqHero({
           <nav className="zq-hero-crumbs" aria-label="Breadcrumb">
             {crumbs.map((c, i) => (
               <Fragment key={i}>
-                {c.url ? <a href={c.url}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+                {c.url ? <StoreLink href={c.url}>{c.label}</StoreLink> : <span aria-current="page">{c.label}</span>}
                 {i < crumbs.length - 1 && <i aria-hidden="true">/</i>}
               </Fragment>
             ))}
@@ -62,9 +63,9 @@ export default function ZqHero({
 
         {subtitle && <p className="zq-hero-sub">{subtitle}</p>}
 
-        {cta && <a href={cta.url} className="zq-hero-btn">{cta.label}</a>}
+        {cta && <StoreLink href={cta.url} className="zq-hero-btn">{cta.label}</StoreLink>}
       </div>
-      {tall && <a className="zq-hero-scroll" href="#zqAfterHero" aria-label="Scroll down"><span></span></a>}
+      {tall && <StoreLink className="zq-hero-scroll" href="#zqAfterHero" aria-label="Scroll down"><span></span></StoreLink>}
     </section>
   );
 }

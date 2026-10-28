@@ -5,6 +5,7 @@ import { numberFormat, ucfirst } from '@/lib/format';
 import type { CardProduct } from '@/types/catalog';
 import { AddToCartButton, WishlistButton } from './StoreButtons';
 import ProductImageSwiper from './ProductImageSwiper';
+import StoreLink from './StoreLink';
 
 export default function ProductCard({ product }: { product: CardProduct }) {
   const hasVariants = product.variants.length > 0;
@@ -45,9 +46,9 @@ export default function ProductCard({ product }: { product: CardProduct }) {
       <ProductImageSwiper>
         {product.images.map((img, i) => (
           <div className="swiper-slide" key={i}>
-            <a href={url} title={product.name}>
+            <StoreLink href={url} title={product.name}>
               <img src={mediaUrl(img)} alt={product.name} loading="lazy" className="w-100 h-100 object-fit-cover" />
-            </a>
+            </StoreLink>
           </div>
         ))}
       </ProductImageSwiper>
@@ -58,7 +59,7 @@ export default function ProductCard({ product }: { product: CardProduct }) {
             {product.categories.map((cat, i) =>
               cat.title !== 'Home Page - New Arrival' ? (
                 <Fragment key={i}>
-                  <a href={`/shop/${cat.slug}`} style={{ color: 'var(--dc-muted)', textDecoration: 'none' }}>{cat.title}</a>
+                  <StoreLink href={`/shop/${cat.slug}`} style={{ color: 'var(--dc-muted)', textDecoration: 'none' }}>{cat.title}</StoreLink>
                   {i < product.categories.length - 1 ? ', ' : ' '}
                 </Fragment>
               ) : null,
@@ -66,9 +67,9 @@ export default function ProductCard({ product }: { product: CardProduct }) {
           </div>
         )}
 
-        <a href={url} className="pc-name" style={{ fontFamily: 'var(--body-font)', fontWeight: 500, fontSize: '0.86rem', color: 'var(--dc-dark)', textDecoration: 'none', lineHeight: 1.45, display: 'block', marginBottom: 10 }}>
+        <StoreLink href={url} className="pc-name" style={{ fontFamily: 'var(--body-font)', fontWeight: 500, fontSize: '0.86rem', color: 'var(--dc-dark)', textDecoration: 'none', lineHeight: 1.45, display: 'block', marginBottom: 10 }}>
           {product.name}
-        </a>
+        </StoreLink>
 
         <div className="pc-price" style={{ fontFamily: 'var(--body-font)', fontSize: '0.88rem', fontWeight: 600, color: 'var(--dc-dark)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           PKR

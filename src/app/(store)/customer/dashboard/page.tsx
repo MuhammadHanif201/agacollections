@@ -5,6 +5,7 @@ import { buildMetadata } from '@/lib/seo';
 import AccountShell, { requireCustomer, statusLabel } from '@/components/store/AccountShell';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { Order, accountOrders } from '@/models/Order';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'dashboard' });
@@ -55,9 +56,9 @@ export default async function DashboardPage() {
           <div className="db-card">
             <div className="db-card-hd">
               <span className="db-card-title">Account Information</span>
-              <a href="/customer/profile/edit" className="db-btn db-btn-outline db-btn-sm">
+              <StoreLink href="/customer/profile/edit" className="db-btn db-btn-outline db-btn-sm">
                 <i className="ri-edit-line"></i> Edit
-              </a>
+              </StoreLink>
             </div>
             <div className="db-card-body">
               <div className="dbi-info-grid">
@@ -78,16 +79,16 @@ export default async function DashboardPage() {
           <div className="db-card">
             <div className="db-card-hd">
               <span className="db-card-title">Recent Orders</span>
-              <a href="/customer/orders" className="db-btn db-btn-outline db-btn-sm">View All</a>
+              <StoreLink href="/customer/orders" className="db-btn db-btn-outline db-btn-sm">View All</StoreLink>
             </div>
             {orders.length === 0 ? (
               <div className="db-empty">
                 <i className="ri-shopping-bag-line"></i>
                 <div className="db-empty-title">No orders yet</div>
                 <p>Your orders will appear here once you shop with us.</p>
-                <a href="/" className="db-btn db-btn-dark" style={{ marginTop: 16, display: 'inline-flex' }}>
+                <StoreLink href="/" className="db-btn db-btn-dark" style={{ marginTop: 16, display: 'inline-flex' }}>
                   <i className="ri-store-line"></i> Browse Collection
-                </a>
+                </StoreLink>
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
@@ -108,9 +109,9 @@ export default async function DashboardPage() {
                         </td>
                         <td><strong>PKR {numberFormat(order.total, 2)}</strong></td>
                         <td>
-                          <a href={`/customer/orders/${order._id}`} className="db-btn db-btn-outline db-btn-sm">
+                          <StoreLink href={`/customer/orders/${order._id}`} className="db-btn db-btn-outline db-btn-sm">
                             <i className="ri-eye-line"></i> View
-                          </a>
+                          </StoreLink>
                         </td>
                       </tr>
                     ))}

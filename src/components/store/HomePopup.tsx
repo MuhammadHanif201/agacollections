@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import StoreLink from './StoreLink';
 
 /** The admin-configured homepage popup (index.blade.php) */
 export default function HomePopup(p: {
@@ -33,9 +34,9 @@ export default function HomePopup(p: {
         {p.title && <h5 className="fw-bold mb-2">{p.title}</h5>}
         {p.content && <p className="mb-3">{p.content}</p>}
         {p.buttonText && p.buttonLink && (
-          <a href={p.buttonLink} className="btn btn-primary mb-2" target="_blank" rel="noopener noreferrer">
+          <StoreLink href={p.buttonLink} className="btn btn-primary mb-2" target="_blank" rel="noopener noreferrer">
             {p.buttonText}
-          </a>
+          </StoreLink>
         )}
         {p.dismissible && (
           <button className="btn btn-sm btn-outline-secondary mt-2" id="closePopup" onClick={() => setOpen(false)}>Dismiss</button>

@@ -6,6 +6,7 @@ import { connectDb } from '@/lib/db';
 import { env } from '@/lib/env';
 import { rememberIntended } from '@/lib/form-state';
 import { Affiliate } from '@/models/Affiliate';
+import StoreLink from './StoreLink';
 
 export type AccountTab = 'dashboard' | 'orders' | 'wishlist' | 'profile' | 'affiliate';
 
@@ -41,17 +42,17 @@ export default async function AccountShell({ customer, active, children }: { cus
               </div>
 
               <nav className="dbs-nav">
-                <a href="/customer/dashboard" className={cls('dashboard')}><i className="ri-layout-grid-line"></i> Overview</a>
-                <a href="/customer/orders" className={cls('orders')}><i className="ri-shopping-bag-line"></i> My Orders</a>
-                <a href="/wishlist" className={cls('wishlist')}><i className="ri-heart-line"></i> Wishlist</a>
-                <a href="/customer/profile/edit" className={cls('profile')}><i className="ri-user-settings-line"></i> Profile</a>
+                <StoreLink href="/customer/dashboard" className={cls('dashboard')}><i className="ri-layout-grid-line"></i> Overview</StoreLink>
+                <StoreLink href="/customer/orders" className={cls('orders')}><i className="ri-shopping-bag-line"></i> My Orders</StoreLink>
+                <StoreLink href="/wishlist" className={cls('wishlist')}><i className="ri-heart-line"></i> Wishlist</StoreLink>
+                <StoreLink href="/customer/profile/edit" className={cls('profile')}><i className="ri-user-settings-line"></i> Profile</StoreLink>
                 {/* Hidden until AFFILIATE_LINKS_ENABLED=true */}
                 {env.affiliateLinksEnabled && (affiliate?.status === 'approved' ? (
-                  <a href="/affiliate/dashboard" className={cls('affiliate')}><i className="ri-hand-coin-line"></i> Affiliate Dashboard</a>
+                  <StoreLink href="/affiliate/dashboard" className={cls('affiliate')}><i className="ri-hand-coin-line"></i> Affiliate Dashboard</StoreLink>
                 ) : (
-                  <a href={affiliate ? '/affiliate/apply' : '/affiliate'} className={cls('affiliate')}>
+                  <StoreLink href={affiliate ? '/affiliate/apply' : '/affiliate'} className={cls('affiliate')}>
                     <i className="ri-hand-coin-line"></i> {affiliate ? 'Affiliate Status' : 'Become an Affiliate'}
-                  </a>
+                  </StoreLink>
                 ))}
               </nav>
 

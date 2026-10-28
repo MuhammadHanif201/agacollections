@@ -10,6 +10,8 @@ import FlashMessages from '@/components/store/FlashMessages';
 import Footer from '@/components/store/Footer';
 import Header from '@/components/store/Header';
 import { LayoutStyles } from '@/components/store/LegacyStyles';
+import PageFrame from '@/components/store/PageFrame';
+import PixelPageView from '@/components/store/PixelPageView';
 import StoreProvider from '@/components/store/StoreProvider';
 import { wishlistIds } from '@/services/catalog';
 import { cartCount } from '@/services/pricing';
@@ -38,8 +40,9 @@ export default async function StoreLayout({ children }: { children: ReactNode })
     ? { ok: flash.type === 'newsletter_success', text: flash.text }
     : null;
 
+  // The stylesheets set scroll-behavior: smooth; data-scroll-behavior keeps route changes from animating the jump to the top
   return (
-    <html lang="en" dir="ltr">
+    <html lang="en" dir="ltr" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
@@ -48,10 +51,11 @@ export default async function StoreLayout({ children }: { children: ReactNode })
       <body>
         <StoreProvider initialCartCount={cartCount(cart)} initialWishlist={wishlist} isLoggedIn={Boolean(customer)}>
           <Header company={company} menuCategories={menuCategories} loggedIn={Boolean(customer)} cart={cart} />
-          <main className="flex-grow-1">{children}</main>
+          <main className="flex-grow-1"><PageFrame>{children}</PageFrame></main>
           <Footer company={company} menuCategories={menuCategories} footerPolicies={footerPolicies} newsletterNotice={newsletterNotice} />
           <FlashMessages />
           <CookieConsent />
+          {env.metaPixelId && <PixelPageView />}
         </StoreProvider>
 
         {/* Microsoft Clarity: only when CLARITY_ID is set (use AGA Collections's own project) */}

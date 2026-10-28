@@ -3,6 +3,7 @@ import { peekFlash } from '@/lib/flash';
 import type { FormState } from '@/lib/form-state';
 import { PageStyles } from './LegacyStyles';
 import AuthInteractions from './AuthInteractions';
+import StoreLink from './StoreLink';
 
 const REG_CITIES = ['Karachi', 'Lahore', 'Islamabad', 'Rawalpindi', 'Faisalabad', 'Multan', 'Peshawar', 'Quetta', 'Hyderabad', 'Gujranwala', 'Sialkot', 'Bahawalpur', 'Sargodha', 'Abbottabad', 'Sukkur', 'Sheikhupura', 'Rahim Yar Khan', 'Gujrat', 'Mardan', 'Kasur', 'Dera Ghazi Khan', 'Sahiwal', 'Mingora', 'Larkana', 'Okara', 'Chiniot', 'Jhang', 'Mandi Bahauddin', 'Muzaffarabad', 'Mirpur'];
 
@@ -78,9 +79,9 @@ export default async function AuthPage({
                     <i className="ri-mail-send-line"></i>
                     {' '}Send Reset Link
                   </button>
-                  <a href="/customer/login" className="al-toggle" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
+                  <StoreLink href="/customer/login" className="al-toggle" style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}>
                     Remembered it? Sign in
-                  </a>
+                  </StoreLink>
                 </form>
               </div>
             )}
@@ -93,7 +94,7 @@ export default async function AuthPage({
                 {first('default', 'reset') && (
                   <div className="al-alert danger">
                     <i className="ri-error-warning-line"></i>{first('default', 'reset')}
-                    {' '}<a href="/customer/forgot-password" style={{ color: 'inherit', textDecoration: 'underline', marginLeft: 4 }}>Get a new link</a>
+                    {' '}<StoreLink href="/customer/forgot-password" style={{ color: 'inherit', textDecoration: 'underline', marginLeft: 4 }}>Get a new link</StoreLink>
                   </div>
                 )}
                 <form method="POST" action="/customer/reset-password/submit" id="resetForm">
@@ -142,7 +143,7 @@ export default async function AuthPage({
                 <div className="al-field" style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: '.78rem', color: 'var(--dc-muted)' }}>
                   <input type="checkbox" name="remember" id="remember" value="1" style={{ width: 18, height: 18, margin: 0 }} />
                   <label htmlFor="remember" style={{ margin: 0, cursor: 'pointer', letterSpacing: 0, textTransform: 'none', fontSize: '.8rem', fontWeight: 400 }}>Remember me on this device</label>
-                  <a href="/customer/forgot-password" style={{ marginLeft: 'auto', fontSize: '.8rem', color: 'var(--dc-black, #161426)', textDecoration: 'underline', whiteSpace: 'nowrap' }}>Forgot password?</a>
+                  <StoreLink href="/customer/forgot-password" style={{ marginLeft: 'auto', fontSize: '.8rem', color: 'var(--dc-black, #161426)', textDecoration: 'underline', whiteSpace: 'nowrap' }}>Forgot password?</StoreLink>
                 </div>
                 <button type="submit" className="al-btn al-btn-dark" id="loginSubmitBtn">
                   <i className="ri-login-circle-line"></i>

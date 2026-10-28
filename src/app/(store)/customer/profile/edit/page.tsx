@@ -5,6 +5,7 @@ import { buildMetadata } from '@/lib/seo';
 import AccountShell, { requireCustomer } from '@/components/store/AccountShell';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import ProfileInteractions from '@/components/store/ProfileInteractions';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'dashboard' });
@@ -107,7 +108,7 @@ export default async function EditProfilePage() {
                 <i className="ri-save-line"></i>
                 {' '}Save Changes
               </button>
-              <a href="/customer/dashboard" className="db-btn db-btn-outline">Cancel</a>
+              <StoreLink href="/customer/dashboard" className="db-btn db-btn-outline">Cancel</StoreLink>
             </div>
           </form>
 

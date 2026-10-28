@@ -4,6 +4,7 @@ import { numberFormat, rateLabel } from '@/lib/format';
 import { buildMetadata } from '@/lib/seo';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'default', metaTitle: 'Affiliate Program', metaDesc: 'Earn commission on every sale. Share AGA Collections with your audience and get paid.' });
@@ -23,8 +24,8 @@ export default async function AffiliateInfoPage() {
             <h1>Earn With AGA Collections</h1>
             <p>Share what you love, earn real money. Refer friends, followers, or anyone who shops with us — and we&apos;ll send you commission on every order. No stock, no shipping, no hassle.</p>
             <div className="aff-cta-row">
-              <a href="/affiliate/apply" className="aff-cta aff-cta-primary">Apply Now <i className="ri-arrow-right-line"></i></a>
-              {customer && <a href="/affiliate/dashboard" className="aff-cta aff-cta-ghost">My Dashboard</a>}
+              <StoreLink href="/affiliate/apply" className="aff-cta aff-cta-primary">Apply Now <i className="ri-arrow-right-line"></i></StoreLink>
+              {customer && <StoreLink href="/affiliate/dashboard" className="aff-cta aff-cta-ghost">My Dashboard</StoreLink>}
             </div>
           </div>
 
@@ -89,7 +90,7 @@ export default async function AffiliateInfoPage() {
           </div>
 
           <div className="aff-cta-row">
-            <a href="/affiliate/apply" className="aff-cta aff-cta-primary">Apply Now</a>
+            <StoreLink href="/affiliate/apply" className="aff-cta aff-cta-primary">Apply Now</StoreLink>
           </div>
         </div>
       </div>

@@ -12,6 +12,7 @@ import { toCards } from '@/services/catalog';
 import { homeData, homeReviews } from '@/services/home';
 import { getActivePopup, getCompanySetting, getMenuCategories } from '@/services/settings';
 import type { CardProduct } from '@/types/catalog';
+import StoreLink from '@/components/store/StoreLink';
 
 const NEW_ARRIVAL = 'Home Page - New Arrival';
 
@@ -101,9 +102,9 @@ export default async function HomePage() {
               <h2 className="dc-section-title">New In</h2>
               <p className="zq-hd-meta">{latest.length} new pieces</p>
             </div>
-            <a href="/shop" className="dc-view-all d-none d-md-flex">
+            <StoreLink href="/shop" className="dc-view-all d-none d-md-flex">
               Shop All <i className="ri-arrow-right-line"></i>
-            </a>
+            </StoreLink>
           </div>
 
           <div className="dc-na-grid">
@@ -130,12 +131,12 @@ export default async function HomePage() {
                     <span className="dc-na-badge dc-na-badge--new">New</span>
                     {onSale && <span className="dc-na-badge dc-na-badge--sale">{`−${Math.trunc(Math.round(100 - (Number(bp) / Number(sp)) * 100))}%`}</span>}
                     <WishlistToggle productId={product.id} className="wishlist-btn dc-na-wish" ariaLabel="Wishlist" />
-                    <a href={`/product/${product.slug}`} className="dc-na-photo-link">
+                    <StoreLink href={`/product/${product.slug}`} className="dc-na-photo-link">
                       <img src={img(product)} alt={product.name} loading="lazy" />
-                    </a>
-                    <a href={`/product/${product.slug}`} className="dc-na-overlay">
+                    </StoreLink>
+                    <StoreLink href={`/product/${product.slug}`} className="dc-na-overlay">
                       <span>Explore</span> <i className="ri-arrow-right-line"></i>
-                    </a>
+                    </StoreLink>
                   </div>
 
                   <div className="dc-na-info">
@@ -145,9 +146,9 @@ export default async function HomePage() {
                       </div>
                     )}
 
-                    <a href={`/product/${product.slug}`} className="dc-na-name">
+                    <StoreLink href={`/product/${product.slug}`} className="dc-na-name">
                       {product.name}
-                    </a>
+                    </StoreLink>
 
                     <div className="dc-na-price-row">
                       PKR
@@ -192,9 +193,9 @@ export default async function HomePage() {
 
           <div className="dc-na-footer">
             <span className="dc-na-footer-line"></span>
-            <a href="/shop" className="dc-na-footer-btn">
+            <StoreLink href="/shop" className="dc-na-footer-btn">
               View All Pieces <i className="ri-arrow-right-line"></i>
-            </a>
+            </StoreLink>
             <span className="dc-na-footer-line"></span>
           </div>
         </div>
@@ -209,9 +210,9 @@ export default async function HomePage() {
                 <p className="dc-section-subtitle">Worn on repeat.</p>
                 <h2 className="dc-section-title">Most Loved</h2>
               </div>
-              <a href="/shop" className="dc-view-all d-none d-md-flex">
+              <StoreLink href="/shop" className="dc-view-all d-none d-md-flex">
                 Shop All <i className="ri-arrow-right-line"></i>
-              </a>
+              </StoreLink>
             </div>
 
             <div className="row g-3 g-md-4">
@@ -225,12 +226,12 @@ export default async function HomePage() {
                         {sp && sp > bp ? <span className="dc-sale-badge">{`−${Math.round(100 - (bp / sp) * 100)}%`}</span> : null}
                         <span className="dc-badge-tag">Best Seller</span>
                         <WishlistToggle productId={product.id} className="wishlist-btn dc-wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} iconHidden />
-                        <a href={`/product/${product.slug}`}>
+                        <StoreLink href={`/product/${product.slug}`}>
                           <img src={img(product)} alt={product.name} loading="lazy" />
-                        </a>
-                        <a href={`/product/${product.slug}`} className="dc-product-explore">
+                        </StoreLink>
+                        <StoreLink href={`/product/${product.slug}`} className="dc-product-explore">
                           Explore <i className="ri-arrow-right-line"></i>
-                        </a>
+                        </StoreLink>
                       </div>
 
                       <div className="dc-product-info">
@@ -239,9 +240,9 @@ export default async function HomePage() {
                             {product.categories.map((c, i) => <span key={i}>{c.title}</span>)}
                           </div>
                         )}
-                        <a href={`/product/${product.slug}`} className="dc-product-name">
+                        <StoreLink href={`/product/${product.slug}`} className="dc-product-name">
                           {product.name}
-                        </a>
+                        </StoreLink>
                         <div className="dc-product-price">
                           PKR
                           {sp && sp > bp ? (
@@ -268,9 +269,9 @@ export default async function HomePage() {
             </div>
 
             <div className="text-center mt-5 d-md-none">
-              <a href="/shop" className="dc-view-all-btn">
+              <StoreLink href="/shop" className="dc-view-all-btn">
                 Shop All <i className="ri-arrow-right-line"></i>
-              </a>
+              </StoreLink>
             </div>
           </div>
         </section>
@@ -290,15 +291,15 @@ export default async function HomePage() {
                 <h2 className="dc-section-title">The Collections</h2>
               </div>
               <div className="dc-section-hd-right">
-                <a href="/shop" className="dc-na-showall">
+                <StoreLink href="/shop" className="dc-na-showall">
                   View All <i className="ri-arrow-right-line"></i>
-                </a>
+                </StoreLink>
               </div>
             </div>
 
             <div className="dc-cats-grid">
               {catTiles.map((cat) => (
-                <a href={`/shop/${cat.slug ?? ''}`} className="dc-cat-tile" aria-label={cat.title} key={cat._id}>
+                <StoreLink href={`/shop/${cat.slug ?? ''}`} className="dc-cat-tile" aria-label={cat.title} key={cat._id}>
                   <img src={cat.image ? mediaUrl(cat.image) : '/images/placeholder.png'} alt={cat.title} loading="lazy" />
                   <span className="dc-cat-veil"></span>
                   <div className="dc-cat-body">
@@ -306,7 +307,7 @@ export default async function HomePage() {
                     <span className="dc-cat-count">{`${cat.products_count} ${plural("Style", cat.products_count)}`}</span>
                     <span className="dc-cat-underline"></span>
                   </div>
-                </a>
+                </StoreLink>
               ))}
             </div>
           </div>
@@ -328,9 +329,9 @@ export default async function HomePage() {
               <div className="dc-cat-block" key={cat._id}>
                 <div className="dc-cat-block-hd">
                   <h3 className="dc-cat-block-title">{cat.title}</h3>
-                  <a href={`/shop/${cat.slug ?? ''}`} className="dc-cat-block-link">
+                  <StoreLink href={`/shop/${cat.slug ?? ''}`} className="dc-cat-block-link">
                     View All <i className="ri-arrow-right-line"></i>
-                  </a>
+                  </StoreLink>
                 </div>
 
                 <div className="row g-3 g-md-4">
@@ -341,15 +342,15 @@ export default async function HomePage() {
                         <div className="dc-product-card">
                           <div className="dc-product-img-wrap">
                             {sp && sp > bp ? <span className="dc-sale-badge">{`−${Math.round(100 - (bp / sp) * 100)}%`}</span> : null}
-                            <a href={`/product/${product.slug}`}>
+                            <StoreLink href={`/product/${product.slug}`}>
                               <img src={img(product)} alt={product.name} loading="lazy" />
-                            </a>
-                            <a href={`/product/${product.slug}`} className="dc-product-explore">
+                            </StoreLink>
+                            <StoreLink href={`/product/${product.slug}`} className="dc-product-explore">
                               Explore <i className="ri-arrow-right-line"></i>
-                            </a>
+                            </StoreLink>
                           </div>
                           <div className="dc-product-info">
-                            <a href={`/product/${product.slug}`} className="dc-product-name">{product.name}</a>
+                            <StoreLink href={`/product/${product.slug}`} className="dc-product-name">{product.name}</StoreLink>
                             <div className="dc-product-price">
                               PKR
                               {sp && sp > bp ? (
@@ -385,9 +386,9 @@ export default async function HomePage() {
                 </p>
                 <h2 className="dc-section-title">Last Call</h2>
               </div>
-              <a href="/shop" className="dc-view-all d-none d-md-flex">
+              <StoreLink href="/shop" className="dc-view-all d-none d-md-flex">
                 Shop the Sale <i className="ri-arrow-right-line"></i>
-              </a>
+              </StoreLink>
             </div>
 
             <div className="row g-3 g-md-4">
@@ -400,12 +401,12 @@ export default async function HomePage() {
                       <div className="dc-product-img-wrap">
                         {savePct ? <span className="dc-deal-pill">{`−${savePct}%`}</span> : null}
                         <WishlistToggle productId={product.id} className="wishlist-btn dc-wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} iconHidden />
-                        <a href={`/product/${product.slug}`}>
+                        <StoreLink href={`/product/${product.slug}`}>
                           <img src={img(product)} alt={product.name} loading="lazy" />
-                        </a>
-                        <a href={`/product/${product.slug}`} className="dc-product-explore">
+                        </StoreLink>
+                        <StoreLink href={`/product/${product.slug}`} className="dc-product-explore">
                           Explore <i className="ri-arrow-right-line"></i>
-                        </a>
+                        </StoreLink>
                       </div>
                       <div className="dc-product-info">
                         {product.categories.length > 0 && (
@@ -413,13 +414,13 @@ export default async function HomePage() {
                             {product.categories.map((c, i) =>
                               c.title !== NEW_ARRIVAL ? (
                                 <Fragment key={i}>
-                                  <a href={`/shop/${c.slug}`}>{c.title}</a>{i < product.categories.length - 1 ? ', ' : ' '}
+                                  <StoreLink href={`/shop/${c.slug}`}>{c.title}</StoreLink>{i < product.categories.length - 1 ? ', ' : ' '}
                                 </Fragment>
                               ) : null,
                             )}
                           </div>
                         )}
-                        <a href={`/product/${product.slug}`} className="dc-product-name">{product.name}</a>
+                        <StoreLink href={`/product/${product.slug}`} className="dc-product-name">{product.name}</StoreLink>
                         <div className="dc-product-price">
                           PKR
                           {sp && sp > bp ? (
@@ -439,9 +440,9 @@ export default async function HomePage() {
             </div>
 
             <div className="text-center mt-4 d-md-none">
-              <a href="/shop" className="dc-view-all-btn">
+              <StoreLink href="/shop" className="dc-view-all-btn">
                 Shop the Sale <i className="ri-arrow-right-line"></i>
-              </a>
+              </StoreLink>
             </div>
           </div>
         </section>
@@ -487,11 +488,11 @@ export default async function HomePage() {
                       <span className="name">{strTitle(r.name)}</span>
                       <span className="date">{formatDate(r.created_at, 'M Y')}</span>
                     </div>
-                    <a className="product" href={`/product/${r.product.slug}#reviews`}>
+                    <StoreLink className="product" href={`/product/${r.product.slug}#reviews`}>
                       {primary && <img src={mediaUrl(primary.image_path)} alt="" width={40} height={50} loading="lazy" />}
                       <span>{r.product.name}</span>
                       <i className="ri-arrow-right-up-line" aria-hidden="true"></i>
-                    </a>
+                    </StoreLink>
                   </article>
                 );
               })}
@@ -500,7 +501,7 @@ export default async function HomePage() {
 
           <div className="zq-reviews-cta">
             <p>Bought from {brand}? Open the product you ordered and tap <strong>Write a review</strong>. Your review appears after a quick check.</p>
-            <a href="/shop" className="zq-reviews-btn">Find your product <i className="ri-arrow-right-line" aria-hidden="true"></i></a>
+            <StoreLink href="/shop" className="zq-reviews-btn">Find your product <i className="ri-arrow-right-line" aria-hidden="true"></i></StoreLink>
           </div>
         </div>
       </section>

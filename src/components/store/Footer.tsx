@@ -5,6 +5,7 @@ import type { CompanySettingDoc, PolicyDoc } from '@/models/content';
 import { emailList, type MenuCategory } from '@/services/settings';
 import BackToTop from './BackToTop';
 import NewsletterForm from './NewsletterForm';
+import StoreLink from './StoreLink';
 
 const SOCIAL_ICONS: Record<string, string> = {
   facebook: 'ri-facebook-fill',
@@ -94,9 +95,9 @@ export default function Footer({
       {/* popup area end */}
 
       {waNumber && (
-        <a href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Chat on WhatsApp">
+        <StoreLink href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Chat on WhatsApp">
           <i className="fab fa-whatsapp"></i>
-        </a>
+        </StoreLink>
       )}
 
       <footer className="dc-footer pt-2" aria-label="Site footer">
@@ -121,10 +122,10 @@ export default function Footer({
             <div className="col-lg-4 col-md-6 dc-footer__brand">
               {company && (
                 <>
-                  <a href="/" className="d-inline-block mb-2" aria-label="AGA Collections — Home"
+                  <StoreLink href="/" className="d-inline-block mb-2" aria-label="AGA Collections — Home"
                     style={{ fontFamily: "var(--body-font,'Arimo',sans-serif)", fontWeight: 600, fontSize: '1.2rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', lineHeight: 1, whiteSpace: 'nowrap' }}>
                     AGA Collections
-                  </a>
+                  </StoreLink>
                   <p className="dc-footer__tagline">&ldquo;Made for Your Style.&rdquo;</p>
                   {company.description && <p className="dc-footer__desc">{company.description}</p>}
                 </>
@@ -136,9 +137,9 @@ export default function Footer({
                     const pl = String(social.platform ?? '').toLowerCase();
                     const ic = SOCIAL_ICONS[pl] ?? 'ri-global-line';
                     return env.socialLinksEnabled && isProfileUrl(social.url) ? (
-                      <a key={i} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={ucfirst(pl)} className={`dc-footer__social-link dc-footer__social-link--${pl}`}>
+                      <StoreLink key={i} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={ucfirst(pl)} className={`dc-footer__social-link dc-footer__social-link--${pl}`}>
                         <i className={ic}></i>
-                      </a>
+                      </StoreLink>
                     ) : (
                       // Links switched off until the real accounts are ready (SOCIAL_LINKS_ENABLED=true turns them on)
                       <span key={i} role="img" aria-label={ucfirst(pl)} className={`dc-footer__social-link dc-footer__social-link--${pl}`} style={{ cursor: 'default' }}>
@@ -154,7 +155,7 @@ export default function Footer({
               <p className="dc-footer__col-title">Collections</p>
               <ul className="list-unstyled mb-0">
                 {menuCategories.slice(0, 6).map((child) => (
-                  <li key={child._id}><a href={`/shop/${child.slug ?? ''}`} className="dc-footer__nav-link">{child.title}</a></li>
+                  <li key={child._id}><StoreLink href={`/shop/${child.slug ?? ''}`} className="dc-footer__nav-link">{child.title}</StoreLink></li>
                 ))}
               </ul>
             </div>
@@ -162,12 +163,12 @@ export default function Footer({
             <div className="col-lg-2 col-6 dc-footer-links-col">
               <p className="dc-footer__col-title">Quick Links</p>
               <ul className="list-unstyled mb-0">
-                <li><a href="/shop" className="dc-footer__nav-link">Shop All</a></li>
-                <li><a href="/about-us" className="dc-footer__nav-link">About Us</a></li>
-                <li><a href="/contact-us" className="dc-footer__nav-link">Contact</a></li>
-                <li><a href="/policies" className="dc-footer__nav-link">Our Policies</a></li>
+                <li><StoreLink href="/shop" className="dc-footer__nav-link">Shop All</StoreLink></li>
+                <li><StoreLink href="/about-us" className="dc-footer__nav-link">About Us</StoreLink></li>
+                <li><StoreLink href="/contact-us" className="dc-footer__nav-link">Contact</StoreLink></li>
+                <li><StoreLink href="/policies" className="dc-footer__nav-link">Our Policies</StoreLink></li>
                 {footerPolicies.map((fp) => (
-                  <li key={fp._id}><a href={`/policies#${fp.key}`} className="dc-footer__nav-link">{fp.title_en}</a></li>
+                  <li key={fp._id}><StoreLink href={`/policies#${fp.key}`} className="dc-footer__nav-link">{fp.title_en}</StoreLink></li>
                 ))}
               </ul>
             </div>
@@ -183,12 +184,12 @@ export default function Footer({
               {emails.length > 0 ? emails.map((email) => (
                 <div className="dc-footer__ci" key={email}>
                   <i className="ri-mail-line dc-footer__ci-icon"></i>
-                  <span className="dc-footer__ci-text"><a href={`mailto:${email}`}>{email}</a></span>
+                  <span className="dc-footer__ci-text"><StoreLink href={`mailto:${email}`}>{email}</StoreLink></span>
                 </div>
               )) : (
                 <div className="dc-footer__ci">
                   <i className="ri-mail-line dc-footer__ci-icon"></i>
-                  <span className="dc-footer__ci-text"><a href="mailto:agacollectionsofficial@gmail.com">agacollectionsofficial@gmail.com</a></span>
+                  <span className="dc-footer__ci-text"><StoreLink href="mailto:agacollectionsofficial@gmail.com">agacollectionsofficial@gmail.com</StoreLink></span>
                 </div>
               )}
 
@@ -196,15 +197,15 @@ export default function Footer({
                 <div className="dc-footer__ci" key={i}>
                   <i className="ri-phone-line dc-footer__ci-icon"></i>
                   <span className="dc-footer__ci-text">
-                    <a href={`tel:${phone.replace(/\D/g, '')}`}>
+                    <StoreLink href={`tel:${phone.replace(/\D/g, '')}`}>
                       <span dir="ltr" style={{ unicodeBidi: 'plaintext' }}>{phone}</span>
-                    </a>
+                    </StoreLink>
                   </span>
                 </div>
               )) : (
                 <div className="dc-footer__ci">
                   <i className="ri-phone-line dc-footer__ci-icon"></i>
-                  <span className="dc-footer__ci-text"><a href="tel:03089367692">0308-9367692</a></span>
+                  <span className="dc-footer__ci-text"><StoreLink href="tel:03089367692">0308-9367692</StoreLink></span>
                 </div>
               )}
 
@@ -212,15 +213,15 @@ export default function Footer({
                 <div className="dc-footer__ci" key={i}>
                   <i className="ri-whatsapp-line dc-footer__ci-icon wa"></i>
                   <span className="dc-footer__ci-text">
-                    <a href={`https://wa.me/${wa.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+                    <StoreLink href={`https://wa.me/${wa.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
                       <span dir="ltr" style={{ unicodeBidi: 'plaintext' }}>{wa}</span>
-                    </a>
+                    </StoreLink>
                   </span>
                 </div>
               )) : (
                 <div className="dc-footer__ci">
                   <i className="ri-whatsapp-line dc-footer__ci-icon wa"></i>
-                  <span className="dc-footer__ci-text"><a href="https://wa.me/923089367692" target="_blank" rel="noopener noreferrer">0308-9367692</a></span>
+                  <span className="dc-footer__ci-text"><StoreLink href="https://wa.me/923089367692" target="_blank" rel="noopener noreferrer">0308-9367692</StoreLink></span>
                 </div>
               )}
 
@@ -238,7 +239,7 @@ export default function Footer({
             <div className="d-flex justify-content-center">
               <p className="dc-footer__bottom-copy" style={{ textAlign: 'center' }}>
                 &copy; {new Date().getUTCFullYear()}{' '}
-                <a href="/" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>AGA Collections</a>
+                <StoreLink href="/" style={{ textDecoration: 'underline', textUnderlineOffset: 3 }}>AGA Collections</StoreLink>
                 {' '}&mdash; All rights reserved.
               </p>
             </div>

@@ -2,6 +2,7 @@
 // Announcement bar: the active headlines from Admin › Headlines, one at a time; the brand line when there are none.
 
 import { useEffect, useState } from 'react';
+import StoreLink from './StoreLink';
 
 export type Headline = { message: string; link: string | null; bg: string; color: string };
 
@@ -28,7 +29,7 @@ export default function HeadlineBar({ headlines }: { headlines: Headline[] }) {
   return (
     <div id="rotating-headlines" style={{ background: h.bg, padding: '0.55em 1em', textAlign: 'center', transition: 'background .3s' }} aria-live="polite">
       <p style={{ ...TEXT_STYLE, color: h.color }} key={i}>
-        {h.link ? <a href={h.link} style={{ color: 'inherit', textDecoration: 'none' }}>{h.message}</a> : h.message}
+        {h.link ? <StoreLink href={h.link} style={{ color: 'inherit', textDecoration: 'none' }}>{h.message}</StoreLink> : h.message}
       </p>
     </div>
   );

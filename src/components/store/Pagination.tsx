@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/role-supports-aria-props */
 import { Fragment } from 'react';
 import { paginationElements } from '@/services/shop';
+import StoreLink from './StoreLink';
 
 type Query = Record<string, string | string[] | undefined>;
 
@@ -30,7 +31,7 @@ export default function Pagination({ path, query, current, last }: { path: strin
           </li>
         ) : (
           <li className="page-item">
-            <a className="page-link" href={pageUrl(path, query, current - 1)} rel="prev" aria-label="« Previous">&lsaquo;</a>
+            <StoreLink className="page-link" href={pageUrl(path, query, current - 1)} rel="prev" aria-label="« Previous">&lsaquo;</StoreLink>
           </li>
         )}
 
@@ -43,7 +44,7 @@ export default function Pagination({ path, query, current, last }: { path: strin
                 p === current ? (
                   <li className="page-item active" aria-current="page" key={p}><span className="page-link">{p}</span></li>
                 ) : (
-                  <li className="page-item" key={p}><a className="page-link" href={pageUrl(path, query, p)}>{p}</a></li>
+                  <li className="page-item" key={p}><StoreLink className="page-link" href={pageUrl(path, query, p)}>{p}</StoreLink></li>
                 ),
               )
             )}
@@ -52,7 +53,7 @@ export default function Pagination({ path, query, current, last }: { path: strin
 
         {current < last ? (
           <li className="page-item">
-            <a className="page-link" href={pageUrl(path, query, current + 1)} rel="next" aria-label="Next »">&rsaquo;</a>
+            <StoreLink className="page-link" href={pageUrl(path, query, current + 1)} rel="next" aria-label="Next »">&rsaquo;</StoreLink>
           </li>
         ) : (
           <li className="page-item disabled" aria-disabled="true" aria-label="Next »">

@@ -14,6 +14,7 @@ import { AFFILIATE_COOKIE } from '@/models/Affiliate';
 import { Session } from '@/models/Session';
 import { CITY_ZONES, cartSubtotal, shippingForCity } from '@/services/pricing';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'checkout', image: '/clientside/company_logo/logo.png' });
@@ -68,7 +69,7 @@ export default async function CheckoutPage() {
       <div className="co-topbar">
         <div className="container">
           <div className="co-topbar-inner">
-            <a href="/" className="co-brand">AGA Collections</a>
+            <StoreLink href="/" className="co-brand">AGA Collections</StoreLink>
             <span className="co-lock"><i className="ri-lock-2-line"></i> Secure Checkout</span>
           </div>
         </div>
@@ -110,7 +111,7 @@ export default async function CheckoutPage() {
                     ) : (
                       <>
                         <i className="ri-information-line"></i>
-                        <span>You&apos;re not logged in. <a href="/customer/login">Sign in</a> for faster checkout.</span>
+                        <span>You&apos;re not logged in. <StoreLink href="/customer/login">Sign in</StoreLink> for faster checkout.</span>
                       </>
                     )}
                   </div>
@@ -276,9 +277,9 @@ export default async function CheckoutPage() {
 
                     <p className="co-terms-note">
                       By placing your order, you agree to our{' '}
-                      <a href="/policy/terms" target="_blank">Terms</a>
+                      <StoreLink href="/policy/terms" target="_blank">Terms</StoreLink>
                       {' '}&amp;{' '}
-                      <a href="/policy/privacy" target="_blank">Privacy Policy</a>.
+                      <StoreLink href="/policy/privacy" target="_blank">Privacy Policy</StoreLink>.
                     </p>
 
                     <button type="submit" id="placeOrderBtn" className="co-place-btn">
@@ -287,9 +288,9 @@ export default async function CheckoutPage() {
                       <span id="placeOrderText">Complete My Order</span>
                     </button>
 
-                    <a href="/cart" className="co-back-btn">
+                    <StoreLink href="/cart" className="co-back-btn">
                       <i className="ri-arrow-left-s-line"></i> Return to Cart
-                    </a>
+                    </StoreLink>
 
                     <div className="co-cod-trust">
                       <i className="ri-truck-line"></i>

@@ -2,6 +2,7 @@
 import type { CSSProperties } from 'react';
 import { mediaUrl } from '@/lib/media';
 import { PageStyles } from './LegacyStyles';
+import StoreLink from './StoreLink';
 
 export interface ErrorViewProps {
   code: string;
@@ -44,8 +45,8 @@ export default function ErrorView(p: ErrorViewProps) {
                 {p.message}
               </p>
               <div className="error-actions">
-                <a href={p.primaryUrl ?? '/'} className="error-btn-primary">{p.primaryLabel ?? 'Back to Home'}</a>
-                <a href={p.secondaryUrl ?? ''} className="error-btn-secondary">{p.secondaryLabel ?? 'Try Again'}</a>
+                <StoreLink href={p.primaryUrl ?? '/'} className="error-btn-primary">{p.primaryLabel ?? 'Back to Home'}</StoreLink>
+                <StoreLink href={p.secondaryUrl ?? ''} className="error-btn-secondary">{p.secondaryLabel ?? 'Try Again'}</StoreLink>
               </div>
             </div>
           </div>

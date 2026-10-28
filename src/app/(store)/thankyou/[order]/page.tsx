@@ -13,6 +13,7 @@ import { Order } from '@/models/Order';
 import { Product } from '@/models/Product';
 import { Session } from '@/models/Session';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'thankyou' });
@@ -89,7 +90,7 @@ export default async function ThankYouPage({ params }: { params: Promise<{ order
                           : <span className="ph" aria-hidden="true"></span>}
                         <div>
                           {p
-                            ? <a className="ty-item-name" href={`/product/${p.slug}`}>{p.name}</a>
+                            ? <StoreLink className="ty-item-name" href={`/product/${p.slug}`}>{p.name}</StoreLink>
                             : <span className="ty-item-name">Product #{item.product_id}</span>}
                           {opts && <div className="ty-item-opts">{opts}</div>}
                           <div className="ty-item-qty">{item.quantity} × PKR {numberFormat(item.price)}</div>
@@ -145,11 +146,11 @@ export default async function ThankYouPage({ params }: { params: Promise<{ order
           </div>
 
           <div className="ty-actions">
-            <a href="/shop" className="ty-btn primary"><i className="ri-shopping-bag-line"></i> Continue shopping</a>
+            <StoreLink href="/shop" className="ty-btn primary"><i className="ri-shopping-bag-line"></i> Continue shopping</StoreLink>
             {me ? (
-              <a href={`/customer/orders/${order._id}`} className="ty-btn ghost"><i className="ri-file-list-3-line"></i> View my order</a>
+              <StoreLink href={`/customer/orders/${order._id}`} className="ty-btn ghost"><i className="ri-file-list-3-line"></i> View my order</StoreLink>
             ) : waNum ? (
-              <a href={`https://wa.me/${waNum}?text=${encodeURIComponent(waText)}`} target="_blank" rel="noopener" className="ty-btn ghost"><i className="ri-whatsapp-line"></i> Questions? WhatsApp us</a>
+              <StoreLink href={`https://wa.me/${waNum}?text=${encodeURIComponent(waText)}`} target="_blank" rel="noopener" className="ty-btn ghost"><i className="ri-whatsapp-line"></i> Questions? WhatsApp us</StoreLink>
             ) : null}
           </div>
         </div>

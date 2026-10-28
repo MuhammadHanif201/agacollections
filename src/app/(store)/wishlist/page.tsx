@@ -9,6 +9,7 @@ import AccountShell from '@/components/store/AccountShell';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { Wishlist } from '@/models/content';
 import { Product } from '@/models/Product';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'wishlist' });
@@ -44,9 +45,9 @@ export default async function WishlistPage() {
                 <i className="ri-heart-line"></i>
                 <div className="db-empty-title">Your wishlist is empty</div>
                 <p>Save items you love by tapping the heart icon on any product.</p>
-                <a href="/" className="db-btn db-btn-dark" style={{ marginTop: 16, display: 'inline-flex' }}>
+                <StoreLink href="/" className="db-btn db-btn-dark" style={{ marginTop: 16, display: 'inline-flex' }}>
                   <i className="ri-store-line"></i> Browse Collection
-                </a>
+                </StoreLink>
               </div>
             </div>
           ) : (
@@ -59,20 +60,20 @@ export default async function WishlistPage() {
                 const href = `/product/${product?.slug ?? product?._id ?? ''}`;
                 return (
                   <div className="dbw-card" key={item._id}>
-                    <a href={href} className="dbw-img-wrap">
-                      {primary ? <img src={mediaUrl(primary.image_path)} alt={product?.name} className="dbw-img" /> : <div className="dbw-img-placeholder"><i className="ri-image-line"></i></div>}
+                    <StoreLink href={href} className="dbw-img-wrap">
+                      {primary ? <img src={mediaUrl(primary.image_path)} alt={product?.name} className="dbw-img" loading="lazy" /> : <div className="dbw-img-placeholder"><i className="ri-image-line"></i></div>}
                       {hasSale && <span className="dbw-sale-badge">Sale</span>}
-                    </a>
+                    </StoreLink>
                     <div className="dbw-body">
-                      <a href={href} className="dbw-name">{product?.name ?? 'Product'}</a>
+                      <StoreLink href={href} className="dbw-name">{product?.name ?? 'Product'}</StoreLink>
                       <div className="dbw-price">
                         <span className="dbw-price-main">PKR {numberFormat(price ?? 0, 2)}</span>
                         {hasSale && <span className="dbw-price-was">PKR {numberFormat(product!.sale_price, 2)}</span>}
                       </div>
                       <div className="dbw-actions">
-                        <a href={href} className="db-btn db-btn-dark db-btn-sm" style={{ flex: 1, justifyContent: 'center' }}>
+                        <StoreLink href={href} className="db-btn db-btn-dark db-btn-sm" style={{ flex: 1, justifyContent: 'center' }}>
                           <i className="ri-eye-line"></i> View
-                        </a>
+                        </StoreLink>
                         <form action="/customer/wishlist/remove" method="POST">
                           <input type="hidden" name="product_id" value={item.product_id} />
                           <button type="submit" className="db-btn db-btn-danger db-btn-sm" title="Remove">

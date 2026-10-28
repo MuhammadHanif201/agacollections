@@ -1,5 +1,7 @@
 import 'server-only';
 import { randomBytes } from 'node:crypto';
+import { revalidateTag } from 'next/cache';
+import { CONTENT_TAG } from '@/services/settings';
 import { connectDb } from '@/lib/db';
 import { isSameOrigin } from '@/lib/request';
 import { getSession, getWritableSession, saveSession, updateSessionData } from '@/lib/session';
@@ -189,7 +191,11 @@ export function adminAction(methods: Record<string, (c: AdminActionContext) => P
     if (!fn) return jsonResponse({ message: `The ${method} method is not supported for route ${new URL(req.url).pathname.slice(1)}.` }, 405);
     const admin = await guard(req);
     if (admin instanceof Response) return admin;
-    return fn({ req, admin, input, params: await resolveParams(ctx), url: new URL(req.url) });
+    const res = await fn({ req, admin, input, params: await resolveParams(ctx), url: new URL(req.url) });
+    // Whatever the admin just saved (settings, categories, policies, products), the shop
+    // must show it on the next page view, not when the shared copy of it expires
+    revalidateTag(CONTENT_TAG, { expire: 0 });
+    return res;
   };
 }
 

@@ -15,6 +15,7 @@ import HeaderInteractions from './HeaderInteractions';
 import ProductCard from './ProductCard';
 import SearchOverlay from './SearchOverlay';
 import CartSidebarItems from './CartSidebarItems';
+import StoreLink from './StoreLink';
 
 const NEW_ARRIVAL = 'Home Page - New Arrival';
 
@@ -75,77 +76,77 @@ export default async function Header({
           </div>
 
           <div className="zq-header-logo">
-            <a href="/" aria-label="AGA Collections — Home" className="dc-brand-wordmark">
+            <StoreLink href="/" aria-label="AGA Collections — Home" className="dc-brand-wordmark">
               <span>AGA Collections</span>
-            </a>
+            </StoreLink>
           </div>
 
           <div className="zq-header-right">
             {loggedIn ? (
               <>
-                <a href="/customer/dashboard" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Account" aria-label="My Account">
+                <StoreLink href="/customer/dashboard" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Account" aria-label="My Account">
                   <i className="ri-user-3-line"></i>
                   <span className="dc-icon-label">Account</span>
-                </a>
-                <a href="/customer/dashboard" className="dc-hbtn d-flex d-md-none" title="Account" aria-label="My Account">
+                </StoreLink>
+                <StoreLink href="/customer/dashboard" className="dc-hbtn d-flex d-md-none" title="Account" aria-label="My Account">
                   <i className="ri-user-3-line"></i>
-                </a>
+                </StoreLink>
               </>
             ) : (
               <>
-                <a href="/customer/login" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Login" aria-label="Login">
+                <StoreLink href="/customer/login" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Login" aria-label="Login">
                   <i className="ri-user-3-line"></i>
                   <span className="dc-icon-label">Login</span>
-                </a>
-                <a href="/customer/login" className="dc-hbtn d-flex d-md-none" title="Login" aria-label="Login">
+                </StoreLink>
+                <StoreLink href="/customer/login" className="dc-hbtn d-flex d-md-none" title="Login" aria-label="Login">
                   <i className="ri-user-3-line"></i>
-                </a>
+                </StoreLink>
               </>
             )}
-            <a href="/wishlist" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Wishlist" aria-label="Wishlist">
+            <StoreLink href="/wishlist" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Wishlist" aria-label="Wishlist">
               <i className="ri-heart-line"></i>
               <span className="dc-icon-label">Wishlist</span>
-            </a>
-            <a href="/cart" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Cart" aria-label="Cart">
+            </StoreLink>
+            <StoreLink href="/cart" className="dc-hbtn dc-hbtn-stack d-none d-md-flex" title="Cart" aria-label="Cart">
               <i className="ri-shopping-bag-line"></i>
               <span className="dc-icon-label">Cart</span>
               <CartBadge id="cart-count" />
-            </a>
-            <a href="/cart" className="dc-hbtn d-flex d-md-none" title="Cart" aria-label="Cart">
+            </StoreLink>
+            <StoreLink href="/cart" className="dc-hbtn d-flex d-md-none" title="Cart" aria-label="Cart">
               <i className="ri-shopping-bag-line"></i>
               <CartBadge id="cart-count-mobile" />
-            </a>
+            </StoreLink>
           </div>
         </div>
 
         {menuCategories.length > 0 && (
           <nav className="dc-nav-strip" aria-label="Main navigation">
             <div className="dc-nav-item">
-              <a href="/shop">
+              <StoreLink href="/shop">
                 Shop All
-              </a>
+              </StoreLink>
             </div>
             {navCats.map((cat) => (
               <div className="dc-nav-item" key={cat._id}>
-                <a href={`/shop/${cat.slug ?? ''}`}>{cat.title}</a>
+                <StoreLink href={`/shop/${cat.slug ?? ''}`}>{cat.title}</StoreLink>
               </div>
             ))}
             <div className="dc-nav-item">
-              <a href="/shop">Collections</a>
+              <StoreLink href="/shop">Collections</StoreLink>
               <div className="dc-nav-dropdown">
                 {cats.map((cat) => (
-                  <a href={`/shop/${cat.slug ?? ''}`} key={cat._id}>
+                  <StoreLink href={`/shop/${cat.slug ?? ''}`} key={cat._id}>
                     {cat.image && <img src={mediaUrl(cat.image)} alt={cat.title} loading="lazy" />}
                     {cat.title}
-                  </a>
+                  </StoreLink>
                 ))}
               </div>
             </div>
             <div className="dc-nav-item">
-              <a href="/about-us">Our Story</a>
+              <StoreLink href="/about-us">Our Story</StoreLink>
             </div>
             <div className="dc-nav-item">
-              <a href="/contact-us">Contact</a>
+              <StoreLink href="/contact-us">Contact</StoreLink>
             </div>
           </nav>
         )}
@@ -162,7 +163,7 @@ export default async function Header({
       <div id="dcDrawerOverlay"></div>
       <aside id="dcSideDrawer" className="zqd" aria-label="Main menu" aria-hidden="true">
         <div className="zqd-top">
-          <a href="/" className="zqd-brand" aria-label={`${brand} home`}>{brand}</a>
+          <StoreLink href="/" className="zqd-brand" aria-label={`${brand} home`}>{brand}</StoreLink>
           <button type="button" className="zqd-close" id="dcDrawerClose" aria-label="Close menu"><i className="ri-close-line" aria-hidden="true"></i></button>
         </div>
 
@@ -171,54 +172,54 @@ export default async function Header({
         </button>
 
         <nav className="zqd-nav" aria-label="Main">
-          <a href="/shop" className="zqd-link"><span>Shop All</span><i className="ri-arrow-right-line" aria-hidden="true"></i></a>
+          <StoreLink href="/shop" className="zqd-link"><span>Shop All</span><i className="ri-arrow-right-line" aria-hidden="true"></i></StoreLink>
           <details className="zqd-group" open>
             <summary className="zqd-link"><span>Collections</span><i className="zqd-plus" aria-hidden="true"></i></summary>
             <div className="zqd-sub">
               {cats.map((category) => (
-                <a href={`/shop/${category.slug ?? ''}`} className="zqd-cat" key={category._id}>
+                <StoreLink href={`/shop/${category.slug ?? ''}`} className="zqd-cat" key={category._id}>
                   <span className="zqd-cat-img">
                     {category.image && <img src={mediaUrl(category.image)} alt="" loading="lazy" width={48} height={60} />}
                   </span>
                   <span className="zqd-cat-t">{strTitle(category.title)}</span>
                   <span className="zqd-cat-n">{category.products_count} {plural('style', category.products_count)}</span>
-                </a>
+                </StoreLink>
               ))}
             </div>
           </details>
-          <a href="/about-us" className="zqd-link"><span>Our Story</span><i className="ri-arrow-right-line" aria-hidden="true"></i></a>
-          <a href="/contact-us" className="zqd-link"><span>Contact</span><i className="ri-arrow-right-line" aria-hidden="true"></i></a>
+          <StoreLink href="/about-us" className="zqd-link"><span>Our Story</span><i className="ri-arrow-right-line" aria-hidden="true"></i></StoreLink>
+          <StoreLink href="/contact-us" className="zqd-link"><span>Contact</span><i className="ri-arrow-right-line" aria-hidden="true"></i></StoreLink>
         </nav>
 
         {feat && (
-          <a href={`/shop/${feat.slug ?? ''}`} className="zqd-feature">
+          <StoreLink href={`/shop/${feat.slug ?? ''}`} className="zqd-feature">
             <img src={mediaUrl(feat.banner)} alt="" loading="lazy" />
             <span className="zqd-feature-txt">
               <small>The edit</small>
               <strong>{strTitle(feat.title)}</strong>
               <em>Shop now <i className="ri-arrow-right-line" aria-hidden="true"></i></em>
             </span>
-          </a>
+          </StoreLink>
         )}
 
         <div className="zqd-account">
-          <a href="/wishlist"><i className="ri-heart-line" aria-hidden="true"></i>Wishlist</a>
+          <StoreLink href="/wishlist"><i className="ri-heart-line" aria-hidden="true"></i>Wishlist</StoreLink>
           {loggedIn
-            ? <a href="/customer/dashboard"><i className="ri-user-3-line" aria-hidden="true"></i>My account</a>
-            : <a href="/customer/login"><i className="ri-user-3-line" aria-hidden="true"></i>Sign in</a>}
-          <a href="/cart"><i className="ri-shopping-bag-line" aria-hidden="true"></i>Your bag</a>
-          <a href="/policies"><i className="ri-file-list-3-line" aria-hidden="true"></i>Policies</a>
+            ? <StoreLink href="/customer/dashboard"><i className="ri-user-3-line" aria-hidden="true"></i>My account</StoreLink>
+            : <StoreLink href="/customer/login"><i className="ri-user-3-line" aria-hidden="true"></i>Sign in</StoreLink>}
+          <StoreLink href="/cart"><i className="ri-shopping-bag-line" aria-hidden="true"></i>Your bag</StoreLink>
+          <StoreLink href="/policies"><i className="ri-file-list-3-line" aria-hidden="true"></i>Policies</StoreLink>
         </div>
 
         <div className="zqd-help">
           <p className="zqd-help-title">Need help with sizing or an order?</p>
           {wa && (
-            <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="zqd-wa">
+            <StoreLink href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="zqd-wa">
               <i className="ri-whatsapp-line" aria-hidden="true"></i> Chat on WhatsApp
-            </a>
+            </StoreLink>
           )}
           {phone && (
-            <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="zqd-phone"><i className="ri-phone-line" aria-hidden="true"></i> {phone}</a>
+            <StoreLink href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="zqd-phone"><i className="ri-phone-line" aria-hidden="true"></i> {phone}</StoreLink>
           )}
           <p className="zqd-note"><i className="ri-hand-coin-line" aria-hidden="true"></i> Cash on delivery across Pakistan</p>
         </div>
@@ -248,7 +249,7 @@ export default async function Header({
               <div className="cart-bottom__text" id="cart-subtotal-container">
                 <div className="border-top pt-3">
                   <div className="d-flex justify-content-between mb-3"> <span className="fw-bold">Subtotal:</span> <span className="fw-bold text-primary">PKR {numberFormat(total, 2)}</span> </div>
-                  <a href="/cart" className="btn btn-outline-dark w-100 mb-2">VIEW CART</a> <a href="/checkout" className="btn btn-dark w-100">CHECKOUT</a>
+                  <StoreLink href="/cart" className="btn btn-outline-dark w-100 mb-2">VIEW CART</StoreLink> <StoreLink href="/checkout" className="btn btn-dark w-100">CHECKOUT</StoreLink>
                 </div>
               </div>
             </div>

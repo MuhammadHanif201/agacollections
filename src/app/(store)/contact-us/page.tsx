@@ -7,6 +7,7 @@ import ContactSection from '@/components/store/ContactSection';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import ZqHero from '@/components/store/ZqHero';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 async function meta(): Promise<MetaOptions> {
   const s = await getCompanySetting();
@@ -48,7 +49,7 @@ export default async function ContactPage() {
           <div className="ct-info-row-body">
             <span className="ct-info-row-key">Email</span>
             <div className="ct-info-row-val">
-              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+              <StoreLink href={`mailto:${contactEmail}`}>{contactEmail}</StoreLink>
             </div>
           </div>
         </div>
@@ -60,7 +61,7 @@ export default async function ContactPage() {
           <div className="ct-info-row-body">
             <span className="ct-info-row-key">Phone</span>
             <div className="ct-info-row-val">
-              <a href={`tel:${phone}`}>{phone}</a>
+              <StoreLink href={`tel:${phone}`}>{phone}</StoreLink>
             </div>
           </div>
         </div>
@@ -72,7 +73,7 @@ export default async function ContactPage() {
           <div className="ct-info-row-body">
             <span className="ct-info-row-key">WhatsApp</span>
             <div className="ct-info-row-val">
-              <a href={`https://wa.me/${wa.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">{wa}</a>
+              <StoreLink href={`https://wa.me/${wa.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">{wa}</StoreLink>
             </div>
           </div>
         </div>
@@ -92,9 +93,9 @@ export default async function ContactPage() {
           {company!.social_links.filter((l) => l.platform && l.url).map((link, i) => {
             const p = link.platform.toLowerCase();
             return env.socialLinksEnabled && isProfileUrl(link.url) ? (
-              <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" className={`ct-social ct-social--${p}`} title={link.platform}>
+              <StoreLink key={i} href={link.url} target="_blank" rel="noopener noreferrer" className={`ct-social ct-social--${p}`} title={link.platform}>
                 <i className={`fab fa-${p}`}></i>
-              </a>
+              </StoreLink>
             ) : (
               <span key={i} className={`ct-social ct-social--${p}`} role="img" aria-label={link.platform.charAt(0).toUpperCase() + link.platform.slice(1)} style={{ cursor: 'default' }}>
                 <i className={`fab fa-${p}`} aria-hidden="true"></i>
@@ -133,9 +134,9 @@ export default async function ContactPage() {
                   <div className="ct-map-coords">31°31′N &nbsp;·&nbsp; 74°21′E</div>
                 </div>
               </div>
-              <a href="https://maps.google.com/?q=Gulberg+2,+Lahore,+Pakistan" target="_blank" rel="noopener noreferrer" className="ct-map-dir">
+              <StoreLink href="https://maps.google.com/?q=Gulberg+2,+Lahore,+Pakistan" target="_blank" rel="noopener noreferrer" className="ct-map-dir">
                 <i className="ri-navigation-line"></i> Get Directions
-              </a>
+              </StoreLink>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { mediaUrl } from '@/lib/media';
 import { numberFormat } from '@/lib/format';
 import type { CartLine } from '@/models/Session';
 import { cartSubtotal } from '@/services/pricing';
+import StoreLink from './StoreLink';
 
 export default function CartSidebarItems({ cart }: { cart: Record<string, CartLine> }) {
   const entries = Object.entries(cart);
@@ -47,8 +48,8 @@ export default function CartSidebarItems({ cart }: { cart: Record<string, CartLi
                   <span className="fw-bold text-uppercase">Subtotal:</span>
                   <span className="fw-bold text-primary">PKR {numberFormat(cartSubtotal(cart), 2)}</span>
                 </div>
-                <a href="/cart" className="btn btn-outline-dark w-100 mb-2 fw-bold text-uppercase">View Cart</a>
-                <a href="/checkout" className="btn btn-dark w-100 fw-bold text-uppercase">Checkout</a>
+                <StoreLink href="/cart" className="btn btn-outline-dark w-100 mb-2 fw-bold text-uppercase">View Cart</StoreLink>
+                <StoreLink href="/checkout" className="btn btn-dark w-100 fw-bold text-uppercase">Checkout</StoreLink>
               </div>
             </>
           ) : (
@@ -59,7 +60,7 @@ export default function CartSidebarItems({ cart }: { cart: Record<string, CartLi
                 <path d="M2 6h8l8 36h28l8-24H18" />
               </svg>
               <p className="text-muted fw-semibold mb-3">Your Cart Is Empty.</p>
-              <a href="/" className="btn btn-outline-primary btn-sm fw-bold text-uppercase">Continue Shopping</a>
+              <StoreLink href="/" className="btn btn-outline-primary btn-sm fw-bold text-uppercase">Continue Shopping</StoreLink>
             </div>
           )}
         </div>

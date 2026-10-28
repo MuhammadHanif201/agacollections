@@ -7,6 +7,7 @@ import ZqHero from '@/components/store/ZqHero';
 import { AboutSection } from '@/models/content';
 import { nextId } from '@/models/Counter';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   const s = await getCompanySetting();
@@ -124,12 +125,12 @@ export default async function AboutPage() {
               {brandBody1 && <p className="ab-body-lead">{brandBody1}</p>}
               {brandBody2 && <p className="ab-body">{brandBody2}</p>}
               <div className="ab-story-cta-row">
-                <a href="/shop" className="ab-btn ab-btn-dark">
+                <StoreLink href="/shop" className="ab-btn ab-btn-dark">
                   {brandCta} <i className="ri-arrow-right-line"></i>
-                </a>
-                <a href="/contact-us" className="ab-btn ab-btn-ghost-dark">
+                </StoreLink>
+                <StoreLink href="/contact-us" className="ab-btn ab-btn-ghost-dark">
                   Contact Us
-                </a>
+                </StoreLink>
               </div>
             </div>
           </div>
@@ -197,12 +198,12 @@ export default async function AboutPage() {
             <h2 className="ab-cta-title">Begin Your<br /><em>AGA Collections Journey</em></h2>
           </div>
           <div className="ab-cta-actions">
-            <a href="/shop" className="ab-btn ab-btn-gold ab-btn-lg">
+            <StoreLink href="/shop" className="ab-btn ab-btn-gold ab-btn-lg">
               {brandCta} <i className="ri-arrow-right-line"></i>
-            </a>
-            <a href="/contact-us" className="ab-btn ab-btn-outline">
+            </StoreLink>
+            <StoreLink href="/contact-us" className="ab-btn ab-btn-outline">
               Get in Touch
-            </a>
+            </StoreLink>
           </div>
         </div>
       </section>

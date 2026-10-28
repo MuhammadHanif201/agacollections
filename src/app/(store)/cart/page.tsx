@@ -7,6 +7,7 @@ import CartPageInteractions from '@/components/store/CartPageInteractions';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { cartSubtotal } from '@/services/pricing';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'cart' });
@@ -36,9 +37,9 @@ export default async function CartPage() {
           <div className="cart-page-hd-inner">
             <div>
               <div className="cart-breadcrumb">
-                <a href="/"><i className="ri-home-4-line"></i></a>
+                <StoreLink href="/"><i className="ri-home-4-line"></i></StoreLink>
                 <span className="sep">/</span>
-                <a href="/shop">Shop</a>
+                <StoreLink href="/shop">Shop</StoreLink>
                 <span className="sep">/</span>
                 <span style={{ color: '#161426' }}>Cart</span>
               </div>
@@ -62,9 +63,9 @@ export default async function CartPage() {
                         {' '}My Bag{' '}
                         <span className="cart-count-pill">{count}</span>
                       </div>
-                      <a href="/shop" className="cart-continue" style={{ marginTop: 0 }}>
+                      <StoreLink href="/shop" className="cart-continue" style={{ marginTop: 0 }}>
                         <i className="ri-arrow-left-s-line"></i> Continue Shopping
-                      </a>
+                      </StoreLink>
                     </div>
 
                     {entries.map(([key, item]) => {
@@ -73,15 +74,15 @@ export default async function CartPage() {
                       return (
                         <div className="cart-item" id={`cart-item-${key}`} key={key}>
                           <div className="ci-img">
-                            <a href={`/product/${item.slug}`}>
+                            <StoreLink href={`/product/${item.slug}`}>
                               <img src={mediaUrl(item.image)} alt={item.name} loading="lazy" />
-                            </a>
+                            </StoreLink>
                           </div>
 
                           <div className="ci-details">
-                            <a href={`/product/${item.slug}`} className="ci-name">
+                            <StoreLink href={`/product/${item.slug}`} className="ci-name">
                               {item.name}
-                            </a>
+                            </StoreLink>
 
                             {Object.entries(item.variant_options ?? {}).map(([optName, optValue]) => (
                               <div className="ci-variant" key={optName}>{optName}: {String(optValue).toUpperCase()}</div>
@@ -169,10 +170,10 @@ export default async function CartPage() {
                     </div>
                     <div className="cs-total-note">Shipping calculated at checkout.</div>
 
-                    <a href="/checkout" className="cs-checkout-btn">
+                    <StoreLink href="/checkout" className="cs-checkout-btn">
                       Proceed to Checkout
                       {' '}<i className="ri-arrow-right-line"></i>
-                    </a>
+                    </StoreLink>
 
                     <div className="cs-cod-badge">
                       <i className="ri-truck-line"></i>
@@ -201,12 +202,12 @@ export default async function CartPage() {
                     <h2>Your bag is empty</h2>
                     <p>Looks like you haven&apos;t added anything yet. Explore our collection and find something you love.</p>
                     <div className="d-flex justify-content-center gap-3 flex-wrap">
-                      <a href="/shop" className="cart-empty-cta">
+                      <StoreLink href="/shop" className="cart-empty-cta">
                         <i className="ri-store-line"></i> Shop Collection
-                      </a>
-                      <a href="/" className="cart-empty-shop">
+                      </StoreLink>
+                      <StoreLink href="/" className="cart-empty-shop">
                         <i className="ri-home-line"></i> Home
-                      </a>
+                      </StoreLink>
                     </div>
                   </div>
                 </div>

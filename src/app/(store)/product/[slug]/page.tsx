@@ -15,6 +15,7 @@ import { WishlistToggle } from '@/components/store/StoreButtons';
 import { toCards } from '@/services/catalog';
 import { countProductView, getProductPage } from '@/services/product';
 import { getCompanySetting } from '@/services/settings';
+import StoreLink from '@/components/store/StoreLink';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -139,13 +140,13 @@ export default async function ProductPage({ params }: Props) {
       <div className="pd-page">
         <div className="pd-wrap">
           <nav className="pd-crumbs" aria-label="Breadcrumb">
-            <a href="/">Home</a>
+            <StoreLink href="/">Home</StoreLink>
             <span className="sep">/</span>
-            <a href="/shop">Shop</a>
+            <StoreLink href="/shop">Shop</StoreLink>
             {catPrimary && (
               <>
                 <span className="sep">/</span>
-                <a href={`/shop/${catPrimary.slug}`}>{catLabel}</a>
+                <StoreLink href={`/shop/${catPrimary.slug}`}>{catLabel}</StoreLink>
               </>
             )}
             <span className="sep">/</span>
@@ -197,7 +198,7 @@ export default async function ProductPage({ params }: Props) {
 
             <div className="pd-info">
               <p className="pd-eyebrow">
-                {catPrimary && <a href={`/shop/${catPrimary.slug}`}>{catLabel}</a>}
+                {catPrimary && <StoreLink href={`/shop/${catPrimary.slug}`}>{catLabel}</StoreLink>}
                 {product.name.toLowerCase().includes('unisex') && <><span className="dot"></span><span>Unisex</span></>}
               </p>
 
@@ -210,8 +211,8 @@ export default async function ProductPage({ params }: Props) {
                   ))}
                 </span>
                 {reviewCount > 0
-                  ? <a href="#reviews">{numberFormat(avgRating, 1)} · {reviewCount} {plural('review', reviewCount)}</a>
-                  : <a href="#reviews" data-open-review="">Be the first to review</a>}
+                  ? <StoreLink href="#reviews">{numberFormat(avgRating, 1)} · {reviewCount} {plural('review', reviewCount)}</StoreLink>
+                  : <StoreLink href="#reviews" data-open-review="">Be the first to review</StoreLink>}
               </div>
 
               <div className="pd-price" id="product-price">
@@ -280,9 +281,9 @@ export default async function ProductPage({ params }: Props) {
               </div>
 
               {waNum && (
-                <a className="pd-wa" id="pd-wa-order" target="_blank" rel="noopener" href={`https://wa.me/${waNum}?text=${encodeURIComponent(waText)}`} data-base-text={waText}>
+                <StoreLink className="pd-wa" id="pd-wa-order" target="_blank" rel="noopener" href={`https://wa.me/${waNum}?text=${encodeURIComponent(waText)}`} data-base-text={waText}>
                   <i className="ri-whatsapp-line"></i> Order on WhatsApp
-                </a>
+                </StoreLink>
               )}
 
               <ul className="pd-trust">
@@ -320,7 +321,7 @@ export default async function ProductPage({ params }: Props) {
                     <li>Shipped with TCS, Leopards or BlueEx.</li>
                     {freeShipOn && freeShipMin > 0 && <li>Free delivery on orders over PKR {numberFormat(freeShipMin)}.</li>}
                   </ul>
-                  <p><a href="/policies#shipping">Read the shipping policy</a></p>
+                  <p><StoreLink href="/policies#shipping">Read the shipping policy</StoreLink></p>
                 </div>
               </details>
 
@@ -328,7 +329,7 @@ export default async function ProductPage({ params }: Props) {
                 <summary>Exchange &amp; returns</summary>
                 <div className="pd-acc-body">
                   <p>Exchange or return requests are accepted within 7 days of delivery for unworn, unwashed items with their original tags. Some items, including sale items, are not eligible.</p>
-                  <p><a href="/policies#return">Read the full return &amp; exchange policy</a></p>
+                  <p><StoreLink href="/policies#return">Read the full return &amp; exchange policy</StoreLink></p>
                 </div>
               </details>
 
@@ -336,8 +337,8 @@ export default async function ProductPage({ params }: Props) {
                 <span>SKU: <span id="product-sku">{priceVariant?.sku ?? product.sku}</span></span>
                 <div className="pd-share">
                   <span>Share</span>
-                  <a href={`https://wa.me/?text=${encodeURIComponent(product.name + ' — ' + pageUrl)}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><i className="ri-whatsapp-line"></i></a>
-                  <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" aria-label="Share on Facebook"><i className="ri-facebook-fill"></i></a>
+                  <StoreLink href={`https://wa.me/?text=${encodeURIComponent(product.name + ' — ' + pageUrl)}`} target="_blank" rel="noopener" aria-label="Share on WhatsApp"><i className="ri-whatsapp-line"></i></StoreLink>
+                  <StoreLink href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener" aria-label="Share on Facebook"><i className="ri-facebook-fill"></i></StoreLink>
                   <button type="button" id="pd-copy-link" data-url={pageUrl} aria-label="Copy link"><i className="ri-link"></i></button>
                 </div>
               </div>

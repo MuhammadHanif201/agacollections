@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import StoreLink from './StoreLink';
 
 const STORAGE_KEY = 'dc_cookie_consent';
 
@@ -40,7 +41,7 @@ export default function CookieConsent() {
         <p style={{ margin: 0, fontSize: '0.82rem', lineHeight: 1.6, flex: 1, minWidth: 220, color: 'rgba(255,255,255,0.78)' }}>
           We use cookies to improve your experience, analyse site traffic, and personalise content.
           By clicking <strong>Accept</strong> you consent to our use of cookies in accordance with
-          our <a href="/policy/privacy" style={{ color: '#c42b3c', textDecoration: 'underline' }}>Privacy Policy</a>.
+          our <StoreLink href="/policy/privacy" style={{ color: '#c42b3c', textDecoration: 'underline' }}>Privacy Policy</StoreLink>.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
           <button

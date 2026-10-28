@@ -7,6 +7,8 @@
 // first seen; the layout declares every group up front (empty slot styles keep a
 // group's place), and pages add their sheets to "zq-page" or "zq-inline".
 
+import StyleScope from './StyleScope';
+
 const css = (name: string) => `/legacy/css/${name}.css`;
 
 export const PAGE_GROUP = 'zq-page';
@@ -73,6 +75,7 @@ export function PageStyles({ pushed = [], inline = [] }: { pushed?: string[]; in
     <>
       {pushed.map((n) => <link key={n} rel="stylesheet" href={href(n)} precedence={PAGE_GROUP} />)}
       {inline.map((n) => <link key={n} rel="stylesheet" href={href(n)} precedence={INLINE_GROUP} />)}
+      <StyleScope hrefs={[...pushed, ...inline].map(href)} />
     </>
   );
 }

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import type { CardProduct } from '@/types/catalog';
 import ProductCard from './ProductCard';
 import { useStore } from './StoreProvider';
+import StoreLink from './StoreLink';
+import { useNavKey } from './useNavKey';
 
 type View = 'default' | 'loading' | 'results' | 'empty';
 
@@ -25,6 +27,11 @@ export default function SearchOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const seq = useRef(0);
+
+  // Following a suggestion or a result opens another page without a reload: close the overlay
+  const navKey = useNavKey();
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- closeSearch only sets state; run on navigation, not when its identity changes
+  useEffect(() => { closeSearch(); }, [navKey]);
 
   // Every .trigger-search button on the page opens the overlay
   useEffect(() => {
@@ -129,13 +136,13 @@ export default function SearchOverlay({
                 <>
                   <p className="dc-so-label">Browse Categories</p>
                   <div className="dc-so-tags">
-                    <a href="/shop" className="dc-so-tag">
+                    <StoreLink href="/shop" className="dc-so-tag">
                       <i className="ri-store-line"></i> Shop All
-                    </a>
+                    </StoreLink>
                     {categories.map((cat) => (
-                      <a href={`/shop/${cat.slug}`} className="dc-so-tag" key={cat.slug}>
+                      <StoreLink href={`/shop/${cat.slug}`} className="dc-so-tag" key={cat.slug}>
                         <i className="ri-price-tag-3-line"></i> {cat.title}
-                      </a>
+                      </StoreLink>
                     ))}
                   </div>
                 </>
@@ -155,14 +162,14 @@ export default function SearchOverlay({
                 {view === 'results' && results.map((p) => <div key={p.id}><ProductCard product={p} /></div>)}
               </div>
               <div className="text-center">
-                <a
+                <StoreLink
                   href={`/shop?search=${encodeURIComponent(shownQuery)}`}
                   id="dcSearchSeeAll"
                   className="dc-so-see-all"
                   style={{ display: total > 8 ? 'inline-flex' : 'none' }}
                 >
                   See All Results <i className="ri-arrow-right-line"></i>
-                </a>
+                </StoreLink>
               </div>
             </div>
 

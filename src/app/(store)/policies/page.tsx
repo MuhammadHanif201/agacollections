@@ -6,6 +6,7 @@ import { PageStyles } from '@/components/store/LegacyStyles';
 import PoliciesTabs from '@/components/store/PoliciesTabs';
 import ZqHero from '@/components/store/ZqHero';
 import { Policy } from '@/models/content';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'policies' });
@@ -37,9 +38,9 @@ export default async function PoliciesPage() {
                 <ul className="policies-sidebar-list">
                   {policies.map((p, i) => (
                     <li key={p._id}>
-                      <a href="#" className={`sidebar-link ${i === 0 ? 'active' : ''}`} data-key={p.key}>
+                      <StoreLink href="#" className={`sidebar-link ${i === 0 ? 'active' : ''}`} data-key={p.key}>
                         {p.title_en}
-                      </a>
+                      </StoreLink>
                     </li>
                   ))}
                 </ul>

@@ -10,6 +10,7 @@ import { PageStyles } from '@/components/store/LegacyStyles';
 import { Customer } from '@/models/Customer';
 import { Order, accountOrders, orderContact } from '@/models/Order';
 import { Product } from '@/models/Product';
+import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'dashboard' });
@@ -44,9 +45,9 @@ export default async function OrderShowPage({ params }: { params: Promise<{ id: 
               <span className="db-ph-ey">Order Detail</span>
               <h1>Order #{order._id}</h1>
             </div>
-            <a href="/customer/orders" className="db-btn db-btn-outline db-btn-sm">
+            <StoreLink href="/customer/orders" className="db-btn db-btn-outline db-btn-sm">
               <i className="ri-arrow-left-s-line"></i> Back to Orders
-            </a>
+            </StoreLink>
           </div>
 
           <div className="dos-meta">
@@ -91,14 +92,14 @@ export default async function OrderShowPage({ params }: { params: Promise<{ id: 
                         <td>
                           <div className="dos-product">
                             {primary
-                              ? <img src={mediaUrl(primary.image_path)} alt={product?.name} className="dos-product-img" />
+                              ? <img src={mediaUrl(primary.image_path)} alt={product?.name} className="dos-product-img" loading="lazy" />
                               : <div className="dos-product-img dos-img-placeholder"><i className="ri-image-line"></i></div>}
                             <div>
                               <div className="dos-product-name">{product?.name ?? `Product #${item.product_id}`}</div>
                               {product && delivered && (
-                                <a href={`/product/${product.slug}#write-review`} className="dos-review-link">
+                                <StoreLink href={`/product/${product.slug}#write-review`} className="dos-review-link">
                                   <i className="ri-star-line"></i> Write a review
-                                </a>
+                                </StoreLink>
                               )}
                             </div>
                           </div>
