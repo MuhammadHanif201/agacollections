@@ -1,0 +1,4 @@
+.policy-content {
+    background-color: color-mix(in srgb, var(--primary-color) 10%, var(--bs-light));
+    border-radius: 4px;
+}

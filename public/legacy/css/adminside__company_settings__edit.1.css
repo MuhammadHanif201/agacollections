@@ -1,0 +1,268 @@
+/* ── Base ─────────────────────────────────────────── */
+.cs-page { padding: 32px 32px 120px; }
+
+/* ── Hero ─────────────────────────────────────────── */
+.cs-hero {
+    background: linear-gradient(135deg, #111111 0%, #1E3A5F 60%, #2A2A2A 100%);
+    border-radius: 22px; padding: 32px 36px;
+    position: relative; overflow: hidden; margin-bottom: 28px;
+}
+.cs-hero::before {
+    content: ''; position: absolute; inset: 0; opacity: .07;
+    background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+    background-size: 28px 28px;
+}
+.cs-hero-body { position: relative; z-index: 1; display: flex; align-items: center; gap: 20px; }
+.cs-hero-ico {
+    width: 58px; height: 58px; border-radius: 17px; flex-shrink: 0;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(8px); display: flex; align-items: center;
+    justify-content: center; font-size: 1.4rem; color: #fff;
+}
+.cs-hero-title  { font-size: 1.55rem; font-weight: 800; color: #fff; margin: 0; letter-spacing: -.02em; }
+.cs-hero-sub    { font-size: .82rem; color: rgba(255,255,255,.6); margin: 3px 0 0; }
+
+/* ── Tab Nav ──────────────────────────────────────── */
+.cs-tabs {
+    display: flex; gap: 6px; margin-bottom: 24px;
+    background: #fff; border: 1px solid #E8EDF5;
+    border-radius: 16px; padding: 6px; flex-wrap: wrap;
+    box-shadow: 0 2px 12px rgba(15,23,42,.05);
+}
+.cs-tab-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 11px; border: none; background: transparent;
+    font-size: .82rem; font-weight: 600; color: #737373; cursor: pointer;
+    transition: all .2s; white-space: nowrap;
+}
+.cs-tab-btn:hover { background: #F4F4F4; color: #1C1C1C; }
+.cs-tab-btn.active {
+    background: linear-gradient(135deg, #2A2A2A, #111111);
+    color: #fff; box-shadow: 0 4px 12px rgba(17,17,17,.3);
+}
+.cs-tab-btn .tab-ico { font-size: .85rem; }
+.cs-tab-pane { display: none; }
+.cs-tab-pane.active { display: block; }
+
+/* ── Card ─────────────────────────────────────────── */
+.cs-card {
+    background: #fff; border: 1px solid #E8EDF5;
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 2px 16px rgba(15,23,42,.06); margin-bottom: 20px;
+}
+.cs-card-hd {
+    padding: 16px 24px; border-bottom: 1px solid #F4F4F4;
+    display: flex; align-items: center; gap: 12px; background: #FAFBFE;
+}
+.cs-card-hd-ico {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: rgba(17,17,17,.1); color: #111111;
+    display: flex; align-items: center; justify-content: center; font-size: .85rem;
+}
+.cs-card-hd-title { font-size: .78rem; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: .1em; }
+.cs-card-body { padding: 24px; }
+
+/* ── Fields ───────────────────────────────────────── */
+.cs-field { margin-bottom: 20px; }
+.cs-lbl {
+    display: block; font-size: .75rem; font-weight: 700;
+    color: #374151; margin-bottom: 7px; letter-spacing: .02em;
+}
+.cs-lbl .req { color: #EF4444; margin-left: 2px; }
+.cs-lbl .opt { color: #9CA3AF; font-weight: 400; font-size: .7rem; }
+.cs-inp {
+    width: 100%; padding: 11px 15px;
+    border: 1.5px solid #E5E5E5; border-radius: 11px;
+    font-size: .88rem; color: #1C1C1C; background: #fff;
+    transition: border-color .2s, box-shadow .2s;
+    box-shadow: 0 1px 3px rgba(15,23,42,.04);
+}
+.cs-inp:focus { outline: none; border-color: #111111; box-shadow: 0 0 0 3px rgba(17,17,17,.13); }
+.cs-inp.is-invalid { border-color: #EF4444; }
+.cs-hint { font-size: .72rem; color: #A3A3A3; margin-top: 5px; }
+.cs-err  { font-size: .73rem; color: #EF4444; margin-top: 5px; font-weight: 500; }
+textarea.cs-inp { resize: vertical; min-height: 90px; }
+
+/* ── Upload box ───────────────────────────────────── */
+.cs-upload-wrap { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+.cs-upload-preview {
+    width: 88px; height: 88px; border-radius: 13px;
+    border: 2px dashed #D4D4D4; background: #FAFAFA;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden; flex-shrink: 0; cursor: pointer;
+}
+.cs-upload-preview img { width: 100%; height: 100%; object-fit: contain; }
+.cs-upload-preview.favicon { width: 52px; height: 52px; }
+.cs-upload-preview.banner  { width: 140px; height: 70px; }
+.cs-upload-trigger {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 9px 16px; border: 1.5px dashed #D4D4D4; border-radius: 10px;
+    font-size: .8rem; font-weight: 600; color: #525252; cursor: pointer;
+    background: #FAFAFA; transition: all .2s;
+}
+.cs-upload-trigger:hover { border-color: #111111; color: #111111; background: #F3F0E9; }
+input[type="file"].cs-file { display: none; }
+
+/* ── Dynamic list ─────────────────────────────────── */
+.cs-dyn-item {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+}
+.cs-dyn-item .cs-inp { flex: 1; margin-bottom: 0; }
+.cs-dyn-rm {
+    width: 34px; height: 34px; border-radius: 9px;
+    border: 1.5px solid #FCA5A5; background: #FEF2F2;
+    color: #EF4444; font-size: .8rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all .15s;
+}
+.cs-dyn-rm:hover { background: #EF4444; color: #fff; }
+.cs-add-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 8px 14px; border-radius: 9px;
+    border: 1.5px dashed #FFE6DC; background: #F3F0E9;
+    color: #111111; font-size: .78rem; font-weight: 700; cursor: pointer;
+    transition: all .2s;
+}
+.cs-add-btn:hover { background: #E9E4D9; border-color: #111111; }
+
+/* ── Email grid ───────────────────────────────────── */
+.cs-email-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 600px) { .cs-email-grid { grid-template-columns: 1fr; } }
+.cs-email-item { display: flex; flex-direction: column; gap: 5px; }
+.cs-email-prefix {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
+    color: #737373; margin-bottom: 3px;
+}
+
+/* ── Social link row ──────────────────────────────── */
+.cs-social-row { display: flex; gap: 10px; margin-bottom: 10px; align-items: center; }
+.cs-social-select {
+    width: 140px; flex-shrink: 0;
+    padding: 10px 12px; border: 1.5px solid #E5E5E5; border-radius: 11px;
+    font-size: .85rem; color: #1C1C1C; background: #fff; cursor: pointer;
+}
+.cs-social-select:focus { outline: none; border-color: #111111; }
+
+/* ── Toggle switch ────────────────────────────────── */
+.cs-toggle-wrap { display: flex; align-items: center; gap: 14px; }
+.cs-toggle { position: relative; width: 46px; height: 26px; flex-shrink: 0; }
+.cs-toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.cs-toggle-slider {
+    position: absolute; inset: 0; border-radius: 99px;
+    background: #D4D4D4; cursor: pointer; transition: background .2s;
+}
+.cs-toggle-slider::before {
+    content: ''; position: absolute;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; top: 3px; left: 3px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2); transition: transform .2s;
+}
+.cs-toggle input:checked + .cs-toggle-slider { background: #111111; }
+.cs-toggle input:checked + .cs-toggle-slider::before { transform: translateX(20px); }
+.cs-toggle-label { font-size: .88rem; font-weight: 600; color: #1C1C1C; }
+.cs-toggle-sub   { font-size: .75rem; color: #A3A3A3; }
+
+/* ── Shipping mode cards ──────────────────────────── */
+.cs-mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.cs-mode-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.cs-mode-opt { position: relative; }
+.cs-mode-lbl {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 18px; border: 2px solid #E5E5E5;
+    border-radius: 13px; cursor: pointer; transition: all .2s;
+    background: #FAFBFE;
+}
+.cs-mode-lbl:hover { border-color: #111111; background: #F3F0E9; }
+.cs-mode-opt input:checked + .cs-mode-lbl {
+    border-color: #111111; background: #F3F0E9;
+    box-shadow: 0 0 0 3px rgba(17,17,17,.12);
+}
+.cs-mode-ico {
+    width: 40px; height: 40px; border-radius: 11px;
+    background: rgba(17,17,17,.1); color: #111111;
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    flex-shrink: 0;
+}
+.cs-mode-title { font-size: .88rem; font-weight: 700; color: #1C1C1C; }
+.cs-mode-desc  { font-size: .74rem; color: #A3A3A3; margin-top: 2px; }
+
+/* ── Shipping rates grid ──────────────────────────── */
+.cs-shipping-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.cs-shipping-cell { display: flex; flex-direction: column; gap: 5px; }
+.cs-shipping-cell .cs-lbl { margin-bottom: 4px; }
+.cs-inp-prefix-wrap { display: flex; border: 1.5px solid #E5E5E5; border-radius: 11px; overflow: hidden; }
+.cs-inp-prefix {
+    padding: 10px 12px; background: #F4F4F4;
+    font-size: .75rem; font-weight: 700; color: #737373;
+    border-right: 1px solid #E5E5E5; white-space: nowrap;
+    display: flex; align-items: center;
+}
+.cs-inp-prefix-wrap .cs-inp { border: none; border-radius: 0; box-shadow: none; }
+.cs-inp-prefix-wrap .cs-inp:focus { box-shadow: none; }
+.cs-inp-prefix-wrap:focus-within { border-color: #111111; box-shadow: 0 0 0 3px rgba(17,17,17,.13); }
+
+/* ── Secret field ─────────────────────────────────── */
+.cs-secret-wrap { position: relative; }
+.cs-secret-wrap .cs-inp { padding-right: 44px; font-family: monospace; }
+.cs-secret-eye {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; color: #A3A3A3; cursor: pointer; padding: 4px;
+    font-size: .85rem;
+}
+
+/* ── 2-col layout ─────────────────────────────────── */
+.cs-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 700px) { .cs-2col { grid-template-columns: 1fr; } }
+.cs-3col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+@media (max-width: 800px) { .cs-3col { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .cs-3col { grid-template-columns: 1fr; } }
+
+/* ── Coupon type cards ────────────────────────────── */
+.cs-coupon-grid { display: flex; gap: 10px; }
+.cs-coupon-opt input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.cs-coupon-opt { position: relative; }
+.cs-coupon-lbl {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border: 2px solid #E5E5E5;
+    border-radius: 11px; cursor: pointer; transition: all .2s;
+    background: #FAFBFE; font-size: .84rem; font-weight: 700; color: #374151;
+}
+.cs-coupon-lbl:hover { border-color: #111111; background: #F3F0E9; }
+.cs-coupon-opt input:checked + .cs-coupon-lbl {
+    border-color: #111111; background: #F3F0E9;
+    box-shadow: 0 0 0 3px rgba(17,17,17,.12);
+}
+
+/* ── Sticky save bar ──────────────────────────────── */
+.cs-save-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(15,23,42,.96); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255,255,255,.08);
+    padding: 14px 32px; display: flex; align-items: center;
+    justify-content: space-between; gap: 12px;
+}
+.cs-save-info { font-size: .78rem; color: rgba(255,255,255,.5); }
+.cs-save-info strong { color: rgba(255,255,255,.85); }
+.cs-save-actions { display: flex; gap: 10px; }
+.cs-btn-save {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #2A2A2A, #111111); color: #fff;
+    border: none; border-radius: 11px; padding: 11px 26px;
+    font-size: .88rem; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 14px rgba(17,17,17,.4); transition: all .2s;
+}
+.cs-btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(17,17,17,.5); }
+.cs-btn-cancel {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.08); color: rgba(255,255,255,.8);
+    border: 1.5px solid rgba(255,255,255,.15); border-radius: 11px;
+    padding: 11px 20px; font-size: .88rem; font-weight: 600;
+    cursor: pointer; text-decoration: none; transition: all .2s;
+}
+.cs-btn-cancel:hover { background: rgba(255,255,255,.14); color: #fff; }
+
+/* ── Collapsible section ──────────────────────────── */
+.cs-collapse-row {
+    overflow: hidden; transition: max-height .35s ease;
+}

@@ -1,0 +1,31 @@
+.wp-page { padding: 28px; }
+.wp-head { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom: 22px; }
+.wp-head h1 { font-size: 1.4rem; font-weight: 600; margin: 0; }
+.wp-tabs  { display:flex; gap:4px; flex-wrap:wrap; margin-bottom: 18px; }
+.wp-tab   { padding: 8px 14px; font-size:.78rem; color:#737373; background:#F4F4F4; border-radius:8px; text-decoration:none; transition: all .15s; }
+.wp-tab.is-active { background:#111111; color:#fff; }
+.wp-tab:hover:not(.is-active) { background:#E5E5E5; color:#111111; }
+.wp-tab .ct { background:rgba(0,0,0,.08); padding:1px 7px; border-radius:10px; font-size:.7rem; margin-left:4px; }
+
+.wp-card { background:#fff; border:1px solid #E5E5E5; border-radius: 14px; overflow: hidden; }
+.wp-table { width:100%; border-collapse: collapse; }
+.wp-table th, .wp-table td { padding: 12px 14px; border-bottom: 1px solid #F4F4F4; font-size:.85rem; vertical-align: middle; }
+.wp-table th { text-align:left; font-size:.7rem; letter-spacing: .12em; text-transform:uppercase; color:#737373; background:#FAFAFA; font-weight: 600; }
+.wp-empty { padding: 60px 20px; text-align:center; color:#A3A3A3; }
+.pill { display:inline-block; padding: 3px 9px; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; font-weight:700; border-radius: 4px; }
+.pill.requested { background:#fef3c7; color:#92400e; }
+.pill.approved  { background:#E9E4D9; color:#1e40af; }
+.pill.paid      { background:#d1fae5; color:#065f46; }
+.pill.rejected  { background:#fee2e2; color:#991b1b; }
+
+.btn-sm { padding: 5px 11px; border:none; border-radius: 6px; cursor:pointer; font-size:.72rem; font-weight: 600; }
+.btn-approve { background:#111111; color:#fff; }
+.btn-paid    { background:#10b981; color:#fff; }
+.btn-reject  { background:#ef4444; color:#fff; }
+form.inline-form { display: inline-block; margin-right: 4px; }
+
+.modal-bg { display:none; position: fixed; inset:0; background:rgba(0,0,0,.4); z-index: 1000; align-items: center; justify-content: center; }
+.modal-bg.is-open { display: flex; }
+.modal { background:#fff; padding: 26px 28px; border-radius:14px; max-width: 460px; width: 100%; }
+.modal h4 { margin: 0 0 14px; font-size: 1.05rem; }
+.modal input, .modal textarea { width: 100%; padding: 9px 12px; border:1px solid #E5E5E5; border-radius:6px; margin-bottom: 12px; font-size:.85rem; }

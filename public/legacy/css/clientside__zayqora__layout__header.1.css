@@ -1,0 +1,162 @@
+        /* ══════════════════════════════════════════════════════
+           Page-level tokens. Core palette is defined ONCE in
+           public/clientside/zayqora/css/global.css — all
+           variables below derive from var(--dc-*) and must NOT
+           hard-code hex values. Edit theme there.
+        ══════════════════════════════════════════════════════ */
+        :root {
+            /* ── Page-level compat aliases only ── */
+            --zq-hero-h:       clamp(380px, 62vh, 600px);   /* one hero height for every page */
+            --dc-gold-border:    rgba(22,20,38,0.35);
+            --dc-crimson-light:  var(--dc-cream);
+            --zq-footer-bg:  var(--dc-black);
+
+            --primary-color:   var(--dc-black);
+            --tertiary-color:  var(--dc-cream);
+
+            --body-bg:    var(--dc-cream);
+            --footer-bg:  var(--zq-footer-bg);
+            --text-color: var(--dc-dark);
+
+            --link-color:                var(--dc-dark);
+            --link-hover-color:          var(--dc-gold);
+            --link-active-color:         var(--dc-gold-hover);
+            --link-visited-color:        var(--dc-muted);
+            --link-hover-visited-color:  var(--dc-gold);
+            --link-active-visited-color: var(--dc-gold-hover);
+            --link-hover-active-color:   var(--dc-gold);
+
+            --bg-solid:            var(--dc-gold);
+            --bg-solid-hover:      var(--dc-gold-hover);
+            --on-solid:            var(--dc-white);
+            --bg-light:            var(--dc-cream);
+            --bg-theme-dark:       var(--dc-black);
+            --bg-theme-dark-hover: var(--dc-gold);
+            --on-theme-dark:       var(--dc-white);
+
+            --bs-body-bg:       var(--dc-cream);
+        }
+
+        /* ── Base ── */
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--body-bg);
+            font-family: var(--body-font);
+            color: var(--dc-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--heading-font);
+            font-weight: 300;
+            color: var(--dc-dark);
+
+            footer & { color: unset; }
+            #imageCarousel & { color: unset; }
+            .page-banner & { color: unset; }
+            #dcHeroCarousel & { color: unset; }
+        }
+
+        /* ── Utilities ── */
+        .text-primary-color   { color: var(--dc-dark) !important; }
+        .text-secondary-color { color: var(--dc-gold) !important; }
+        .text-gold            { color: var(--dc-gold) !important; }
+        .text-muted-dc        { color: var(--dc-muted) !important; }
+        .bg-primary-color     { background-color: var(--dc-black) !important; }
+        .bg-cream             { background-color: var(--dc-cream) !important; }
+        .bg-gold              { background-color: var(--dc-gold) !important; }
+
+        /* ── Gold eyebrow label ── */
+        .dc-eyebrow {
+            display: block;
+            font-size: 0.58rem;
+            letter-spacing: 0.34em;
+            text-transform: uppercase;
+            color: var(--dc-gold);
+            font-family: var(--body-font);
+            font-weight: 600;
+        }
+
+        /* ── Buttons ── */
+
+        /* Primary: gold fill, darker-gold hover */
+        .btn-solid,
+        .btn-theme-dark,
+        .btn-gold {
+            background-color: var(--dc-gold);
+            color: #fff;
+            border: 1.5px solid var(--dc-gold);
+            border-radius: 0;
+            letter-spacing: 0.12em;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-family: var(--body-font);
+            transition: background 0.22s, border-color 0.22s, color 0.22s;
+        }
+        .btn-solid:hover,
+        .btn-theme-dark:hover,
+        .btn-gold:hover {
+            background-color: var(--dc-gold-hover);
+            border-color: var(--dc-gold-hover);
+            color: #fff;
+        }
+
+        /* Dark / outline variant: black outline, gold fill on hover */
+        .btn-black {
+            background-color: var(--dc-black);
+            color: #fff;
+            border: 1.5px solid var(--dc-black);
+            border-radius: 0;
+            letter-spacing: 0.12em;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            transition: background 0.22s, border-color 0.22s, color 0.22s;
+        }
+        .btn-black:hover {
+            background-color: var(--dc-gold);
+            border-color: var(--dc-gold);
+            color: #fff;
+        }
+
+        /* ── Section title ── */
+        .section-title {
+            font-family: var(--heading-font);
+            font-weight: 300;
+            font-style: italic;
+            color: var(--dc-dark);
+        }
+
+        /* ── Gold divider ── */
+        .dc-gold-rule {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--dc-gold) 40%, var(--dc-gold-lt) 50%, var(--dc-gold) 60%, transparent 100%);
+            border: none;
+            opacity: 0.6;
+        }
+
+        /* ── Scroll-reveal ── */
+        [data-dc-reveal] {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.65s cubic-bezier(.22,1,.36,1), transform 0.65s cubic-bezier(.22,1,.36,1);
+        }
+        [data-dc-reveal].is-visible { opacity: 1; transform: translateY(0); }
+        [data-dc-reveal="left"]  { transform: translateX(-22px); }
+        [data-dc-reveal="left"].is-visible  { transform: translateX(0); }
+        [data-dc-reveal="right"] { transform: translateX(22px); }
+        [data-dc-reveal="right"].is-visible { transform: translateX(0); }
+        [data-dc-reveal="scale"] { transform: scale(0.93); }
+        [data-dc-reveal="scale"].is-visible { transform: scale(1); }
+
+        /* ── Skeleton shimmer ── */
+        .dc-shimmer {
+            background: linear-gradient(90deg, var(--dc-cream-dark) 25%, var(--dc-cream) 50%, var(--dc-cream-dark) 75%);
+            background-size: 200% 100%;
+            animation: dc-shimmer 1.6s infinite;
+        }
+        @keyframes dc-shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    

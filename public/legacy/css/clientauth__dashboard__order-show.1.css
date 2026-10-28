@@ -1,0 +1,36 @@
+.dos-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0;
+    border: 1px solid var(--dc-border);
+    background: #fff;
+    margin-bottom: 20px;
+}
+.dos-meta-item {
+    padding: 14px 18px;
+    border-right: 1px solid var(--dc-border);
+}
+.dos-meta-item:last-child { border-right: none; }
+.dos-meta-lbl { font-size:.6rem; letter-spacing:.12em; text-transform:uppercase; color:var(--dc-muted); display:block; margin-bottom:4px; }
+.dos-meta-val { font-size:.85rem; font-weight:500; color:var(--dc-dark); }
+
+.dos-product { display:flex; align-items:center; gap:12px; }
+.dos-review-link { display:inline-flex; align-items:center; gap:5px; margin-top:4px; font-size:.72rem; letter-spacing:.06em; color:#161426; text-decoration:none; border-bottom:1px solid currentColor; }
+.dos-product-img { width:48px; height:48px; object-fit:cover; border:1px solid var(--dc-border); flex-shrink:0; }
+.dos-img-placeholder { width:48px; height:48px; border:1px solid var(--dc-border); display:flex; align-items:center; justify-content:center; color:var(--dc-border); font-size:1rem; flex-shrink:0; }
+.dos-product-name { font-size:.83rem; font-weight:500; color:var(--dc-dark); margin-bottom:2px; }
+.dos-product-custom { font-size:.71rem; color:var(--dc-muted); }
+
+.dos-bottom { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+
+.dos-info-row { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid var(--dc-border); font-size:.83rem; }
+.dos-info-row:last-child { border-bottom:none; }
+.dos-info-lbl { font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:var(--dc-muted); min-width:72px; padding-top:2px; }
+
+@media (max-width:640px) {
+    .dos-meta { grid-template-columns:1fr 1fr; }
+    .dos-meta-item:nth-child(even) { border-right:none; }
+    .dos-meta-item { border-bottom:1px solid var(--dc-border); }
+    .dos-meta-item:nth-last-child(-n+2) { border-bottom:none; }
+    .dos-bottom { grid-template-columns:1fr; }
+}

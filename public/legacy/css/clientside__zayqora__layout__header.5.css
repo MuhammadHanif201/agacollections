@@ -1,0 +1,258 @@
+        /* ══════════════════════════════════════════════════════════
+           MODERN LUXE  ·  White + Gold
+           Clean white bar with true-gold accents and the gold crown
+           crest. Dark charcoal type on white; text turns white only
+           while the header floats transparent over the hero, then the
+           bar condenses to solid white on scroll.
+        ══════════════════════════════════════════════════════════ */
+        :root {
+            --lux-paper:    #ffffff;   /* white header ground */
+            --lux-ink:      #161426;   /* warm near-black text */
+            --lux-ink-dim:  #8a8378;   /* muted label text */
+            --lux-gold:     #161426;   /* true gold, matched to the logo (a touch deeper so it reads on white) */
+            --lux-gold-lt:  #161426;
+            --lux-gold-dk:  #161426;
+            --lux-line:     rgba(22,20,38,0.10);   /* hairline on white */
+            --lux-line-g:   rgba(22,20,38,0.28); /* gold hairline */
+        }
+
+        /* Gold signature hairline at the very top */
+        .zq-header::before {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--lux-gold-dk) 22%, var(--lux-gold-lt) 50%, var(--lux-gold-dk) 78%, transparent);
+            opacity: 0.85;
+        }
+
+        /* ── White bar, generous height ── */
+        .zq-header {
+            background: var(--lux-paper);
+            transition: background 0.4s ease, box-shadow 0.4s ease;
+        }
+        .zq-header-inner {
+            height: 82px;
+            gap: 1.5rem;
+            border-bottom: 1px solid var(--lux-line);
+        }
+        @media (max-width: 1199px) { .zq-header-inner { height: 74px; } }
+        @media (max-width: 767px)  { .zq-header-inner { height: 62px; } }
+
+        /* ── AGA Collections wordmark — muted default, gold on hover (mirrors search trigger) ── */
+        .dc-brand-wordmark {
+            font-family: 'Arimo', Arial, sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            text-decoration: none;
+            line-height: 1;
+            color: #4a4744;
+            transition: color 0.2s;
+        }
+        .dc-brand-wordmark:hover { color: #161426; }
+        @media (max-width: 1199px) { .dc-brand-wordmark { font-size: 0.9rem; } }
+        @media (max-width: 767px)  { .dc-brand-wordmark { font-size: 0.8rem; } }
+
+        /* ── Text wordmark: AGA Collections ── */
+        .dc-wordmark {
+            font-family: var(--body-font, 'Arimo', sans-serif);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--lux-ink);
+            text-decoration: none;
+            line-height: 1;
+            padding-left: 0.24em;   /* optical-center the tracked text */
+            white-space: nowrap;
+            transition: color 0.25s, opacity 0.25s;
+        }
+        .dc-wordmark:hover { opacity: 0.7; }
+        @media (max-width: 1199px) { .dc-wordmark { font-size: 1.3rem; letter-spacing: 0.2em; } }
+        @media (max-width: 767px)  { .dc-wordmark { font-size: 1.1rem; letter-spacing: 0.16em; } }
+        @media (max-width: 360px)  { .dc-wordmark { font-size: 0.95rem; letter-spacing: 0.12em; } }
+
+        /* Over the hero: full white */
+        .zq-header.dc-overlay:not(.is-solid) .dc-wordmark { color: #fff; }
+
+        /* ── Menu / Search — charcoal, wide tracking, gold on hover ── */
+        .dc-menu-label,
+        .dc-search-trigger {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            font-weight: 500;
+            color: var(--lux-ink);
+        }
+        .dc-search-trigger i,
+        .dc-search-trigger { color: var(--lux-ink); }
+        .dc-menu-btn:hover .dc-menu-label,
+        .dc-search-trigger:hover,
+        .dc-search-trigger:hover i { color: var(--lux-gold); opacity: 1; }
+        .dc-menu-btn span { background: var(--lux-ink); }
+        .dc-menu-btn:hover .ln-a,
+        .dc-menu-btn:hover .ln-b,
+        .dc-menu-btn:hover .ln-c { background: var(--lux-gold); width: 22px; }
+
+        /* ── Icons — charcoal, gold on hover ── */
+        .dc-hbtn { color: var(--lux-ink); }
+        .dc-hbtn:hover { color: var(--lux-gold); opacity: 1; }
+        .dc-icon-label { color: var(--lux-ink-dim); letter-spacing: 0.2em; }
+        .dc-hbtn:hover .dc-icon-label { color: var(--lux-gold); }
+        .dc-hdr-sep { background: rgba(22,20,38,0.16); }
+
+        /* ── Cart badge — gold ── */
+        .dc-cart-badge,
+        .dc-hbtn:hover .dc-cart-badge {
+            background: linear-gradient(135deg, var(--lux-gold-lt), var(--lux-gold-dk));
+            color: #fff;
+            font-weight: 700;
+        }
+
+        /* ── Nav strip — charcoal text, gold hairline underline ── */
+        .dc-nav-strip { background: transparent; gap: 0.4rem; padding-top: 2px; }
+        .dc-nav-strip .dc-nav-item > a {
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            font-weight: 500;
+            color: var(--lux-ink);
+            padding: 15px 20px;
+        }
+        .dc-nav-strip .dc-nav-item > a::after {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--lux-gold), transparent);
+        }
+        .dc-nav-strip .dc-nav-item > a:hover { color: var(--lux-gold); }
+
+        /* Dropdown — white panel, gold accents */
+        .dc-nav-dropdown {
+            background: var(--lux-paper);
+            border: 1px solid var(--lux-line);
+            border-top: 2px solid var(--lux-gold);
+            box-shadow: 0 24px 60px rgba(22,20,38,0.14);
+        }
+        .dc-nav-dropdown a {
+            color: var(--lux-ink) !important;
+            border-bottom: 1px solid var(--lux-line);
+        }
+        .dc-nav-dropdown a:hover {
+            color: var(--lux-gold) !important;
+            background: rgba(22,20,38,0.06) !important;
+        }
+        .dc-nav-dropdown a img { border-color: var(--lux-line); }
+
+        /* ── Transparent over the hero (homepage, before scroll) ── */
+        .zq-header.dc-overlay { background: #ffffff; }
+        .zq-header.dc-overlay:not(.is-solid) { box-shadow: 0 1px 0 rgba(22,20,38,0.10); }
+        .zq-header.dc-overlay:not(.is-solid) .zq-header-inner {
+            border-bottom-color: rgba(22,20,38,0.10);
+        }
+        /* No dark scrim needed since header is white */
+        .zq-header.dc-overlay:not(.is-solid)::after { display: none; }
+        /* Keep all text/icons charcoal black over white header */
+        .zq-header.dc-overlay:not(.is-solid) .dc-menu-label,
+        .zq-header.dc-overlay:not(.is-solid) .dc-search-trigger,
+        .zq-header.dc-overlay:not(.is-solid) .dc-search-trigger i,
+        .zq-header.dc-overlay:not(.is-solid) .dc-hbtn,
+        .zq-header.dc-overlay:not(.is-solid) .dc-nav-strip .dc-nav-item > a { color: #161426; }
+        .zq-header.dc-overlay:not(.is-solid) .dc-icon-label { color: #6e6c80; }
+        .zq-header.dc-overlay:not(.is-solid) .dc-menu-btn span { background: #161426; }
+        .zq-header.dc-overlay:not(.is-solid) .dc-hdr-sep { background: rgba(22,20,38,0.16); }
+        .zq-header.dc-overlay:not(.is-solid) .dc-hbtn:hover,
+        .zq-header.dc-overlay:not(.is-solid) .dc-search-trigger:hover,
+        .zq-header.dc-overlay:not(.is-solid) .dc-menu-btn:hover .dc-menu-label { color: #161426; }
+        /* Logo stays normal (no white filter needed) */
+        .zq-header.dc-overlay:not(.is-solid) .zq-header-logo img { filter: none; }
+
+        /* ── Solid state after scroll — NON-overlay pages only.
+           The homepage overlay header stays transparent the whole way down. ── */
+        .zq-header.is-sticky:not(.dc-overlay) {
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 8px 30px rgba(22,20,38,0.09);
+            -webkit-backdrop-filter: blur(14px);
+            backdrop-filter: blur(14px);
+        }
+        .zq-header.is-sticky:not(.dc-overlay) .zq-header-inner { border-bottom-color: var(--lux-line); }
+
+        /* ── Mobile search pill — light, gold icon ── */
+        .dc-mobile-search-pill {
+            background: #f7f7fa;
+            border: 1px solid var(--lux-line-g);
+            color: var(--lux-ink-dim);
+        }
+        .dc-mobile-search-pill i { color: var(--lux-gold); }
+        .dc-mobile-search-pill:hover { background: #f1f1f5; border-color: var(--lux-gold); }
+        /* Over the hero on mobile, the pill reads as a glass outline */
+        .zq-header.dc-overlay:not(.is-solid) .dc-mobile-search-pill {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.4);
+            color: rgba(255,255,255,0.9);
+        }
+        .zq-header.dc-overlay:not(.is-solid) .dc-mobile-search-pill i { color: #fff; }
+
+        /* ── Announcement bar — refined ── */
+        .dc-ann-item { font-weight: 500; letter-spacing: 0.2em; font-size: 0.66rem; }
+        .dc-ann-dot { color: var(--lux-gold-lt); opacity: 0.7; }
+        /* the full line is ~400px wide: drop the tail on phones so it never clips */
+        @media (max-width: 575px) { .zq-ann-more { display: none; } }
+
+        /* ══════════════════════════════════════════════════════════
+           MOBILE SIDE DRAWER — white + gold, matching the header
+        ══════════════════════════════════════════════════════════ */
+        #dcSideDrawer { background: var(--lux-paper); border-right: 1px solid var(--lux-line); }
+        .dc-drawer-header { background: #f8f8fb; }
+        .dc-drawer-logo { background: transparent; padding: 0; }
+        .dc-drawer-logo img { height: 42px; max-width: 170px; }
+        .dc-drawer-section { background: transparent; border-bottom: 1px solid var(--lux-line); }
+        .dc-drawer-section-label { color: var(--lux-gold); }
+        .dc-drawer-section-label::after { background: var(--lux-line); }
+        .dc-drawer-link {
+            color: var(--lux-ink);
+            border-bottom: 1px solid var(--lux-line);
+        }
+        .dc-drawer-link:hover { background: #f7f7fa; color: var(--lux-gold); }
+        .dc-drawer-link .dc-drawer-link-img { border-color: var(--lux-line); }
+        .dc-link-arrow { color: rgba(22,20,38,0.25); }
+        .dc-drawer-link:hover .dc-link-arrow { color: var(--lux-gold); }
+        .dc-drawer-quick a {
+            background: transparent;
+            color: var(--lux-ink);
+            border-bottom: 1px solid var(--lux-line);
+        }
+        .dc-drawer-quick a:hover { background: #f7f7fa; color: var(--lux-gold); }
+        .dc-drawer-quick i { color: var(--lux-gold); }
+        .dc-drawer-footer { background: #f8f8fb; color: var(--lux-ink-dim); }
+        .dc-drawer-footer strong { color: var(--lux-ink); }
+        .dc-drawer-tagline { color: var(--lux-gold); }
+        .dc-drawer-footer-divider { background: var(--lux-line-g); }
+        .dc-drawer-close { border-color: var(--lux-line-g); color: var(--lux-ink); }
+        .dc-drawer-close:hover { background: var(--lux-gold); border-color: var(--lux-gold); color: #fff; }
+        .dc-drawer-header::after {
+            background: linear-gradient(90deg, transparent, var(--lux-gold-lt), transparent);
+        }
+
+        /* ══════════════════════════════════════════════════════════
+           SEARCH OVERLAY — white + gold to match
+        ══════════════════════════════════════════════════════════ */
+        #dcSearchOverlay {
+            --dc-gold:       var(--lux-gold);
+            --dc-gold-lt:    var(--lux-gold-lt);
+            --dc-gold-hover: var(--lux-gold-dk);
+        }
+        .dc-so-backdrop { background: rgba(22,20,38,0.55); }
+        .dc-so-topbar { background: #f8f8fb; border-bottom: 1px solid var(--lux-line); }
+        .dc-so-topbar-brand { color: var(--lux-gold); letter-spacing: 0.36em; }
+        .dc-so-close { border-color: var(--lux-line-g); color: var(--lux-ink); }
+        .dc-so-close:hover { background: var(--lux-gold); border-color: var(--lux-gold); color: #fff; }
+        .dc-esc-key { background: rgba(22,20,38,0.08); color: var(--lux-ink-dim); }
+        .dc-so-submit-btn {
+            background: linear-gradient(135deg, var(--lux-gold-lt), var(--lux-gold-dk));
+            color: #fff;
+            font-weight: 700;
+        }
+        .dc-so-submit-btn:hover { background: var(--lux-gold); }
+        .dc-so-tag:hover { background: var(--lux-gold); border-color: var(--lux-gold); color: #fff; }
+        .dc-so-see-all:hover { background: var(--lux-gold); color: #fff; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .dc-ann-track { animation: none !important; }
+        }
+    

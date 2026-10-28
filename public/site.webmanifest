@@ -1,0 +1,16 @@
+{
+    "name": "AGA Collections",
+    "short_name": "AGA Collections",
+    "description": "Streetwear — Baggy Jeans, Oversized Tees & More — Pakistan",
+    "start_url": "/",
+    "display": "browser",
+    "background_color": "#F5EFE6",
+    "theme_color": "#C8A96A",
+    "icons": [
+        {
+            "src": "/clientside/company_logo/favicon.png",
+            "sizes": "any",
+            "type": "image/png"
+        }
+    ]
+}

@@ -1,0 +1,805 @@
+/* ═══════════════════════════════════════════════════════════
+   AGA Collections — CLIENT-SIDE THEME
+   ┌────────────────────────────────────────────────────────┐
+   │  SINGLE SOURCE OF TRUTH for the whole client-side UI.  │
+   │  To re-theme the site, edit ONLY the variables below   │
+   │  inside the :root block. Everything else uses var().   │
+   └────────────────────────────────────────────────────────┘
+   Fonts:   Fraunces (headings) · Work Sans (logo) · Arimo (body)
+═══════════════════════════════════════════════════════════ */
+
+:root {
+    /* ══════════════════════════════════════════════
+       ACCENT — change these 4 to swap the accent color
+       (currently "Pure Mono" — black + white + grayscale)
+    ══════════════════════════════════════════════ */
+    --dc-accent:      #000000;              /* primary accent — pure black */
+    --dc-accent-dk:   #333333;              /* hover / pressed */
+    --dc-accent-lt:   #f0f0f0;              /* light tint — soft gray */
+    --dc-accent-dim:  rgba(0,0,0,0.06);     /* subtle translucent backgrounds */
+
+    /* ══════════════════════════════════════════════
+       NEUTRALS — pure black & white
+    ══════════════════════════════════════════════ */
+    --dc-black:       #0a0a0a;   /* near-black — footer, headings, primary buttons */
+    --dc-dark:        #1a1a1a;   /* secondary dark */
+    --dc-white:       #FFFFFF;   /* pure white */
+    --dc-cream:       #fafafa;   /* very light gray panel bg */
+    --dc-cream-dark:  #f0f0f0;   /* slightly darker panel */
+    --dc-border:      #e5e5e5;   /* neutral light gray border */
+    --dc-muted:       #737373;   /* mid gray text */
+    --dc-muted-soft:  #a3a3a3;   /* placeholder gray */
+    --dc-form-bg:     #fafafa;   /* input/textarea background */
+
+    /* ══════════════════════════════════════════════
+       STATUS COLORS
+    ══════════════════════════════════════════════ */
+    --dc-error:       #C0392B;   /* error states */
+    --dc-success:     #2d7a4a;   /* success states — Save% pill */
+
+    /* ══════════════════════════════════════════════
+       LEGACY ALIASES — DO NOT hard-code values here.
+       Kept for backward-compat. All existing code that
+       uses --dc-gold, --dc-crimson, etc. keeps working.
+    ══════════════════════════════════════════════ */
+    --dc-gold:        var(--dc-accent);
+    --dc-gold-hover:  var(--dc-accent-dk);
+    --dc-gold-lt:     var(--dc-accent-lt);
+    --dc-gold-dim:    var(--dc-accent-dim);
+    --dc-crimson:     var(--dc-accent);
+    --dc-amber:       var(--dc-accent);
+    --dc-gray:        var(--dc-cream);
+    --ojo-gold:       var(--dc-accent);
+    --ojo-crimson:    var(--dc-accent);
+    --ojo-rose:       var(--dc-black);
+    --ojo-rose-light: var(--dc-cream);
+    --ojo-cream:      var(--dc-cream);
+    --ojo-dark:       var(--dc-dark);
+    --ojo-muted:      var(--dc-muted);
+    --ojo-border:     var(--dc-border);
+    --ojo-footer-bg:  var(--dc-black);
+    --secondary-color: var(--dc-accent);
+
+    /* ══════════════════════════════════════════════
+       TYPOGRAPHY
+    ══════════════════════════════════════════════ */
+    /* Fallbacks are metric-close to the web font so the swap on load
+       doesn't reflow text (reduces CLS). Arimo == Arial metrics. */
+    --heading-font: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --logo-font:    'Work Sans', Arial, sans-serif;
+    --body-font:    'Arimo', Arial, Helvetica, sans-serif;
+
+    /* Bootstrap RGB overrides (auto-derived from accent + black) */
+    --bs-primary-rgb:   0, 0, 0;
+    --bs-secondary-rgb: 10, 10, 10;
+}
+
+/* ── 1. GLOBAL BASE ──────────────────────────────────────── */
+
+body, p, span, a, li, input, button, label, select, textarea {
+    font-family: 'Arimo', sans-serif !important;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-weight: 300 !important;
+    color: #1A1A1A !important;
+}
+
+/* Forms */
+.btn {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    letter-spacing: 0.1em !important;
+}
+.form-control, .form-select {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    background-color: #fafafa !important;
+    color: #1A1A1A !important;
+}
+.form-control::placeholder { color: #9ca3af !important; }
+.form-control:focus, .form-select:focus {
+    border-color: #c97864 !important;
+    box-shadow: 0 0 0 3px rgba(201,120,100,0.12) !important;
+    background-color: #fff !important;
+}
+
+/* ── 2. HEADER ───────────────────────────────────────────── */
+
+.ojo-header {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+.ojo-header.is-sticky {
+    box-shadow: 0 2px 20px rgba(15,15,15,0.08) !important;
+    background: rgba(255,255,255,0.97) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+/* Announcement bar — deep black with gold accent */
+.ojo-announce {
+    background: var(--dc-black) !important;
+    color: #f5f5f5 !important;
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.18em !important;
+    border-bottom: 1px solid rgba(201,120,100,0.25) !important;
+}
+.ojo-announce * { color: #f5f5f5 !important; }
+.ojo-announce strong, .ojo-announce b { color: #c97864 !important; }
+
+/* Navigation strip */
+.ojo-nav-strip { border-top: 1px solid #ededed !important; }
+.ojo-nav-strip a {
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.1em !important;
+    color: #1A1A1A !important;
+    text-transform: uppercase !important;
+    transition: color 0.2s !important;
+    position: relative !important;
+}
+.ojo-nav-strip a::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: -2px !important; left: 0 !important;
+    width: 0 !important; height: 1px !important;
+    background: #c97864 !important;
+    transition: width 0.22s !important;
+}
+.ojo-nav-strip a:hover { color: #c97864 !important; }
+.ojo-nav-strip a:hover::after { width: 100% !important; }
+.ojo-nav-strip a.active-nav { color: #c97864 !important; border-bottom-color: #c97864 !important; }
+
+/* Header icon buttons */
+.ojo-hbtn { color: #1A1A1A !important; transition: color 0.2s, background 0.2s !important; }
+.ojo-hbtn:hover { background: #f5f5f5 !important; color: #c97864 !important; }
+
+/* Cart badge — gold */
+.ojo-cart-badge {
+    background: #c97864 !important;
+    color: #fff !important;
+    border-radius: 0 !important;
+    font-size: 0.6rem !important;
+    font-weight: 700 !important;
+}
+
+/* Search trigger */
+.ojo-search-trigger {
+    color: #6b7280 !important;
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    transition: all 0.2s !important;
+}
+.ojo-search-trigger:hover {
+    border-color: #c97864 !important;
+    color: #1A1A1A !important;
+    background: #f5f5f5 !important;
+}
+
+/* Language button */
+.ojo-lang-btn {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    color: #6b7280 !important;
+    transition: all 0.2s !important;
+}
+.ojo-lang-btn:hover {
+    border-color: #c97864 !important;
+    color: #c97864 !important;
+    background: #f5f5f5 !important;
+}
+
+/* Mobile hamburger lines */
+.ojo-menu-btn span { background: #1A1A1A !important; }
+
+/* Mobile drawer */
+.ojo-drawer-header {
+    background: var(--dc-black) !important;
+    border-bottom: 1px solid rgba(201,120,100,0.2) !important;
+}
+.ojo-drawer-header h5, .ojo-drawer-header .h5 { color: #f5f5f5 !important; }
+.ojo-drawer-close { border-color: rgba(255,255,255,0.15) !important; color: #f5f5f5 !important; }
+.ojo-drawer-close:hover {
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+}
+.ojo-drawer-section { border-bottom: 1px solid #ededed !important; background: #FFFFFF !important; }
+.ojo-drawer-section-label {
+    color: #c97864 !important;
+    font-family: 'Arimo', sans-serif !important;
+    letter-spacing: 0.2em !important;
+    font-size: 0.6rem !important;
+    font-weight: 700 !important;
+}
+.ojo-drawer-link { font-family: 'Arimo', sans-serif !important; color: #1A1A1A !important; }
+.ojo-drawer-link:hover { background: #f5f5f5 !important; color: #c97864 !important; padding-left: 1.25rem !important; }
+.ojo-drawer-quick a {
+    background: #f5f5f5 !important;
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    color: #1A1A1A !important;
+    border: 1px solid #e5e7eb !important;
+    transition: all 0.2s !important;
+}
+.ojo-drawer-quick a:hover { background: #c97864 !important; color: #fff !important; border-color: #c97864 !important; }
+.ojo-drawer-quick i { color: #c97864 !important; }
+.ojo-drawer-footer { background: #f5f5f5 !important; font-family: 'Arimo', sans-serif !important; border-top: 1px solid #e5e7eb !important; }
+
+/* Mega menu */
+.mega_menu_2 {
+    background: #FFFFFF !important;
+    border: 1px solid #ededed !important;
+    border-top: 2px solid #c97864 !important;
+    box-shadow: 0 8px 32px rgba(15,15,15,0.1) !important;
+}
+
+/* ── 3. FOOTER ───────────────────────────────────────────── */
+
+footer.footer_area { background: var(--dc-black) !important; }
+/* .dc-footer keeps its own gradient defined in footer.blade.php */
+footer h5 { font-family: 'Arimo', sans-serif !important; font-weight: 700 !important; }
+.footer-link {
+    color: rgba(245,239,230,0.5) !important;
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.79rem !important;
+    letter-spacing: 0.05em !important;
+    transition: color 0.2s !important;
+}
+.footer-link:hover { color: #c97864 !important; }
+
+/* Back-to-top — fully defined in footer.blade.php */
+
+/* ── 4. PAGE BANNER / BREADCRUMB ─────────────────────────── */
+
+.page-layout {
+    background: #f5f5f5 !important;
+    padding: 60px 0 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+.page-layout::before { display: none !important; }
+.page-title {
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-weight: 300 !important;
+    font-style: italic !important;
+    color: #1A1A1A !important;
+    font-size: clamp(1.8rem, 4vw, 2.8rem) !important;
+}
+.breadcrumb-item a { color: #6b7280 !important; transition: color 0.2s !important; }
+.breadcrumb-item a:hover { color: #c97864 !important; }
+.breadcrumb-item.active { color: #c97864 !important; }
+.breadcrumb-item + .breadcrumb-item::before { color: #e5e7eb !important; }
+
+/* ── 5. SHOP PAGE ────────────────────────────────────────── */
+
+/* Section background */
+.shop-section, .shop-area { background: #f5f5f5 !important; }
+
+.sidebar {
+    background: #FFFFFF !important;
+    border: 1px solid #e5e7eb !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+.widget-title {
+    font-family: 'Arimo', sans-serif !important;
+    font-weight: 700 !important;
+    font-size: 0.65rem !important;
+    letter-spacing: 0.24em !important;
+    text-transform: uppercase !important;
+    color: #c97864 !important;
+    border-bottom: 1px solid #ededed !important;
+    padding-bottom: 10px !important;
+}
+.product-categories li a {
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.8rem !important;
+    color: #6b7280 !important;
+    transition: color 0.2s, padding-left 0.2s !important;
+}
+.product-categories li a:hover,
+.product-categories li a.fw-bold { color: #c97864 !important; padding-left: 6px !important; }
+
+/* Shop top bar */
+.shop-top-bar .form-select {
+    border-radius: 0 !important;
+    border-color: #e5e7eb !important;
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.78rem !important;
+    background-color: #fff !important;
+}
+.shop-top-bar .btn-outline-secondary {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    color: #6b7280 !important;
+    transition: all 0.2s !important;
+}
+.shop-top-bar .btn-outline-secondary:hover {
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+}
+#toggleMobileSidebar {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+}
+
+/* ── 6. PRODUCT CARDS ────────────────────────────────────── */
+
+.product-card {
+    background: #FFFFFF !important;
+    border: none !important;
+    border-radius: 0 !important;
+    transition: box-shadow 0.25s, transform 0.25s !important;
+}
+.product-card:hover {
+    box-shadow: 0 4px 24px rgba(15,15,15,0.08) !important;
+    transform: translateY(-2px) !important;
+}
+.product-card .product-img-swiper {
+    aspect-ratio: 1 / 1 !important;
+    background: #f5f5f5 !important;
+}
+.product-card .fw-semibold {
+    font-family: 'Arimo', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 0.88rem !important;
+    color: #1A1A1A !important;
+}
+.product-card .badge {
+    background: transparent !important;
+    border: none !important;
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.6rem !important;
+    color: #c97864 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    padding: 0 !important;
+}
+.product-card .badge a { color: #c97864 !important; }
+.product-card .p-3 { border-top: none !important; padding: 10px 0 14px !important; }
+.product-card .d-flex.gap-2 {
+    font-family: 'Arimo', sans-serif !important;
+    font-weight: 500 !important;
+    color: #1A1A1A !important;
+}
+/* Product card price — gold accent */
+.product-card .price,
+.product-card [class*="price"] { color: #c97864 !important; font-weight: 600 !important; }
+
+/* Add-to-cart button — gold fill */
+.add-to-cart-btn.btn-dark,
+.product-card .btn-dark {
+    background: #c97864 !important;
+    border: 1.5px solid #c97864 !important;
+    border-radius: 0 !important;
+    color: #fff !important;
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    margin: 0 !important;
+    transition: background 0.22s, border-color 0.22s !important;
+}
+.add-to-cart-btn.btn-dark:hover,
+.product-card .btn-dark:hover {
+    background: #aa5e4c !important;
+    border-color: #aa5e4c !important;
+    color: #fff !important;
+}
+.product-card .btn-secondary {
+    background: #f5f5f5 !important;
+    border-color: #e5e7eb !important;
+    border-radius: 0 !important;
+    color: #9ca3af !important;
+    font-family: 'Arimo', sans-serif !important;
+    margin: 0 !important;
+}
+
+/* Swiper navigation on cards */
+.swiper-button-prev, .swiper-button-next {
+    color: #fff !important;
+    background: rgba(15,15,15,0.35) !important;
+    width: 26px !important; height: 26px !important;
+    border-radius: 0 !important;
+    transition: background 0.2s !important;
+}
+.swiper-button-prev:hover, .swiper-button-next:hover {
+    background: #c97864 !important;
+}
+.swiper-button-prev::after, .swiper-button-next::after { font-size: 10px !important; }
+
+/* Wishlist */
+.wishlist-btn { border-radius: 0 !important; transition: color 0.2s !important; }
+.wishlist-btn:hover { color: #c97864 !important; }
+.wishlist-btn.active { color: #c97864 !important; }
+
+/* New/Sale badge chips */
+.dc-badge-new  { background: #c97864 !important; color: #fff !important; border-radius: 0 !important; }
+.dc-badge-sale { background: #1A1A1A !important; color: #fff !important; border-radius: 0 !important; }
+
+/* ── 7. PRODUCT DETAIL ───────────────────────────────────── */
+
+.pd-breadcrumb a:hover { color: #c97864 !important; }
+.pd-thumb { border-radius: 0 !important; border: 1px solid #e5e7eb !important; }
+.pd-thumb.active, .pd-thumb:hover { border-color: #c97864 !important; }
+.pd-main-img-wrap { border-radius: 0 !important; background: #f5f5f5 !important; }
+.pd-zoom-btn { border-radius: 0 !important; border-color: #e5e7eb !important; }
+.pd-zoom-btn:hover { background: #c97864 !important; border-color: #c97864 !important; color: #fff !important; }
+.pd-eyebrow { color: #c97864 !important; font-family: 'Arimo', sans-serif !important; letter-spacing: 0.2em !important; font-size: 0.6rem !important; text-transform: uppercase !important; font-weight: 600 !important; }
+.pd-title { font-weight: 300 !important; font-style: italic !important; color: #1A1A1A !important; }
+.pd-price { color: #c97864 !important; font-weight: 600 !important; font-size: 1.3rem !important; }
+
+/* Variant / size option buttons */
+.option-btn {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    color: #1A1A1A !important;
+    transition: all 0.2s !important;
+}
+.option-btn:hover { border-color: #c97864 !important; color: #c97864 !important; }
+.option-btn.active,
+.option-btn.btn-primary {
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+}
+
+/* Add-to-cart on PDP — gold */
+.pd-atc-btn {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    transition: background 0.22s, border-color 0.22s !important;
+}
+.pd-atc-btn:hover {
+    background: #aa5e4c !important;
+    border-color: #aa5e4c !important;
+    color: #fff !important;
+}
+
+/* Trust items */
+.pd-trust-item {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    background: #fafafa !important;
+}
+.pd-trust-item i { color: #c97864 !important; }
+
+/* Category badge links */
+.pd-cat-badge {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #e5e7eb !important;
+    color: #6b7280 !important;
+    background: #f5f5f5 !important;
+    transition: all 0.2s !important;
+}
+.pd-cat-badge:hover { border-color: #c97864 !important; color: #c97864 !important; background: rgba(201,120,100,0.08) !important; }
+.pd-social a { border-radius: 0 !important; }
+.pd-related-heading { font-weight: 300 !important; font-style: italic !important; color: #1A1A1A !important; }
+
+/* Tabs on product detail */
+.nav-tabs .nav-link { border-radius: 0 !important; color: #6b7280 !important; font-family: 'Arimo', sans-serif !important; font-size: 0.75rem !important; letter-spacing: 0.1em !important; text-transform: uppercase !important; border-color: transparent !important; }
+.nav-tabs .nav-link.active { color: #c97864 !important; border-bottom: 2px solid #c97864 !important; background: transparent !important; }
+.nav-tabs .nav-link:hover { color: #c97864 !important; }
+.nav-tabs { border-bottom-color: #e5e7eb !important; }
+
+/* ── 8. CART PAGE ────────────────────────────────────────── */
+
+.cart-hero { background: #f5f5f5 !important; }
+.cart-hero::before { display: none !important; }
+.cart-hero h1 { font-weight: 300 !important; font-style: italic !important; color: #1A1A1A !important; }
+.cart-hero-eyebrow { color: #c97864 !important; font-family: 'Arimo', sans-serif !important; letter-spacing: 0.2em !important; }
+.cart-hero-diamond { background: #c97864 !important; border-radius: 0 !important; }
+.cart-panel { border-radius: 0 !important; border-color: #e5e7eb !important; background: #fff !important; }
+.cart-panel-title { font-family: 'Arimo', sans-serif !important; font-weight: 700 !important; color: #1A1A1A !important; letter-spacing: 0.1em !important; text-transform: uppercase !important; font-size: 0.7rem !important; }
+.cart-item-img { border-radius: 0 !important; border: 1px solid #ededed !important; }
+.qty-stepper { border-radius: 0 !important; border-color: #e5e7eb !important; }
+.qty-stepper button:hover { background: #c97864 !important; border-color: #c97864 !important; color: #fff !important; }
+.cart-remove-btn { border-radius: 0 !important; color: #9ca3af !important; }
+.cart-remove-btn:hover { color: #c97864 !important; }
+.cart-summary { border-radius: 0 !important; background: #f5f5f5 !important; border: 1px solid #e5e7eb !important; }
+.cart-summary-title { font-family: 'Arimo', sans-serif !important; font-weight: 700 !important; color: #1A1A1A !important; letter-spacing: 0.1em !important; font-size: 0.7rem !important; text-transform: uppercase !important; }
+.cart-total-label { color: #6b7280 !important; }
+.cart-total-value { color: #c97864 !important; font-weight: 600 !important; }
+
+/* Checkout button — primary gold */
+.cart-checkout-btn {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    transition: background 0.22s, border-color 0.22s !important;
+}
+.cart-checkout-btn:hover {
+    background: #aa5e4c !important;
+    border-color: #aa5e4c !important;
+    color: #fff !important;
+}
+.cart-continue-link { font-family: 'Arimo', sans-serif !important; color: #6b7280 !important; transition: color 0.2s !important; }
+.cart-continue-link:hover { color: #c97864 !important; }
+.cart-empty h4 { font-weight: 300 !important; font-style: italic !important; color: #1A1A1A !important; }
+.coupon-row input { border-radius: 0 !important; border-color: #e5e7eb !important; background: #fafafa !important; }
+.coupon-row input:focus { border-color: #c97864 !important; box-shadow: 0 0 0 3px rgba(201,120,100,0.12) !important; }
+.coupon-row .btn { background: #1A1A1A !important; border-color: #1A1A1A !important; color: #fff !important; border-radius: 0 !important; }
+.coupon-row .btn:hover { background: #c97864 !important; border-color: #c97864 !important; }
+.cart-shipping-bar { border-radius: 0 !important; background: #ededed !important; overflow: hidden !important; }
+.cart-shipping-bar-fill { background: linear-gradient(90deg, #c97864, #f0d5cb) !important; }
+
+/* ── 9. CART SIDEBAR ─────────────────────────────────────── */
+
+.cart__sidebar .btn-dark {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    letter-spacing: 0.14em !important;
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+    transition: background 0.22s !important;
+}
+.cart__sidebar .btn-dark:hover { background: #aa5e4c !important; border-color: #aa5e4c !important; }
+.cart__sidebar .btn-outline-dark { border-radius: 0 !important; font-family: 'Arimo', sans-serif !important; border-color: #1A1A1A !important; }
+.cart__sidebar .btn-outline-dark:hover { background: #c97864 !important; border-color: #c97864 !important; }
+.cart__sidebar .btn-outline-primary {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-color: #c97864 !important;
+    color: #c97864 !important;
+}
+.cart__sidebar .btn-outline-primary:hover { background: #c97864 !important; color: #fff !important; }
+.cart__sidebar .text-primary { color: #c97864 !important; }
+.cart__sidebar svg { stroke: #c97864 !important; }
+
+/* ── 10. MODALS ──────────────────────────────────────────── */
+
+.modal-content { border-radius: 0 !important; border-color: #e5e7eb !important; }
+.modal-header {
+    background: var(--dc-black) !important;
+    border-bottom: 1px solid rgba(201,120,100,0.2) !important;
+}
+.modal-title {
+    font-family: 'Fraunces', serif !important;
+    font-weight: 300 !important;
+    font-style: italic !important;
+    color: #f5f5f5 !important;
+}
+.modal-title i { color: #c97864 !important; }
+.modal-body { background: #fafafa !important; }
+.modal-footer { background: #f5f5f5 !important; border-top: 1px solid #e5e7eb !important; }
+.btn-close { filter: invert(1) !important; opacity: 0.6 !important; }
+.btn-close:hover { opacity: 1 !important; }
+
+/* ── 11. ABOUT & CONTACT ─────────────────────────────────── */
+
+.about-hero {
+    background: #f5f5f5 !important;
+    border-bottom: 1px solid #e5e7eb !important;
+}
+.about-hero h1 { font-weight: 300 !important; font-style: italic !important; color: #1A1A1A !important; }
+.about-hero-eyebrow { color: #c97864 !important; font-family: 'Arimo', sans-serif !important; font-size: 0.6rem !important; letter-spacing: 0.24em !important; text-transform: uppercase !important; font-weight: 600 !important; }
+.about-hero-diamond { background: #c97864 !important; border-radius: 0 !important; }
+.about-values-icon { color: #c97864 !important; }
+
+.contact-hero { background: #f5f5f5 !important; border-bottom: 1px solid #e5e7eb !important; }
+.contact-hero h1 { font-weight: 300 !important; font-style: italic !important; color: #1A1A1A !important; }
+.contact-form .form-control { background: #FFFFFF !important; }
+.contact-form .btn-dark,
+.contact-form button[type="submit"] {
+    border-radius: 0 !important;
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+    font-family: 'Arimo', sans-serif !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    font-size: 0.75rem !important;
+    transition: background 0.22s, border-color 0.22s !important;
+}
+.contact-form .btn-dark:hover,
+.contact-form button[type="submit"]:hover {
+    background: #aa5e4c !important;
+    border-color: #aa5e4c !important;
+    color: #fff !important;
+}
+
+/* ── 12. CHECKOUT / ORDER ────────────────────────────────── */
+
+.checkout-section { background: #f5f5f5 !important; }
+.checkout-card { border-radius: 0 !important; border-color: #e5e7eb !important; background: #fff !important; }
+.checkout-title { color: #c97864 !important; font-family: 'Arimo', sans-serif !important; font-size: 0.65rem !important; letter-spacing: 0.22em !important; text-transform: uppercase !important; font-weight: 700 !important; }
+.order-summary { background: var(--dc-black) !important; color: #f5f5f5 !important; border-radius: 0 !important; }
+.order-summary-title { color: #c97864 !important; font-family: 'Arimo', sans-serif !important; font-size: 0.65rem !important; letter-spacing: 0.22em !important; text-transform: uppercase !important; font-weight: 700 !important; }
+.order-total { color: #c97864 !important; font-weight: 600 !important; }
+.place-order-btn {
+    border-radius: 0 !important;
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+    font-family: 'Arimo', sans-serif !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.2em !important;
+    text-transform: uppercase !important;
+    transition: background 0.22s !important;
+    width: 100% !important;
+    padding: 14px !important;
+}
+.place-order-btn:hover { background: #aa5e4c !important; border-color: #aa5e4c !important; }
+
+/* ── 13. MISC & GLOBAL COMPONENTS ───────────────────────── */
+
+/* Pagination */
+.pagination .page-link {
+    border-radius: 0 !important;
+    border-color: #e5e7eb !important;
+    color: #1A1A1A !important;
+    font-family: 'Arimo', sans-serif !important;
+    background: #fff !important;
+    transition: all 0.2s !important;
+}
+.pagination .page-link:hover {
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+}
+.pagination .page-item.active .page-link {
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+}
+.pagination .page-item.disabled .page-link { color: #e5e7eb !important; }
+
+/* Search overlay */
+.ojo-search-overlay { background: rgba(245,239,230,0.98) !important; backdrop-filter: blur(8px) !important; }
+.ojo-search-input {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    border-bottom-color: #e5e7eb !important;
+    background: transparent !important;
+    color: #1A1A1A !important;
+}
+.ojo-search-input:focus { border-bottom-color: #c97864 !important; }
+.ojo-search-input::placeholder { color: #9ca3af !important; }
+
+/* Toasts & alerts */
+.toast, .alert { border-radius: 0 !important; font-family: 'Arimo', sans-serif !important; }
+.alert-warning {
+    background: #f5f5f5 !important;
+    border-color: rgba(201,120,100,0.35) !important;
+    color: #6b7280 !important;
+    border-left: 3px solid #c97864 !important;
+}
+.alert-success { border-left: 3px solid #c97864 !important; }
+
+/* Quick-view modal content */
+.viewcontent__action .btn-dark {
+    border-radius: 0 !important;
+    font-family: 'Arimo', sans-serif !important;
+    background: #c97864 !important;
+    border-color: #c97864 !important;
+    color: #fff !important;
+    transition: background 0.22s !important;
+}
+.viewcontent__action .btn-dark:hover { background: #aa5e4c !important; border-color: #aa5e4c !important; }
+
+/* Quick-view popup */
+.product-popup .view-background {
+    background: #fafafa !important;
+    border: 1px solid #e5e7eb !important;
+}
+.viewcontent__price h3 { color: #c97864 !important; }
+.viewcontent__footer ul li:first-child { color: #c97864 !important; font-weight: 600 !important; font-size: 0.7rem !important; letter-spacing: 0.12em !important; }
+
+/* Cookie banner */
+#dc-cookie-banner { border-top-color: #c97864 !important; }
+#dc-cookie-accept { background: #c97864 !important; }
+#dc-cookie-accept:hover { background: #aa5e4c !important; }
+#dc-cookie-decline { border-color: rgba(245,239,230,0.3) !important; }
+#dc-cookie-decline:hover { border-color: #c97864 !important; color: #c97864 !important; }
+
+/* WhatsApp float */
+.whatsapp-float { box-shadow: 0 4px 16px rgba(15,15,15,0.15) !important; }
+
+/* Price display */
+.price-original { color: #9ca3af !important; text-decoration: line-through !important; }
+.price-sale { color: #c97864 !important; font-weight: 600 !important; }
+
+/* Section divider */
+section + section { border-top: 1px solid #ededed; }
+
+/* ── 14. MOBILE ──────────────────────────────────────────── */
+
+@media (max-width: 991px) {
+    .ojo-drawer-section { background: #fff !important; }
+}
+
+@media (max-width: 767px) {
+    .page-layout { padding: 40px 0 !important; }
+    .ojo-product-img-wrap { aspect-ratio: 1 / 1 !important; }
+    .cart-summary { margin-top: 24px !important; }
+    .product-card:hover { transform: none !important; }
+
+    /* ══════════════════════════════════════════════════════
+       MOBILE PRODUCT CARD — Universal rules (shop page, search
+       overlay, anywhere partials/product-card.blade.php renders)
+       Uses padding-bottom aspect-ratio hack for max compat.
+    ══════════════════════════════════════════════════════ */
+
+    /* Image wrapper: square, bulletproof aspect ratio */
+    .product-card .product-img-swiper,
+    #dcSearchOverlay .product-img-swiper {
+        position: relative !important;
+        width: 100% !important;
+        height: 0 !important;
+        padding-bottom: 100% !important;
+        aspect-ratio: auto !important;
+        overflow: hidden !important;
+        background: var(--dc-cream) !important;
+    }
+    .product-card .product-img-swiper .swiper-wrapper,
+    #dcSearchOverlay .product-img-swiper .swiper-wrapper {
+        position: absolute !important; inset: 0 !important;
+        width: 100% !important; height: 100% !important;
+    }
+    .product-card .product-img-swiper .swiper-slide,
+    #dcSearchOverlay .product-img-swiper .swiper-slide {
+        width: 100% !important; height: 100% !important;
+    }
+    .product-card .product-img-swiper .swiper-slide a,
+    #dcSearchOverlay .product-img-swiper .swiper-slide a {
+        display: block !important; width: 100% !important; height: 100% !important;
+    }
+    .product-card .product-img-swiper img,
+    #dcSearchOverlay .product-img-swiper img {
+        position: absolute !important; inset: 0 !important;
+        width: 100% !important; height: 100% !important;
+        object-fit: cover !important; display: block !important;
+    }
+    /* Hide swiper navigation arrows on mobile — they look oversized */
+    .product-card .swiper-button-prev,
+    .product-card .swiper-button-next { display: none !important; }
+
+    /* Shrink wishlist heart on mobile */
+    .product-card .wishlist-btn {
+        width: 26px !important; height: 26px !important;
+        font-size: 0.72rem !important; top: 6px !important; right: 6px !important;
+    }
+
+    /* Card-wide: tighten inner paddings + fonts */
+    .product-card .pc-info   { padding: 8px 8px 10px !important; border-top: none !important; }
+    .product-card .pc-category { font-size: 0.52rem !important; letter-spacing: 0.12em !important; margin-bottom: 3px !important; }
+    .product-card .pc-name {
+        font-size: 0.74rem !important; line-height: 1.3 !important; margin-bottom: 5px !important;
+        display: -webkit-box !important; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .product-card .pc-price  { font-size: 0.74rem !important; gap: 5px !important; margin-bottom: 6px !important; flex-wrap: wrap; }
+    .product-card .pc-price span[style*="line-through"] { font-size: 0.65rem !important; }
+    .product-card .pc-stock  { font-size: 0.58rem !important; margin-bottom: 6px !important; }
+    .product-card .pc-cta    { padding: 7px 0 !important; font-size: 0.56rem !important; letter-spacing: 0.12em !important; }
+}
+@media (max-width: 400px) {
+    .product-card .pc-info   { padding: 6px 6px 8px !important; }
+    .product-card .pc-name   { font-size: 0.7rem !important; }
+    .product-card .pc-price  { font-size: 0.7rem !important; }
+}
+
+@media (max-width: 575px) {
+    .page-title { font-size: clamp(1.5rem, 6vw, 2rem) !important; }
+}

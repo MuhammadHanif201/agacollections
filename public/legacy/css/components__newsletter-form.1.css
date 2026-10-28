@@ -1,0 +1,21 @@
+    .btn-spinner {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: 2px solid #fff;
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: spin .6s linear infinite;
+        vertical-align: -2px;
+        margin-right: .5rem;
+    }
+
+    .newsletter-form input[name="email"]::placeholder {
+        color: #8888 !important;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }

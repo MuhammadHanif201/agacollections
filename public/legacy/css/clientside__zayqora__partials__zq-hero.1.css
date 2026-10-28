@@ -1,0 +1,119 @@
+    .zq-hero {
+        position: relative; isolation: isolate; overflow: hidden;
+        height: var(--zq-hero-h, clamp(380px, 62vh, 600px));
+        background: #161426; color: #fff;
+    }
+    .zq-hero-img {
+        position: absolute; inset: 0; z-index: -2;
+        width: 100%; height: 100%; object-fit: cover;
+        animation: zqHeroSettle 9s ease-out both;
+    }
+    .zq-hero-video {
+        position: absolute; inset: 0; z-index: -2;
+        width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
+    }
+    .zq-hero--video .zq-hero-img { z-index: -3; animation: none; }
+    @media (prefers-reduced-motion: reduce) { .zq-hero-video { display: none; } }
+
+    /* homepage: taller hero with a lighter, more premium veil so the video stays vivid */
+    .zq-hero--tall { height: clamp(540px, 88vh, 860px); }
+    .zq-hero--tall .zq-hero-title { font-size: clamp(3rem, 7vw, 6rem); }
+    .zq-hero--tall .zq-hero-sub { font-size: 1rem !important; max-width: 480px; }
+    .zq-hero--tall .zq-hero-btn { background: #fff; color: #161426 !important; border-color: #fff; padding: 16px 40px; }
+    .zq-hero--tall .zq-hero-btn:hover { background: transparent; color: #fff !important; }
+    .zq-hero--video.zq-hero--navy .zq-hero-img { filter: none; }
+    .zq-hero--video.zq-hero--navy .zq-hero-video { filter: saturate(.95) contrast(1.04); }
+    .zq-hero--video.zq-hero--navy::after { opacity: .12; }
+    .zq-hero--video.zq-hero--navy .zq-hero-veil {
+        background:
+            linear-gradient(90deg, rgba(22,20,38,.78) 0%, rgba(22,20,38,.4) 38%, rgba(22,20,38,.05) 70%, rgba(22,20,38,.15) 100%),
+            linear-gradient(to top, rgba(22,20,38,.6) 0%, rgba(22,20,38,0) 40%);
+    }
+    .zq-hero-scroll {
+        position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%);
+        width: 26px; height: 42px; border: 1.5px solid rgba(255,255,255,.7); border-radius: 14px;
+    }
+    .zq-hero-scroll span {
+        position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px;
+        background: #fff; border-radius: 2px; animation: zqScrollDot 1.8s ease-in-out infinite;
+    }
+    @keyframes zqScrollDot { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(14px); } }
+    @keyframes zqHeroSettle { from { transform: scale(1.06); } to { transform: scale(1); } }
+    @media (prefers-reduced-motion: reduce) { .zq-hero-img { animation: none; } }
+
+    /* navy veil: strongest behind the text on the left, clear on the right */
+    .zq-hero-veil {
+        position: absolute; inset: 0; z-index: -1;
+        background:
+            linear-gradient(90deg, rgba(22,20,38,.86) 0%, rgba(22,20,38,.52) 36%, rgba(22,20,38,.12) 68%, rgba(22,20,38,0) 100%),
+            linear-gradient(to top, rgba(22,20,38,.55) 0%, rgba(22,20,38,0) 46%);
+    }
+
+    .zq-hero-inner {
+        height: 100%; max-width: 780px;
+        display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+        padding: 0 clamp(20px, 7vw, 120px);
+    }
+    .zq-hero-crumbs {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 22px;
+        font-size: .62rem !important; letter-spacing: .28em; text-transform: uppercase;
+    }
+    .zq-hero-crumbs a { color: rgba(255,255,255,.62) !important; text-decoration: none !important; transition: color .2s; }
+    .zq-hero-crumbs a:hover { color: #fff !important; }
+    .zq-hero-crumbs span { color: #fff !important; }
+    .zq-hero-crumbs i { font-style: normal; color: rgba(255,255,255,.4); }
+
+    .zq-hero-eyebrow {
+        display: flex; align-items: center; gap: 12px; margin: 0 0 16px;
+        font-size: .66rem !important; letter-spacing: .32em; text-transform: uppercase;
+        color: rgba(255,255,255,.78) !important;
+    }
+    .zq-hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: rgba(255,255,255,.6); flex-shrink: 0; }
+
+    .zq-hero .zq-hero-title {
+        margin: 0; color: #fff !important;
+        font-family: var(--heading-font) !important; font-weight: 300 !important; font-style: italic;
+        font-size: clamp(2.6rem, 5.4vw, 4.8rem); line-height: 1.02; letter-spacing: -.02em;
+        text-shadow: 0 2px 24px rgba(0,0,0,.22);
+    }
+    .zq-hero-sub {
+        margin: 18px 0 0; max-width: 440px;
+        font-size: .92rem !important; line-height: 1.65; color: rgba(255,255,255,.82) !important;
+    }
+    .zq-hero-btn {
+        margin-top: 30px; display: inline-flex; align-items: center; gap: 10px;
+        padding: 14px 34px; border: 1px solid rgba(255,255,255,.9);
+        font-size: .68rem !important; letter-spacing: .24em; text-transform: uppercase;
+        color: #fff !important; text-decoration: none !important;
+        transition: background .25s, color .25s;
+    }
+    .zq-hero-btn::after { content: '\2192'; letter-spacing: 0; transition: transform .2s; }
+    .zq-hero-btn:hover { background: #fff; color: #161426 !important; }
+    .zq-hero-btn:hover::after { transform: translateX(4px); }
+
+    /* navy tone: mutes the photo's own colours (e.g. green outdoors) and washes it into the theme navy,
+       darker at both edges, so the background reads as #161426 while the product stays readable */
+    .zq-hero--navy .zq-hero-img { filter: saturate(.62) brightness(.9) contrast(1.05); }
+    .zq-hero--navy .zq-hero-veil {
+        background:
+            linear-gradient(90deg, rgba(22,20,38,.92) 0%, rgba(22,20,38,.62) 34%, rgba(22,20,38,.22) 55%, rgba(22,20,38,.4) 80%, rgba(22,20,38,.82) 100%),
+            linear-gradient(to top, rgba(22,20,38,.62) 0%, rgba(22,20,38,0) 50%),
+            rgba(22,20,38,.16);
+    }
+    .zq-hero--navy::after {
+        content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+        background: #232046; mix-blend-mode: color; opacity: .26;
+    }
+
+    @media (max-width: 767px) {
+        .zq-hero--navy .zq-hero-veil { background: linear-gradient(to top, rgba(22,20,38,.92) 0%, rgba(22,20,38,.55) 50%, rgba(22,20,38,.3) 100%); }
+        .zq-hero-veil { background: linear-gradient(to top, rgba(22,20,38,.9) 0%, rgba(22,20,38,.5) 50%, rgba(22,20,38,.12) 100%); }
+        .zq-hero-inner { justify-content: flex-end; padding: 0 22px 44px; }
+        .zq-hero .zq-hero-title { font-size: clamp(2.1rem, 9vw, 2.8rem); }
+        .zq-hero-sub { font-size: .85rem !important; }
+        .zq-hero-btn { margin-top: 24px; }
+        .zq-hero--tall { height: clamp(520px, 86vh, 700px); }
+        .zq-hero--tall .zq-hero-title { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+        .zq-hero--video.zq-hero--navy .zq-hero-veil { background: linear-gradient(to top, rgba(22,20,38,.85) 0%, rgba(22,20,38,.4) 55%, rgba(22,20,38,.1) 100%); }
+        .zq-hero-scroll { display: none; }
+    }

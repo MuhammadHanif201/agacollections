@@ -1,0 +1,257 @@
+// Port of resources/views/adminside/slider/index.blade.php
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, prefer-const */
+import { html, raw, bladeJson } from '@/lib/admin/html';
+import { errors as errorBag, route, asset, session, csrf_field, method_field, count, empty, min, optional, Str, foreach } from '@/lib/admin/php';
+
+export default function view(d: any) {
+  const errors = errorBag();
+  const companySetting = d.companySetting ?? null;
+  let { sliders } = d;
+
+  return {
+    title: html`<title>Sliders — ${optional(companySetting)?.name ?? 'AGA Collections'} Admin</title>
+<meta name="description" content="Manage the homepage hero sliders — images, captions, CTAs and order for ${optional(companySetting)?.name ?? 'AGA Collections'}.">
+<meta name="keywords" content="sliders, hero banner, homepage banner, carousel, slideshow, aga collections admin">
+`,
+    styles: html``,
+    content: html`
+<style>
+.sl-page { padding: 32px 32px 72px; }
+
+/* Hero */
+.sl-hero {
+    background: linear-gradient(135deg, #111111 0%, #1E3A5F 60%, #2A2A2A 100%);
+    border-radius: 22px; padding: 28px 32px;
+    position: relative; overflow: hidden; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.sl-hero::before {
+    content: ''; position: absolute; inset: 0; opacity: .07;
+    background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+    background-size: 28px 28px;
+}
+.sl-hero-body { position: relative; z-index: 1; display: flex; align-items: center; gap: 18px; }
+.sl-hero-ico {
+    width: 52px; height: 52px; border-radius: 15px; flex-shrink: 0;
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(8px); display: flex; align-items: center;
+    justify-content: center; font-size: 1.3rem; color: #fff;
+}
+.sl-hero-title { font-size: 1.4rem; font-weight: 800; color: #fff; margin: 0; }
+.sl-hero-sub   { font-size: .8rem; color: rgba(255,255,255,.55); margin: 3px 0 0; }
+.sl-hero-btn {
+    position: relative; z-index: 1;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.25);
+    color: #fff !important; border-radius: 12px; padding: 10px 20px;
+    font-size: .84rem; font-weight: 700; text-decoration: none !important;
+    transition: all .2s; backdrop-filter: blur(8px);
+}
+.sl-hero-btn:hover { background: rgba(255,255,255,.25); }
+
+/* Stats */
+.sl-stats { display: flex; gap: 14px; margin-bottom: 24px; flex-wrap: wrap; }
+.sl-stat {
+    flex: 1; min-width: 130px; background: #fff; border: 1px solid #E8EDF5;
+    border-radius: 16px; padding: 16px 20px;
+    box-shadow: 0 2px 10px rgba(15,23,42,.05);
+}
+.sl-stat-val { font-size: 1.6rem; font-weight: 800; color: #111111; line-height: 1; }
+.sl-stat-lbl { font-size: .74rem; color: #A3A3A3; font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: .07em; }
+
+/* Card */
+.sl-card {
+    background: #fff; border: 1px solid #E8EDF5;
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 2px 16px rgba(15,23,42,.06);
+}
+.sl-card-hd {
+    padding: 16px 24px; border-bottom: 1px solid #F4F4F4;
+    display: flex; align-items: center; justify-content: space-between;
+    background: #FAFBFE;
+}
+.sl-card-hd-left { display: flex; align-items: center; gap: 10px; }
+.sl-card-hd-ico {
+    width: 32px; height: 32px; border-radius: 9px;
+    background: rgba(17,17,17,.1); color: #111111;
+    display: flex; align-items: center; justify-content: center; font-size: .8rem;
+}
+.sl-card-hd-title { font-size: .78rem; font-weight: 700; color: #374151; text-transform: uppercase; letter-spacing: .1em; }
+
+/* Table */
+.sl-table { width: 100%; border-collapse: collapse; }
+.sl-table th {
+    padding: 11px 16px; font-size: .72rem; font-weight: 700;
+    color: #737373; text-transform: uppercase; letter-spacing: .08em;
+    border-bottom: 1.5px solid #F4F4F4; background: #FAFBFE; white-space: nowrap;
+}
+.sl-table td {
+    padding: 14px 16px; font-size: .85rem; color: #1C1C1C;
+    border-bottom: 1px solid #FAFAFA; vertical-align: middle;
+}
+.sl-table tbody tr:hover td { background: #FAFAFA; }
+.sl-table tbody tr:last-child td { border-bottom: none; }
+
+/* Image thumb */
+.sl-thumb {
+    width: 100px; height: 56px; object-fit: cover;
+    border-radius: 10px; border: 1.5px solid #E5E5E5;
+    display: block;
+}
+
+/* Status badge */
+.sl-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 20px; font-size: .72rem; font-weight: 700;
+}
+.sl-badge-active   { background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; }
+.sl-badge-inactive { background: #FAFAFA; color: #737373; border: 1px solid #E5E5E5; }
+
+/* Position pill */
+.sl-pos {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 8px;
+    background: #F3F0E9; color: #2A2A2A; font-size: .8rem; font-weight: 800;
+    border: 1.5px solid #DDD7CB;
+}
+
+/* Actions */
+.sl-action-edit {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 8px;
+    background: #F3F0E9; border: 1.5px solid #DDD7CB; color: #2A2A2A !important;
+    font-size: .78rem; font-weight: 700; text-decoration: none !important;
+    transition: all .15s;
+}
+.sl-action-edit:hover { background: #E9E4D9; }
+.sl-action-del {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 8px;
+    background: #FEF2F2; border: 1.5px solid #FECACA; color: #EF4444;
+    font-size: .78rem; font-weight: 700; cursor: pointer;
+    transition: all .15s;
+}
+.sl-action-del:hover { background: #EF4444; color: #fff; border-color: #EF4444; }
+
+/* Empty */
+.sl-empty { text-align: center; padding: 56px 24px; }
+.sl-empty-ico {
+    width: 64px; height: 64px; border-radius: 18px;
+    background: #F4F4F4; display: flex; align-items: center; justify-content: center;
+    font-size: 1.6rem; color: #A3A3A3; margin: 0 auto 12px;
+}
+
+/* Flash */
+.sl-flash-ok  { background:#F0FDF4;border:1.5px solid #86EFAC;border-radius:12px;padding:13px 18px;margin-bottom:20px;font-size:.84rem;color:#166534;display:flex;align-items:center;gap:9px; }
+.sl-flash-err { background:#FEF2F2;border:1.5px solid #FCA5A5;border-radius:12px;padding:13px 18px;margin-bottom:20px;font-size:.84rem;color:#991B1B;display:flex;align-items:center;gap:9px; }
+</style>
+
+<div class="content-wrapper">
+<div class="sl-page">
+
+    
+    <div class="sl-hero">
+        <div class="sl-hero-body">
+            <div class="sl-hero-ico"><i class="fas fa-images"></i></div>
+            <div>
+                <h1 class="sl-hero-title">Sliders</h1>
+                <p class="sl-hero-sub">Manage homepage hero banners and their display order.</p>
+            </div>
+        </div>
+        <a href="${route('admin.slider.create')}" class="sl-hero-btn">
+            <i class="fas fa-plus"></i> Add Slider
+        </a>
+    </div>
+
+    
+    ${(session('success')) ? html`    <div class="sl-flash-ok"><i class="fas fa-circle-check"></i> ${session('success')}</div>
+    ` : ''}    ${(session('error')) ? html`    <div class="sl-flash-err"><i class="fas fa-triangle-exclamation"></i> ${session('error')}</div>
+    ` : ''}
+    
+    <div class="sl-stats">
+        <div class="sl-stat">
+            <div class="sl-stat-val">${sliders?.count()}</div>
+            <div class="sl-stat-lbl">Total Sliders</div>
+        </div>
+        <div class="sl-stat">
+            <div class="sl-stat-val" style="color:#16A34A;">${sliders?.where('status','active')?.count()}</div>
+            <div class="sl-stat-lbl">Active</div>
+        </div>
+        <div class="sl-stat">
+            <div class="sl-stat-val" style="color:#A3A3A3;">${sliders?.where('status','inactive')?.count()}</div>
+            <div class="sl-stat-lbl">Inactive</div>
+        </div>
+    </div>
+
+    
+    <div class="sl-card">
+        <div class="sl-card-hd">
+            <div class="sl-card-hd-left">
+                <div class="sl-card-hd-ico"><i class="fas fa-table-list"></i></div>
+                <div class="sl-card-hd-title">All Sliders</div>
+            </div>
+        </div>
+        <div style="overflow-x:auto;">
+            <table class="sl-table">
+                <thead>
+                    <tr>
+                        <th style="width:120px;">Preview</th>
+                        <th>Title</th>
+                        <th>Subtitle</th>
+                        <th style="width:80px;">Position</th>
+                        <th style="width:100px;">Status</th>
+                        <th style="width:140px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${count(sliders) ? foreach(sliders, (slider, loop) => html`                    <tr>
+                        <td>
+                            <img src="${asset('storage/'  +  (slider?.image ?? ''))}" class="sl-thumb" alt="">
+                        </td>
+                        <td>
+                            <div style="font-weight:700;color:#111111;">${slider?.title_en  ||  '—'}</div>
+                            ${(slider?.link) ? html`                            <div style="font-size:.74rem;color:#A3A3A3;margin-top:3px;"><i class="fas fa-link" style="margin-right:3px;"></i>${Str.limit(slider?.link, 40)}</div>
+                            ` : ''}                        </td>
+                        <td style="color:#737373;">${slider?.subtitle  ||  '—'}</td>
+                        <td><span class="sl-pos">${slider?.position}</span></td>
+                        <td>
+                            ${(slider?.status === 'active') ? html`                            <span class="sl-badge sl-badge-active"><i class="fas fa-circle" style="font-size:.45rem;"></i> Active</span>
+                            ` : html`                            <span class="sl-badge sl-badge-inactive"><i class="fas fa-circle" style="font-size:.45rem;"></i> Inactive</span>
+                            `}                        </td>
+                        <td>
+                            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                                <a href="${route('admin.slider.edit', slider?.id)}" class="sl-action-edit">
+                                    <i class="fas fa-pen"></i> Edit
+                                </a>
+                                <form action="${route('admin.slider.destroy', slider?.id)}" method="POST"
+                                    onsubmit="return confirm('Delete this slider?');" style="margin:0;">
+                                    ${csrf_field()} ${method_field('DELETE')}                                    <button type="submit" class="sl-action-del" style="border:none;font-family:inherit;">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    `) : html`                    <tr>
+                        <td colspan="6">
+                            <div class="sl-empty">
+                                <div class="sl-empty-ico"><i class="fas fa-images"></i></div>
+                                <div style="font-size:.95rem;font-weight:700;color:#374151;margin-bottom:6px;">No sliders yet</div>
+                                <div style="font-size:.82rem;color:#A3A3A3;margin-bottom:16px;">Add your first homepage banner.</div>
+                                <a href="${route('admin.slider.create')}" class="sl-hero-btn" style="background:linear-gradient(135deg,#2A2A2A,#111111);border:none;box-shadow:0 4px 14px rgba(17,17,17,.35);">
+                                    <i class="fas fa-plus"></i> Add Slider
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    `}                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+`,
+    scripts: html``,
+  };
+}

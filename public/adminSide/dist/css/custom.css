@@ -1,0 +1,178 @@
+/* ============================================================
+   AGA Collections — Admin Custom CSS
+   Overrides & utilities on top of the main theme
+   ============================================================ */
+
+/* ── Submit button ── */
+.btn-submit {
+    background: linear-gradient(135deg, #D4154B 0%, #8B1A4A 100%);
+    color: #fff !important;
+    border: none !important;
+    border-radius: 9px !important;
+    font-weight: 600;
+    transition: filter .2s ease, transform .1s ease, box-shadow .2s ease;
+    box-shadow: 0 4px 14px rgba(212,21,75,.25);
+}
+.btn-submit:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(212,21,75,.30);
+    color: #fff !important;
+}
+.btn-submit:active { transform: translateY(0); }
+
+/* ── Custom radius button ── */
+.btn-custom-radius {
+    border-radius: 9px !important;
+    font-weight: 500 !important;
+    transition: all .15s ease !important;
+    padding: 8px 18px !important;
+    border: none !important;
+    color: #fff !important;
+}
+.btn-custom-radius:hover,
+.btn-custom-radius:focus {
+    filter: brightness(1.07) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,.12) !important;
+    transform: translateY(-1px) !important;
+    color: #fff !important;
+}
+
+/* ── Table cells ── */
+th, td {
+    border: 1px solid #EAEAEE;
+    padding: 10px 14px;
+    text-align: center;
+}
+
+/* ── Modal header ── */
+.modal-header {
+    background: #0D0D12;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.modal-header .btn-close {
+    filter: invert(1) grayscale(1) brightness(2);
+}
+.modal-footer {
+    background: #FAFAFC;
+    border-top: 1px solid #EAEAEE;
+}
+
+/* ── Product detail rows ── */
+.product-detail-row {
+    border-bottom: 1px solid #EAEAEE;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+.product-detail-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* ── Datepicker z-index fix ── */
+.datepicker { z-index: 10000 !important; }
+
+/* ── Input placeholder ── */
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="search"]::placeholder { color: #B0B0C0; }
+
+/* ── DataTables wrapper cleanup ── */
+.dataTables_wrapper .dataTables_filter input {
+    border-radius: 9px !important;
+    border: 1.5px solid #D8D8E0 !important;
+    padding: .35rem .75rem !important;
+    font-size: .8375rem !important;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #D4154B !important;
+    box-shadow: 0 0 0 3px rgba(212,21,75,.10) !important;
+}
+.dataTables_wrapper .dataTables_length select {
+    border-radius: 9px !important;
+    border: 1.5px solid #D8D8E0 !important;
+    padding: .3rem .6rem !important;
+    font-size: .8375rem !important;
+}
+.dataTables_wrapper .dataTables_info { font-size: .78rem; color: #9090A8; }
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: 8px !important;
+    font-size: .8rem !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #D4154B !important;
+    border-color: #D4154B !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #fde8ef !important;
+    border-color: #fde8ef !important;
+    color: #D4154B !important;
+}
+
+/* ── Select2 custom sizing ── */
+.select2-container--default .select2-selection--single {
+    height: calc(1.5em + .75rem + 4px) !important;
+    padding: .375rem .75rem !important;
+    border-radius: 9px !important;
+    border: 1.5px solid #D8D8E0 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 1.5 !important;
+    color: #111118;
+    padding: 0 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 100% !important;
+}
+.select2-dropdown {
+    border-radius: 10px !important;
+    border: 1.5px solid #D8D8E0 !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08) !important;
+    overflow: hidden;
+}
+.select2-container--default .select2-results__option--highlighted {
+    background: #D4154B !important;
+}
+
+/* ── Toastr overrides ── */
+#toast-container .toast {
+    border-radius: 12px !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: .875rem !important;
+    opacity: 1 !important;
+}
+#toast-container .toast-success { background: #10A85A !important; }
+#toast-container .toast-error   { background: #E03040 !important; }
+#toast-container .toast-warning { background: #F0960A !important; }
+
+/* ── Status badge pill ── */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: .28rem .7rem;
+    border-radius: 30px;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .02em;
+}
+.status-badge::before {
+    content: '';
+    display: block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .7;
+}
+.status-pending    { background: rgba(240,150,10,.1);  color: #B07000; }
+.status-processing { background: rgba(107,90,232,.1);  color: #5040B0; }
+.status-completed  { background: rgba(16,168,90,.1);   color: #0A8048; }
+.status-cancelled  { background: rgba(224,48,64,.1);   color: #B02030; }
+.status-shipped    { background: rgba(16,140,220,.1);  color: #0A60A8; }

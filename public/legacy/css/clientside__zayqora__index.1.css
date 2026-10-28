@@ -1,0 +1,31 @@
+            /* The header is solid white now, so the hero starts below it like on every other page
+               (the old transparent-header pull-up hid the top 130px of the hero). */
+            #dcHeader.dc-overlay ~ main { margin-top: 0; }
+
+            /* ── AGA Collections homepage refinements ─────────────────────────────
+               White + navy (#161426) theme, centred section headers,
+               equal product cards, outlined buttons. Visual only. */
+            .dc-section-hd { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 20px; }
+            .dc-section-hd-left { flex: none; display: flex; flex-direction: column; align-items: center; }
+            .dc-section-subtitle { justify-content: center; }
+            .dc-section-subtitle::after { content: ''; display: block; width: 24px; height: 1px; background: currentColor; flex-shrink: 0; }
+            @media (max-width: 575px) { .dc-section-subtitle::after { display: none; } }
+            .zq-hd-meta { margin: 14px 0 0; font-size: .62rem !important; letter-spacing: .32em; text-transform: uppercase; color: var(--dc-muted); }
+            .dc-na .dc-section-hd { margin-bottom: 52px; }
+            .dc-na + .dc-section { border-top: 1px solid var(--dc-border); }
+
+            /* product buttons: outlined navy, filled on hover */
+            .dc-na-cta:not(.dc-na-cta--oos) { background: transparent; color: #161426; border: 1px solid #161426; }
+            .dc-na-cta:not(.dc-na-cta--oos):hover { background: #161426; color: #fff; border-color: #161426; }
+            .dc-section .dc-add-cart-btn:not(.disabled) { background: transparent !important; color: #161426 !important; border: 1px solid #161426 !important; }
+            .dc-section .dc-add-cart-btn:not(.disabled):hover { background: #161426 !important; color: #fff !important; border-color: #161426 !important; }
+
+            /* The Collections: the one navy band on the page */
+            .dc-cats { background: #161426; }
+            .dc-cats .dc-section-subtitle, .dc-cats .dc-section-title, .dc-cats .dc-na-showall { color: #fff !important; }
+            .dc-cats .dc-na-showall { border-color: rgba(255,255,255,.7) !important; }
+            .dc-cats .dc-section-subtitle::before, .dc-cats .dc-section-subtitle::after { background: rgba(255,255,255,.55); }
+            .dc-cats .dc-cat-underline { background: #fff !important; }
+            /* category names sit on a dark image veil: keep them light (global h1-h6 rule forces dark) */
+            .dc-cat-tile .dc-cat-name { color: #fff !important; }
+        

@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.env
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.vercel
+# Local test database (npm run dev:db) and a local copy of the uploads
+.devdb/
+public/storage/

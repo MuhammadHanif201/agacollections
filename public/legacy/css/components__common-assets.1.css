@@ -1,0 +1,370 @@
+    :root {
+        --product-card-image-ratio: 0.75;
+
+        /* ============================================
+           ENHANCED OKLCH COLOR SYSTEM WITH CONSTRAINTS
+           ============================================ */
+
+        /* User-controllable values */
+        --brand-primary-hue-oklch: 264.1; /* OKLCH hue (0-360), e.g. 264.1 for blue */
+        --brand-primary-chroma-raw: 0.2; /* User input: color strength/saturation */
+
+        /* Constrain chroma to safe range (0.05 to 0.3) to prevent extremes */
+        --brand-primary-chroma: clamp(0.05, var(--brand-primary-chroma-raw), 0.3);
+
+        /* System-controlled lightness values for consistency and accessibility */
+        --oklch-lightness-solid: 0.4; /* Main solid color */
+        --oklch-lightness-solid-hover: 0.6; /* Solid hover state */
+        --oklch-lightness-subtle: 0.90; /* Subtle/light variant */
+        --oklch-lightness-subtle-hover: 0.95; /* Subtle hover */
+        --oklch-lightness-dark: 0.20; /* Dark variant */
+        --oklch-lightness-dark-hover: 0.3; /* Dark hover */
+        --oklch-lightness-light: 0.95; /* Light variant */
+
+        /* HSL fallback values (for older browsers ~7% of users) */
+        --brand-primary-hue-hsl: 238.4; /* HSL hue (0-360) */
+        --hsl-saturation: 100%; /* HSL saturation */
+        --hsl-lightness-base: 40%; /* Base lightness */
+        --hsl-lightness-hover: 50%; /* Hover lightness */
+        --hsl-lightness-subtle: 90%; /* Subtle background */
+        --hsl-lightness-dark: 15%; /* Dark variant */
+        --hsl-lightness-light: 95%; /* Light variant */
+
+        /* Semantic color tokens with HSL fallbacks (cascade fallback pattern) */
+        /* Browsers that don't support OKLCH will use the HSL values */
+
+        /* Primary solid color */
+        --primary-solid: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        --primary-solid: oklch(
+            var(--oklch-lightness-solid)
+            var(--brand-primary-chroma)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Primary solid hover */
+        --primary-solid-hover: hsl(var(--brand-primary-hue-hsl), 80%, var(--hsl-lightness-hover));
+        --primary-solid-hover: oklch(
+            var(--oklch-lightness-solid-hover)
+            var(--brand-primary-chroma)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Primary subtle (light background) */
+        --primary-subtle: hsl(var(--brand-primary-hue-hsl), 50%, var(--hsl-lightness-light));
+        --primary-subtle: oklch(
+            var(--oklch-lightness-light)
+            calc(var(--brand-primary-chroma) * 0.4)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Primary subtle hover */
+        --primary-subtle-hover: hsl(var(--brand-primary-hue-hsl), 100%, 80%);
+        --primary-subtle-hover: oklch(
+            var(--oklch-lightness-subtle-hover)
+            calc(var(--brand-primary-chroma) * 0.4)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Primary light (very light background) */
+        --primary-light: hsl(var(--brand-primary-hue-hsl), 100%, 98%);
+        --primary-light: oklch(
+            var(--oklch-lightness-light)
+            calc(var(--brand-primary-chroma) * 0.4)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Primary dark variant */
+        --primary-dark: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-dark));
+        --primary-dark: oklch(
+            var(--oklch-lightness-dark)
+            var(--brand-primary-chroma)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Primary dark hover */
+        --primary-dark-hover: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 20%);
+        --primary-dark-hover: oklch(
+            var(--oklch-lightness-dark-hover)
+            var(--brand-primary-chroma)
+            var(--brand-primary-hue-oklch)
+        );
+
+        /* Text colors for contrast */
+        --on-solid: hsl(var(--brand-primary-hue-hsl), 50%, 95%);
+        --on-solid: oklch(0.95 calc(var(--brand-primary-chroma) * 0.3) var(--brand-primary-hue-oklch));
+
+        --on-dark: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 95%);
+        --on-dark: oklch(0.95 calc(var(--brand-primary-chroma) * 0.2) var(--brand-primary-hue-oklch));
+
+        /* Link text colors */
+        --link-text-color: oklch(0.6 var(--brand-primary-chroma) var(--brand-primary-hue-oklch) );
+        --link-text-color-hover: oklch(0.8 var(--brand-primary-chroma) var(--brand-primary-hue-oklch) );
+
+        /* Legacy compatibility aliases */
+        --brand-primary-hue: var(--brand-primary-hue-hsl);
+        --primary-color: var(--primary-solid);
+        --brand-primary-color: var(--primary-solid);
+    }
+    .number {
+        direction: ltr !important;
+        text-align: start;
+
+    }
+    .btn-brand {
+        background-color: var(--primary-color);
+        color: var(--on-solid);
+        border-color: var(--primary-color);
+        &:hover {
+            background-color: var(--primary-color-hover);
+            color: var(--on-solid);
+            border-color: var(--primary-color-hover);
+        }
+    }
+
+    .bg-lighter {
+        background-color: var(--primary-light);
+    }
+
+    .text-brand, .text-solid {
+        color: var(--primary-solid);
+    }
+
+    .text-on-solid {
+        color: var(--on-solid);
+    }
+
+    .text-brand-emphasis {
+        color: var(--primary-dark);
+    }
+
+    .text-on-dark {
+        color: var(--on-dark);
+    }
+
+    /* Button variants with cascading fallbacks */
+    .btn-brand {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), 50%, 95%);
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-solid);
+        color: var(--on-solid);
+        border-color: var(--primary-solid);
+    }
+
+    .btn-brand:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), 80%, var(--hsl-lightness-hover));
+        color: hsl(var(--brand-primary-hue-hsl), 50%, 95%);
+        border-color: hsl(var(--brand-primary-hue-hsl), 80%, var(--hsl-lightness-hover));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-solid-hover);
+        color: var(--on-solid);
+        border-color: var(--primary-solid-hover);
+    }
+
+    .btn-solid {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), 50%, 95%);
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-solid);
+        border-color: transparent;
+        color: var(--on-solid);
+    }
+
+    .btn-solid:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), 80%, var(--hsl-lightness-hover));
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), 50%, 95%);
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-solid-hover);
+        border-color: transparent;
+        color: var(--on-solid);
+    }
+
+    .btn-outline {
+        /* HSL fallback */
+        background-color: transparent;
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: transparent;
+        border-color: var(--primary-solid);
+        color: var(--primary-solid);
+    }
+
+    .btn-outline:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 96%);
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-subtle);
+        border-color: var(--primary-solid);
+        color: var(--primary-solid);
+    }
+
+    .btn-outline-solid {
+        /* HSL fallback */
+        background-color: transparent;
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: transparent;
+        border-color: var(--primary-solid);
+        color: var(--primary-solid);
+    }
+
+    .btn-outline-solid:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-solid);
+        border-color: var(--primary-solid);
+        color: var(--on-solid);
+    }
+
+    .btn-outline-darker {
+        /* HSL fallback */
+        background-color: transparent;
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-dark));
+
+        /* OKLCH (modern browsers) */
+        background-color: transparent;
+        border-color: var(--primary-dark);
+        color: var(--primary-dark);
+    }
+
+    .btn-outline-darker:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        border-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-dark);
+        border-color: var(--primary-solid);
+        color: var(--on-dark);
+    }
+
+    .btn-subtle {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), 50%, var(--hsl-lightness-subtle));
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-subtle);
+        border-color: transparent;
+        color: var(--primary-solid);
+    }
+
+    .btn-subtle:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), 100%, 80%);
+        border-color: var(--primary-solid);
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-subtle-hover);
+        border-color: var(--primary-solid);
+        color: var(--primary-solid);
+    }
+
+    .btn-subtle-dark {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), 50%, var(--hsl-lightness-subtle));
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-dark));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-subtle);
+        border-color: transparent;
+        color: var(--primary-dark);
+    }
+
+    .btn-subtle-dark:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), 100%, 80%);
+        border-color: var(--primary-dark);
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-dark));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-subtle-hover);
+        border-color: var(--primary-dark);
+        color: var(--primary-dark);
+    }
+
+    .btn-ghost {
+        /* HSL fallback */
+        background-color: transparent;
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: transparent;
+        border-color: transparent;
+        color: var(--primary-solid);
+    }
+
+    .btn-ghost:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 90%);
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-base));
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-subtle);
+        border-color: transparent;
+        color: var(--primary-solid);
+    }
+
+    .btn-darker {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), var(--hsl-lightness-dark));
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 95%);
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-dark);
+        border-color: transparent;
+        color: var(--on-dark);
+    }
+
+    .btn-darker:hover {
+        /* HSL fallback */
+        background-color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 20%);
+        border-color: transparent;
+        color: hsl(var(--brand-primary-hue-hsl), var(--hsl-saturation), 95%);
+
+        /* OKLCH (modern browsers) */
+        background-color: var(--primary-dark-hover) !important;
+        border-color: transparent;
+        color: var(--on-dark);
+    }
+
+    .btn-lighter {
+        background-color: var(--primary-light);
+        color: var(--primary-solid);
+        border-color: var(--primary-light);
+    }
+
+    .btn-lighter:hover {
+        /* background-color: var(--primary-light-hover); */
+        border-color: var(--primary-solid-hover);
+    }

@@ -1,0 +1,33 @@
+.zq-reviews { background:#f6f6f9; padding:84px 0; }
+.zq-reviews-hd { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:34px; }
+.zq-reviews-eyebrow { font-size:.62rem; letter-spacing:.3em; text-transform:uppercase; font-weight:700; color:#6e6c80; margin:0 0 8px; }
+.zq-reviews .zq-reviews-title { font-family:var(--heading-font,'Cormorant Garamond',Georgia,serif) !important; font-style:normal !important; font-weight:500 !important; font-size:clamp(1.7rem,3vw,2.4rem) !important; color:#161426 !important; margin:0 !important; line-height:1.1 !important; }
+.zq-reviews-score { display:flex; align-items:center; gap:14px; }
+.zq-reviews-score .num { font-family:var(--heading-font,serif); font-size:3rem; line-height:1; color:#161426; }
+.zq-reviews-score .stars { display:block; color:#161426; letter-spacing:2px; }
+.zq-reviews-score .count { display:block; font-size:.7rem; letter-spacing:.14em; text-transform:uppercase; color:#6e6c80; margin-top:2px; }
+.zq-reviews-track { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; }
+.zq-review { background:#fff; border:1px solid #e6e5ec; padding:26px 24px 22px; display:flex; flex-direction:column; gap:14px; min-width:0; }
+.zq-review .stars { color:#161426; font-size:.92rem; letter-spacing:1px; }
+.zq-review .quote { font-family:var(--heading-font,serif); font-size:1.18rem; line-height:1.5; color:#161426; margin:0; flex:1; }
+.zq-review .quote--muted { color:#6e6c80; font-size:1rem; }
+/* Site-wide rule forces Arimo on p/span with !important; quotes and the score use the serif */
+.zq-reviews .zq-review .quote, .zq-reviews .zq-reviews-score .num { font-family: var(--heading-font,'Cormorant Garamond',Georgia,serif) !important; }
+.zq-review .who { display:flex; align-items:center; gap:10px; font-size:.82rem; }
+.zq-review .avatar { width:34px; height:34px; border-radius:50%; background:#161426; color:#fff; display:inline-flex; align-items:center; justify-content:center; font-weight:700; font-size:.82rem; flex-shrink:0; }
+.zq-review .name { font-weight:700; color:#161426; }
+.zq-review .date { margin-left:auto; color:#6e6c80; font-size:.72rem; }
+.zq-review .product { display:flex; align-items:center; gap:10px; padding-top:14px; border-top:1px solid #eeedf2; color:#45435a; font-size:.78rem; text-decoration:none; }
+.zq-review .product img { width:40px; height:50px; object-fit:cover; background:#f6f6f9; flex-shrink:0; }
+.zq-review .product span { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.zq-review .product:hover { color:#161426; }
+.zq-reviews-cta { margin-top:34px; display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap; padding:22px 26px; background:#fff; border:1px solid #e6e5ec; }
+.zq-reviews-cta p { margin:0; font-size:.9rem; color:#45435a; line-height:1.6; }
+.zq-reviews-btn { display:inline-flex; align-items:center; gap:8px; height:46px; padding:0 22px; background:#161426; color:#fff !important; font-size:.7rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; border:1px solid #161426; transition:background .2s, color .2s; }
+.zq-reviews-btn:hover { background:#fff; color:#161426 !important; }
+@media (max-width:991px) {
+    .zq-reviews { padding:64px 0; }
+    .zq-reviews-track { grid-template-columns:none; grid-auto-flow:column; grid-auto-columns:minmax(78%, 1fr); overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:8px; scrollbar-width:thin; }
+    .zq-review { scroll-snap-align:start; }
+}
+@media (min-width:600px) and (max-width:991px) { .zq-reviews-track { grid-auto-columns:minmax(46%, 1fr); } }

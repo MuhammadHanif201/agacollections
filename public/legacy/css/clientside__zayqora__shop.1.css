@@ -1,0 +1,518 @@
+/* ═══════════════════════════════════════════
+   DC SHOP PAGE — Modern Editorial Layout
+   ═══════════════════════════════════════════ */
+
+.dc-shop { background: #fff; }
+
+/* ── Layout wrap ── */
+.dc-shop-wrap {
+    display: grid;
+    grid-template-columns: 268px 1fr;
+    max-width: 1520px;
+    margin: 0 auto;
+    min-height: 60vh;
+}
+
+/* ════════════════════════════════════════
+   DESKTOP SIDEBAR
+   ════════════════════════════════════════ */
+.dc-shop-sidebar {
+    border-right: 1px solid var(--dc-border);
+    padding: 40px 28px 60px;
+    position: sticky;
+    top: 70px;
+    align-self: start;
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    /* thin custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--dc-border) transparent;
+}
+.dc-shop-sidebar::-webkit-scrollbar { width: 4px; }
+.dc-shop-sidebar::-webkit-scrollbar-track { background: transparent; }
+.dc-shop-sidebar::-webkit-scrollbar-thumb { background: var(--dc-border); border-radius: 2px; }
+
+.dc-sf-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--dc-border);
+}
+.dc-sf-head-label {
+    font-family: var(--body-font);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--dc-dark);
+}
+
+.dc-sf-section { margin-bottom: 32px; }
+.dc-sf-title {
+    font-family: var(--body-font);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--dc-muted);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.dc-sf-cats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.dc-sf-cats li { border-bottom: 1px solid var(--dc-border); }
+.dc-sf-cats li:first-child { border-top: 1px solid var(--dc-border); }
+.dc-sf-cats a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 2px;
+    font-family: var(--body-font);
+    font-size: 0.83rem;
+    color: var(--dc-dark);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s, padding-left 0.2s;
+    gap: 6px;
+}
+.dc-sf-cats a:hover { color: var(--dc-gold); padding-left: 5px; }
+.dc-sf-cats a.is-active {
+    color: var(--dc-gold);
+    font-weight: 600;
+}
+.dc-sf-cats a.is-active::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--dc-gold);
+    flex-shrink: 0;
+}
+.dc-sf-count {
+    font-size: 0.68rem;
+    color: var(--dc-muted);
+    background: var(--dc-cream);
+    padding: 2px 8px;
+    margin-left: auto;
+    flex-shrink: 0;
+    font-family: var(--body-font);
+    letter-spacing: 0.04em;
+    transition: background 0.2s;
+}
+.dc-sf-cats a.is-active .dc-sf-count {
+    background: rgba(22,20,38,0.15);
+    color: var(--dc-gold);
+}
+
+/* Clear link */
+.dc-sf-clear {
+    font-family: var(--body-font);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dc-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+}
+.dc-sf-clear:hover { color: var(--dc-dark); }
+
+/* ════════════════════════════════════════
+   MAIN CONTENT AREA
+   ════════════════════════════════════════ */
+.dc-shop-main {
+    padding: 0 36px 100px;
+    min-width: 0;
+}
+
+/* ── Toolbar ── */
+.dc-shop-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--dc-border);
+    margin-bottom: 24px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.dc-shop-count {
+    font-family: var(--body-font);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dc-muted);
+    white-space: nowrap;
+}
+.dc-shop-count strong { color: var(--dc-dark); font-weight: 600; }
+
+.dc-shop-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Sort select */
+.dc-sort-wrap { position: relative; }
+.dc-sort-wrap::after {
+    content: '';
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--dc-muted);
+    pointer-events: none;
+}
+.dc-sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #fff;
+    border: 1px solid var(--dc-border);
+    font-family: var(--body-font);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--dc-dark);
+    padding: 9px 34px 9px 14px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.dc-sort-select:focus { border-color: var(--dc-gold); }
+
+/* Clear filters button */
+.dc-clear-btn {
+    font-family: var(--body-font);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dc-muted);
+    border: 1px solid var(--dc-border);
+    background: transparent;
+    padding: 8px 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+.dc-clear-btn:hover { border-color: var(--dc-dark); color: var(--dc-dark); }
+
+/* Grid view toggles */
+.dc-grid-btns { display: flex; gap: 2px; }
+.dc-grid-btn {
+    width: 36px; height: 36px;
+    border: 1px solid var(--dc-border);
+    background: transparent;
+    color: var(--dc-muted);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+.dc-grid-btn + .dc-grid-btn { margin-left: -1px; }
+.dc-grid-btn:hover,
+.dc-grid-btn.is-active {
+    border-color: var(--dc-dark);
+    color: var(--dc-dark);
+    background: var(--dc-cream);
+    position: relative; z-index: 1;
+}
+
+/* ── Product grid ── */
+.dc-product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--dc-border);
+    align-items: stretch;
+}
+.dc-product-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.dc-product-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.dc-product-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Each cell stretches to fill its grid area */
+.dc-product-grid-item {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.dc-product-grid-item .product-card {
+    flex: 1;
+    height: 100%;
+}
+
+/* ── Consistent product image ratio in every grid column count ── */
+/* Ratio wrapper — padding-bottom trick works regardless of Swiper JS inline styles */
+.dc-shop .product-img-swiper {
+    position: relative !important;
+    width: 100% !important;
+    height: 0 !important;
+    padding-bottom: 125% !important; /* 4:5 portrait — balanced at 2, 3, 4 cols */
+    overflow: hidden !important;
+    background: var(--dc-cream);
+}
+/* Swiper internals must fill the ratio box */
+.dc-shop .product-img-swiper .swiper-wrapper {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+.dc-shop .product-img-swiper .swiper-slide {
+    height: 100% !important;
+    width: 100% !important;
+}
+.dc-shop .product-img-swiper .swiper-slide a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.dc-shop .product-img-swiper img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+/* Swiper nav arrows — reposition on top of ratio box */
+.dc-shop .product-img-swiper .swiper-button-prev,
+.dc-shop .product-img-swiper .swiper-button-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+/* ── Empty state ── */
+.dc-shop-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    background: #fff;
+}
+.dc-shop-empty-icon {
+    font-size: 2.8rem;
+    color: var(--dc-muted);
+    margin-bottom: 16px;
+    opacity: 0.45;
+}
+.dc-shop-empty-msg {
+    font-family: var(--body-font);
+    color: var(--dc-muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 20px;
+}
+
+/* ── Pagination ── */
+/* ── Category guide text under the grid ── */
+.dc-shop-guide { max-width: 760px; margin: 56px auto 0; padding: 32px 0 0; border-top: 1px solid var(--dc-border); text-align: center; }
+.dc-shop-guide h2 { font-family: var(--heading-font) !important; font-style: normal !important; font-weight: 500 !important; font-size: 1.5rem !important; color: #161426 !important; margin: 0 0 12px !important; text-transform: none; }
+.dc-shop-guide p { font-size: .9rem; line-height: 1.8; color: var(--dc-muted); margin: 0 0 10px; }
+.dc-shop-guide-links { font-size: .8rem !important; letter-spacing: .06em; }
+.dc-shop-guide-links a { color: #161426; border-bottom: 1px solid currentColor; text-decoration: none; }
+.dc-pagination {
+    padding: 44px 0 0;
+    display: flex;
+    justify-content: center;
+}
+.dc-pagination .pagination { gap: 3px; margin: 0; }
+.dc-pagination .page-link {
+    border: 1px solid var(--dc-border) !important;
+    border-radius: 0 !important;
+    color: var(--dc-dark) !important;
+    font-family: var(--body-font) !important;
+    font-size: 0.75rem !important;
+    letter-spacing: 0.06em !important;
+    min-width: 40px;
+    text-align: center;
+    padding: 9px 14px !important;
+    background: #fff !important;
+    transition: all 0.18s !important;
+}
+.dc-pagination .page-item.active .page-link {
+    background: var(--dc-dark) !important;
+    border-color: var(--dc-dark) !important;
+    color: #fff !important;
+}
+.dc-pagination .page-link:hover:not(.active) {
+    background: var(--dc-cream) !important;
+    border-color: var(--dc-cream-dark) !important;
+}
+
+/* ── Hide Swiper nav when only 1 slide ── */
+.dc-shop .swiper-button-lock { display: none !important; }
+.dc-shop .swiper-button-disabled.swiper-button-disabled + .swiper-button-disabled {
+    display: none !important;
+}
+
+/* ════════════════════════════════════════
+   MOBILE FILTER FAB (floating action button)
+   ════════════════════════════════════════ */
+.dc-filter-fab {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999990;
+    background: var(--dc-dark);
+    color: #fff;
+    font-family: var(--body-font);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: none;
+    padding: 13px 30px;
+    cursor: pointer;
+    box-shadow: 0 6px 30px rgba(0,0,0,0.22);
+    align-items: center;
+    gap: 9px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.dc-filter-fab:hover { background: var(--dc-gold); }
+.dc-filter-fab-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--dc-gold);
+    flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   SLIDE-IN DRAWER
+   ════════════════════════════════════════ */
+.dc-drawer-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    /* High enough to clear all theme elements */
+    z-index: 999991;
+    opacity: 0;
+    transition: opacity 0.28s;
+    /* Overlay only covers the area OUTSIDE the drawer */
+    left: 0;
+}
+.dc-drawer-overlay.is-open { display: block; opacity: 1; }
+
+.dc-shop-drawer {
+    position: fixed;
+    top: 0; left: 0;
+    width: min(300px, 88vw);
+    height: 100%;
+    background: #fff;
+    /* Always above the overlay */
+    z-index: 999992;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.32,0,0.16,1);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    /* Ensure drawer content is always interactive */
+    pointer-events: auto;
+}
+.dc-shop-drawer.is-open { transform: translateX(0); }
+
+.dc-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--dc-border);
+    position: sticky; top: 0;
+    background: #fff;
+    z-index: 1;
+    flex-shrink: 0;
+}
+.dc-drawer-head-label {
+    font-family: var(--body-font);
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--dc-dark);
+}
+.dc-drawer-close {
+    width: 34px; height: 34px;
+    border: 1px solid var(--dc-border);
+    background: transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+    color: var(--dc-dark);
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.dc-drawer-close:hover { background: var(--dc-cream); border-color: var(--dc-cream-dark); }
+
+.dc-drawer-body {
+    padding: 24px 20px 40px;
+    flex-grow: 1;
+}
+
+/* ════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════ */
+@media (max-width: 1199px) {
+    .dc-shop-wrap { grid-template-columns: 220px 1fr; }
+    .dc-shop-main { padding: 0 24px 80px; }
+    .dc-shop-sidebar { padding: 32px 18px 60px; top: 60px; max-height: calc(100vh - 60px); }
+}
+@media (max-width: 991px) {
+    .dc-shop-wrap { grid-template-columns: 1fr; }
+    .dc-shop-sidebar { display: none; }
+    .dc-filter-fab { display: flex; }
+    .dc-shop-main { padding: 0 16px 100px; }
+}
+@media (max-width: 767px) {
+    /* On mobile always 2 columns for a proper shop grid */
+    .dc-product-grid,
+    .dc-product-grid.cols-2,
+    .dc-product-grid.cols-3,
+    .dc-product-grid.cols-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 1px !important; }
+    .dc-shop-toolbar { gap: 8px; padding: 12px 0; margin-bottom: 14px; }
+    .dc-grid-btns { display: none !important; }
+    .dc-shop-main { padding: 0 10px 70px; }
+
+    /* Toolbar text — smaller */
+    .dc-shop-count   { font-size: 0.65rem; }
+    .dc-sort-select  { font-size: 0.62rem; padding: 7px 28px 7px 10px; }
+
+    /* Product card internals — tighter on mobile */
+    .dc-product-grid-item { background: #fff; }
+    .dc-product-grid-item .product-card { height: 100%; border-bottom: none !important; }
+    .pc-info        { padding: 10px 10px 12px !important; border-top: none !important; }
+    .pc-category    { font-size: 0.55rem !important; letter-spacing: 0.14em !important; margin-bottom: 4px !important; }
+    .pc-name {
+        font-size: 0.78rem !important;
+        margin-bottom: 6px !important;
+        line-height: 1.35 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    .pc-price       { font-size: 0.78rem !important; gap: 6px !important; margin-bottom: 8px !important; flex-wrap: wrap; }
+    .pc-stock       { font-size: 0.62rem !important; margin-bottom: 8px !important; }
+    .pc-cta         { padding: 9px 0 !important; font-size: 0.6rem !important; letter-spacing: 0.14em !important; }
+}
+@media (max-width: 400px) {
+    .dc-shop-main { padding: 0 6px 60px; }
+    .pc-info      { padding: 8px 8px 10px !important; }
+    .pc-name      { font-size: 0.74rem !important; }
+    .pc-price     { font-size: 0.74rem !important; }
+}

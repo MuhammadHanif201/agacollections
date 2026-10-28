@@ -1,0 +1,23 @@
+        .product-card .product-img-swiper {
+            aspect-ratio: var(--product-card-image-ratio);
+            --swiper-navigation-size: 12px;
+            --swiper-navigation-color: #ddd;
+            --swiper-navigation-hover-color: #fff;
+
+            *[class*="swiper-button"] {
+                width: 1.5rem;
+                height: 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                background-color: transparent;
+                transition: all 0.3s ease;
+            }
+
+            &:hover *[class*="swiper-button"] {
+                background-color: var(--bs-light);
+                color: var(--bs-dark);
+            }
+        }
+    

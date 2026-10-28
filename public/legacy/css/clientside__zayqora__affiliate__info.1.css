@@ -1,0 +1,29 @@
+.aff-page { background: var(--dc-cream, #f8f8fb); padding: 60px 0 80px; }
+.aff-hero { text-align: center; max-width: 760px; margin: 0 auto 40px; padding: 0 16px; }
+.aff-hero h1 { font-family: var(--heading-font); font-style: italic; font-size: clamp(2rem, 5vw, 3rem); color: var(--dc-black); margin: 0 0 14px; }
+.aff-hero p  { font-size: 1.05rem; color: var(--dc-muted); line-height: 1.7; }
+.aff-cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px; }
+.aff-cta { display:inline-flex; align-items:center; gap:10px; padding:12px 28px; font-family:var(--body-font); font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; text-decoration:none; transition:all .2s; border:1.5px solid var(--dc-black); }
+.aff-cta-primary { background: var(--dc-black); color:#fff; }
+.aff-cta-primary:hover { background: var(--dc-accent); border-color: var(--dc-accent); color:#fff; }
+.aff-cta-ghost { color: var(--dc-black); background: transparent; }
+.aff-cta-ghost:hover { background: var(--dc-black); color:#fff; }
+
+.aff-container { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+.aff-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 50px 0; }
+@media (max-width: 991px) { .aff-steps { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 575px) { .aff-steps { grid-template-columns: 1fr; } }
+.aff-step { background:#fff; border:1px solid var(--dc-border); padding: 24px 20px; }
+.aff-step-num { font-family: var(--heading-font); font-style: italic; font-size: 1.6rem; color: var(--dc-accent); margin-bottom: 8px; }
+.aff-step h4 { font-family: var(--body-font); font-size: .95rem; font-weight: 700; margin-bottom: 8px; }
+.aff-step p  { font-size: .85rem; color: var(--dc-muted); margin: 0; line-height: 1.5; }
+
+.aff-section { background:#fff; padding: 36px 32px; margin: 28px 0; border:1px solid var(--dc-border); }
+.aff-section h2 { font-family: var(--heading-font); font-style: italic; font-size: 1.7rem; color: var(--dc-black); margin: 0 0 18px; }
+.aff-list { padding-left: 1.2rem; }
+.aff-list li { margin-bottom: 10px; line-height: 1.65; color:#333; }
+
+.aff-faq details { background:#fff; border:1px solid var(--dc-border); padding: 14px 18px; margin-bottom: 8px; }
+.aff-faq summary { cursor:pointer; font-weight:600; outline: none; }
+.aff-faq summary::marker { color: var(--dc-accent); }
+.aff-faq p { margin: 8px 0 0; color: var(--dc-muted); }

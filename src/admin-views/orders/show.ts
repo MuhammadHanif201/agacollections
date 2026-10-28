@@ -1,0 +1,898 @@
+// Port of resources/views/adminside/orders/show.blade.php
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, prefer-const */
+import { html, raw, bladeJson } from '@/lib/admin/html';
+import { errors as errorBag, route, asset, csrf_token, now, date, number_format, empty, strtoupper, ucfirst, ucwords, str_replace, substr, explode, max, min, e, array_search, optional, entries, foreach, Customer } from '@/lib/admin/php';
+
+export default function view(d: any) {
+  const errors = errorBag();
+  const companySetting = d.companySetting ?? null;
+  let { order, i, isDone, isActive, product, variantModel, optionValues, img, hasOptions } = d;
+  let statusSteps = ['pending', 'processing', 'completed'];
+  let isCancelled = order?.status === 'cancelled';
+  let currentIdx = array_search(order?.status, statusSteps);
+  let productSubtotal = order?.items?.sum((i: any) => i?.price * i?.quantity);
+  // Shipping address: the order's own fields, else the customer's
+  let shipName = order?.contact_name;
+  let shipPhone = order?.contact_phone;
+  let shipEmail = order?.contact_email;
+  let shipAddress = order?.contact_address;
+  let shipCity = order?.contact_city;
+  let shipVilla = order?.shipping_villa || order?.customer?.villa_apartment;
+  return {
+    title: html`<title>Order #${order?.id} — ${optional(companySetting)?.name ?? 'AGA Collections'} Admin</title>
+<meta name="description" content="Order #${order?.id} details, items, customer information, shipping and payment status for ${optional(companySetting)?.name ?? 'AGA Collections'}.">
+<meta name="keywords" content="order detail, invoice, order items, order shipping, order payment, aga collections order, ecommerce admin">
+`,
+    styles: html`<style>
+/* ── Design tokens ──────────────────────────────── */
+:root {
+    --c-bg:       #F0F2F5;
+    --c-surface:  #FFFFFF;
+    --c-border:   #E5E7EB;
+    --c-dark:     #111827;
+    --c-muted:    #6B7280;
+    --c-light:    #9CA3AF;
+    --c-indigo:   #4F46E5;
+    --c-indigo-l: #EEF2FF;
+    --c-green:    #059669;
+    --c-green-l:  #ECFDF5;
+    --c-amber:    #D97706;
+    --c-amber-l:  #FFFBEB;
+    --c-red:      #DC2626;
+    --c-red-l:    #FEF2F2;
+    --c-blue:     #111111;
+    --c-blue-l:   #F3F0E9;
+    --radius-lg:  14px;
+    --radius-md:  10px;
+    --shadow-sm:  0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+    --shadow-md:  0 4px 16px rgba(0,0,0,.07), 0 1px 4px rgba(0,0,0,.05);
+}
+
+/* ── Page shell ─────────────────────────────────── */
+.od-wrap { background: var(--c-bg); min-height: 100vh; padding-bottom: 48px; }
+
+/* ── Hero ───────────────────────────────────────── */
+.od-hero {
+    background: linear-gradient(130deg, #0f0c29 0%, #1e1356 50%, #0f0c29 100%);
+    padding: 28px 32px 24px;
+    position: relative;
+    overflow: hidden;
+}
+.od-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 100% at 85% 50%, rgba(79,70,229,.22) 0%, transparent 65%);
+    pointer-events: none;
+}
+.od-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.od-hero-left {}
+.od-hero-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,.38);
+    margin-bottom: 6px;
+}
+.od-hero-id {
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: -.5px;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+.od-hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+.od-hero-date {
+    font-size: 12px;
+    color: rgba(255,255,255,.45);
+}
+.od-hero-date strong { color: rgba(255,255,255,.8); font-weight: 600; }
+
+.od-hero-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+.od-hero-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.od-btn-ghost {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.15);
+    color: rgba(255,255,255,.85);
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background .18s;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.od-btn-ghost:hover { background: rgba(255,255,255,.16); color: #fff; }
+
+.od-hero-stats { display: flex; gap: 10px; }
+.od-hero-stat {
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 10px;
+    padding: 9px 16px;
+    text-align: center;
+    min-width: 100px;
+}
+.od-hero-stat-val { font-size: 18px; font-weight: 800; color: #fff; line-height: 1; }
+.od-hero-stat-lbl { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.38); margin-top: 3px; }
+
+/* ── Status badge ───────────────────────────────── */
+.od-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+}
+.od-badge-dot { width: 7px; height: 7px; border-radius: 50%; }
+.od-badge--pending    { background: rgba(217,119,6,.18);  color: #F59E0B; border: 1px solid rgba(217,119,6,.3); }
+.od-badge--pending    .od-badge-dot { background: #F59E0B; }
+.od-badge--processing { background: rgba(79,70,229,.18);  color: #818CF8; border: 1px solid rgba(79,70,229,.3); }
+.od-badge--processing .od-badge-dot { background: #818CF8; }
+.od-badge--completed  { background: rgba(5,150,105,.18);  color: #34D399; border: 1px solid rgba(5,150,105,.3); }
+.od-badge--completed  .od-badge-dot { background: #34D399; }
+.od-badge--cancelled  { background: rgba(220,38,38,.15);  color: #FCA5A5; border: 1px solid rgba(220,38,38,.25); }
+.od-badge--cancelled  .od-badge-dot { background: #FCA5A5; }
+
+/* ── Status stepper ─────────────────────────────── */
+.od-stepper-wrap {
+    background: var(--c-surface);
+    border-bottom: 1px solid var(--c-border);
+    padding: 0 32px;
+}
+.od-stepper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.od-stepper::-webkit-scrollbar { display: none; }
+.od-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 20px 14px 0;
+    position: relative;
+    flex-shrink: 0;
+}
+.od-step-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+    transition: all .2s;
+}
+.od-step-icon--done   { background: var(--c-green); color: #fff; }
+.od-step-icon--active { background: var(--c-indigo); color: #fff; box-shadow: 0 0 0 4px rgba(79,70,229,.15); }
+.od-step-icon--idle   { background: var(--c-border); color: var(--c-light); }
+.od-step-icon--cancel { background: var(--c-red); color: #fff; }
+.od-step-text {}
+.od-step-label { font-size: 12px; font-weight: 700; color: var(--c-dark); }
+.od-step-label--idle   { color: var(--c-light); }
+.od-step-label--cancel { color: var(--c-red); }
+.od-step-sublabel { font-size: 10px; color: var(--c-light); margin-top: 1px; }
+.od-step-connector {
+    flex: 1 1 24px;
+    min-width: 24px;
+    height: 2px;
+    background: var(--c-border);
+    margin: 0 4px;
+    flex-shrink: 0;
+}
+.od-step-connector--done { background: var(--c-green); }
+
+/* ── Status update bar ──────────────────────────── */
+.od-update-bar {
+    background: #F9FAFB;
+    border-bottom: 1px solid var(--c-border);
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.od-update-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--c-muted);
+}
+.od-status-select {
+    border: 1.5px solid var(--c-border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-dark);
+    background: #fff;
+    outline: none;
+    cursor: pointer;
+    transition: border-color .18s;
+}
+.od-status-select:focus { border-color: var(--c-indigo); }
+.od-btn-apply {
+    background: var(--c-indigo);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 18px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: opacity .18s;
+}
+.od-btn-apply:hover { opacity: .87; }
+.od-btn-apply:disabled { opacity: .45; cursor: not-allowed; }
+#statusMsg { font-size: 12px; color: var(--c-muted); }
+
+/* ── Body grid ──────────────────────────────────── */
+.od-body { padding: 24px; }
+
+/* ── Card ───────────────────────────────────────── */
+.od-card {
+    background: var(--c-surface);
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+.od-card + .od-card { margin-top: 16px; }
+.od-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--c-border);
+    background: #FAFAFA;
+}
+.od-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--c-muted);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.od-card-title i { color: var(--c-indigo); font-size: 12px; }
+.od-card-body { padding: 18px; }
+
+/* ── Info rows ──────────────────────────────────── */
+.od-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #F3F4F6;
+}
+.od-row:last-child { border-bottom: none; padding-bottom: 0; }
+.od-row:first-child { padding-top: 0; }
+.od-lbl {
+    min-width: 110px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--c-muted);
+    padding-top: 1px;
+    flex-shrink: 0;
+}
+.od-val {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--c-dark);
+    word-break: break-word;
+}
+.od-val a { color: var(--c-indigo); text-decoration: none; }
+.od-val a:hover { text-decoration: underline; }
+
+/* ── Avatar ─────────────────────────────────────── */
+.od-avatar {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #4F46E5, #7C3AED);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    font-weight: 900;
+    color: #fff;
+    flex-shrink: 0;
+    letter-spacing: -.5px;
+}
+
+/* ── Notes ──────────────────────────────────────── */
+.od-note {
+    background: var(--c-amber-l);
+    border: 1px solid rgba(217,119,6,.2);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: #92400E;
+}
+.od-note i { color: var(--c-amber); margin-top: 1px; flex-shrink: 0; }
+.od-note-title { font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--c-amber); margin-bottom: 4px; }
+
+/* ── Financial summary ──────────────────────────── */
+.od-total-box {
+    background: linear-gradient(135deg, #0f0c29 0%, #1e1356 100%);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+}
+.od-total-lbl { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.38); }
+.od-total-val { font-size: 28px; font-weight: 900; color: #fff; line-height: 1.1; margin-top: 4px; }
+.od-total-sub { font-size: 11px; color: rgba(255,255,255,.38); margin-top: 4px; }
+
+.od-fin-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 0;
+    border-bottom: 1px dashed var(--c-border);
+    font-size: 13px;
+}
+.od-fin-row:last-child { border-bottom: none; font-weight: 700; font-size: 14px; }
+.od-fin-row .od-fin-lbl { color: var(--c-muted); }
+.od-fin-row .od-fin-val { font-weight: 600; color: var(--c-dark); }
+.od-fin-row.od-fin-discount .od-fin-val { color: var(--c-red); }
+.od-fin-row.od-fin-total .od-fin-lbl,
+.od-fin-row.od-fin-total .od-fin-val { color: var(--c-dark); }
+
+.od-pay-badge {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--c-green-l);
+    border: 1px solid rgba(5,150,105,.2);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+}
+.od-pay-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: rgba(5,150,105,.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-green);
+    font-size: 14px;
+    flex-shrink: 0;
+}
+.od-pay-main { font-size: 13px; font-weight: 700; color: #065F46; }
+.od-pay-sub  { font-size: 11px; color: var(--c-muted); margin-top: 1px; }
+
+/* ── Tracking card ──────────────────────────────── */
+.od-tracking-box {
+    background: var(--c-blue-l);
+    border: 1px solid rgba(37,99,235,.15);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+}
+.od-tracking-number {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--c-blue);
+    letter-spacing: .05em;
+    margin: 4px 0;
+    word-break: break-all;
+}
+.od-tracking-provider { font-size: 11px; color: var(--c-muted); text-transform: uppercase; letter-spacing: .07em; }
+
+/* ── Attribution chip ───────────────────────────── */
+.od-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.od-chip--indigo { background: var(--c-indigo-l); color: #3730A3; }
+.od-chip--amber  { background: var(--c-amber-l);  color: #92400E; }
+.od-chip--green  { background: var(--c-green-l);  color: #065F46; }
+.od-chip--gray   { background: #F3F4F6; color: #374151; }
+
+/* ── Items table ────────────────────────────────── */
+.od-table { width: 100%; border-collapse: collapse; }
+.od-table thead th {
+    background: #F9FAFB;
+    padding: 10px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--c-muted);
+    border-bottom: 1px solid var(--c-border);
+    white-space: nowrap;
+}
+.od-table tbody tr {
+    border-bottom: 1px solid #F3F4F6;
+    transition: background .12s;
+}
+.od-table tbody tr:last-child { border-bottom: none; }
+.od-table tbody tr:hover { background: #FAFAFA; }
+.od-table td { padding: 14px; vertical-align: middle; }
+
+.od-prod-img {
+    width: 52px; height: 52px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--c-border);
+    display: block;
+    flex-shrink: 0;
+}
+.od-prod-name { font-size: 13px; font-weight: 700; color: var(--c-dark); line-height: 1.4; }
+.od-prod-sku  { font-size: 11px; color: var(--c-light); margin-top: 2px; }
+
+.od-opt-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    margin: 2px 2px 0 0;
+    border: 1px solid var(--c-border);
+    background: #F9FAFB;
+    color: var(--c-muted);
+}
+.od-opt-tag--indigo { background: rgba(79,70,229,.06); border-color: rgba(79,70,229,.18); color: #3730A3; }
+.od-opt-tag--amber  { background: rgba(217,119,6,.06); border-color: rgba(217,119,6,.2);  color: #92400E; }
+
+.od-qty {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--c-indigo-l);
+    color: var(--c-indigo);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+/* ── Print ──────────────────────────────────────── */
+@media print {
+    .no-print { display: none !important; }
+    .od-hero, .od-total-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .od-body { padding: 12px; }
+}
+
+/* ── Responsive ─────────────────────────────────── */
+@media (max-width: 768px) {
+    .od-hero { padding: 20px 16px 16px; }
+    .od-stepper-wrap, .od-update-bar { padding-left: 16px; padding-right: 16px; }
+    .od-body { padding: 12px; }
+    .od-hero-stats { display: none; }
+}
+</style>
+`,
+    content: html`
+
+<div class="content-wrapper od-wrap">
+
+
+<div class="od-hero no-print">
+    <div class="od-hero-inner">
+
+        <div class="od-hero-left">
+            <div class="od-hero-eyebrow">${companySetting?.name ?? 'AGA Collections'} &mdash; Order Detail</div>
+            <div class="od-hero-id">Order #${order?.id}</div>
+            <div class="od-hero-meta">
+                <span class="od-hero-date">
+                    Placed <strong>${order?.created_at?.timezone('Asia/Karachi')?.format('d M Y, h:i A')}</strong>
+                </span>
+                <span class="od-badge od-badge--${order?.status}">
+                    <span class="od-badge-dot"></span>${ucfirst(order?.status)}
+                </span>
+            </div>
+        </div>
+
+        <div class="od-hero-right">
+            <div class="od-hero-actions">
+                <a href="${route('admin.orders.index')}" class="od-btn-ghost no-print">
+                    <i class="fas fa-arrow-left"></i> All Orders
+                </a>
+                <button onclick="window.print()" class="od-btn-ghost no-print">
+                    <i class="fas fa-print"></i> Print
+                </button>
+            </div>
+            <div class="od-hero-stats">
+                <div class="od-hero-stat">
+                    <div class="od-hero-stat-val">${order?.items?.sum('quantity')}</div>
+                    <div class="od-hero-stat-lbl">Units</div>
+                </div>
+                <div class="od-hero-stat">
+                    <div class="od-hero-stat-val">${order?.items?.count()}</div>
+                    <div class="od-hero-stat-lbl">Products</div>
+                </div>
+                <div class="od-hero-stat">
+                    <div class="od-hero-stat-val">PKR ${number_format(order?.total, 0)}</div>
+                    <div class="od-hero-stat-lbl">Total</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="od-stepper-wrap no-print">
+    <div class="od-stepper">
+        ${(isCancelled) ? html`            
+            <div class="od-step">
+                <div class="od-step-icon od-step-icon--done"><i class="fas fa-check"></i></div>
+                <div class="od-step-text">
+                    <div class="od-step-label">Pending</div>
+                </div>
+            </div>
+            <div class="od-step-connector od-step-connector--done"></div>
+            <div class="od-step">
+                <div class="od-step-icon od-step-icon--cancel"><i class="fas fa-times"></i></div>
+                <div class="od-step-text">
+                    <div class="od-step-label od-step-label--cancel">Cancelled</div>
+                    <div class="od-step-sublabel">Stock restored</div>
+                </div>
+            </div>
+        ` : html`            ${foreach(entries(statusSteps), ([idx, step], loop) => { let isDone = currentIdx !== false && idx < currentIdx;
+let isActive = currentIdx !== false && idx === currentIdx;
+ return html`                                <div class="od-step">
+                    <div class="od-step-icon
+                        ${(isDone) ? html` od-step-icon--done
+                        ` : (isActive) ? html` od-step-icon--active
+                        ` : html` od-step-icon--idle `}">
+                        ${(isDone) ? html`                            <i class="fas fa-check"></i>
+                        ` : html`                            ${idx + 1}
+                        `}                    </div>
+                    <div class="od-step-text">
+                        <div class="od-step-label ${!isDone && !isActive ? 'od-step-label--idle' : ''}">
+                            ${ucfirst(step)}
+                        </div>
+                        ${(isActive) ? html`                        <div class="od-step-sublabel">Current status</div>
+                        ` : ''}                    </div>
+                </div>
+                ${(!loop?.last) ? html`                <div class="od-step-connector ${isDone ? 'od-step-connector--done' : ''}"></div>
+                ` : ''}            `; })}        `}    </div>
+</div>
+
+
+<div class="od-update-bar no-print">
+    <span class="od-update-label"><i class="fas fa-bolt" style="color:var(--c-indigo);"></i> Update Status</span>
+    <select id="statusSelect" class="od-status-select">
+        ${foreach(['pending','processing','completed','cancelled'], (st, loop) => html`        <option value="${st}" ${order?.status === st ? 'selected' : ''}>${ucfirst(st)}</option>
+        `)}    </select>
+    <button id="statusUpdateBtn" class="od-btn-apply">
+        <i class="fas fa-check"></i> Apply
+    </button>
+    <span id="statusMsg"></span>
+</div>
+
+
+<div class="od-body">
+    <div class="row g-4">
+
+        
+        <div class="col-lg-7 d-flex flex-column gap-3">
+
+            
+            <div class="od-card">
+                <div class="od-card-head">
+                    <div class="od-card-title"><i class="fas fa-user"></i> Customer</div>
+                    ${(order?.customer) ? html`                    <small style="color:var(--c-muted);font-size:11px;">#${order?.customer?.id}</small>
+                    ` : ''}                </div>
+                <div class="od-card-body">
+                    ${(order?.customer) ? html`                    <div class="d-flex align-items-center gap-3 mb-3 pb-3" style="border-bottom:1px solid #F3F4F6;">
+                        <div class="od-avatar">${strtoupper(substr(order?.customer?.full_name ?? 'G', 0, 1))}</div>
+                        <div>
+                            <div style="font-size:15px;font-weight:800;color:var(--c-dark);line-height:1.2;">${order?.customer?.full_name}</div>
+                            <div style="font-size:11px;color:var(--c-muted);margin-top:2px;">Customer Account</div>
+                        </div>
+                    </div>
+                    ` : ''}                    ${(order?.customer?.email) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Email</div>
+                        <div class="od-val"><a href="mailto:${order?.customer?.email}">${order?.customer?.email}</a></div>
+                    </div>
+                    ` : ''}                    ${(order?.customer?.phone) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Phone</div>
+                        <div class="od-val"><a href="tel:${order?.customer?.phone}">${order?.customer?.phone}</a></div>
+                    </div>
+                    ` : ''}                    ${(order?.customer?.country) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Country</div>
+                        <div class="od-val">${order?.customer?.country}</div>
+                    </div>
+                    ` : ''}                </div>
+            </div>
+
+            
+            ${(shipName || shipAddress || shipCity) ? html`            <div class="od-card">
+                <div class="od-card-head">
+                    <div class="od-card-title"><i class="fas fa-map-marker-alt"></i> Shipping Address</div>
+                </div>
+                <div class="od-card-body">
+                    ${(shipName) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Name</div>
+                        <div class="od-val" style="font-weight:700;">${shipName}</div>
+                    </div>
+                    ` : ''}                    ${(shipPhone) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Phone</div>
+                        <div class="od-val"><a href="tel:${shipPhone}">${shipPhone}</a></div>
+                    </div>
+                    ` : ''}                    ${(shipEmail) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Email</div>
+                        <div class="od-val"><a href="mailto:${shipEmail}">${shipEmail}</a></div>
+                    </div>
+                    ` : ''}                    ${(shipCity) ? html`                    <div class="od-row">
+                        <div class="od-lbl">City / Area</div>
+                        <div class="od-val">${shipCity}</div>
+                    </div>
+                    ` : ''}                    ${(shipAddress) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Address</div>
+                        <div class="od-val">${shipAddress}</div>
+                    </div>
+                    ` : ''}                    ${(shipVilla) ? html`                    <div class="od-row">
+                        <div class="od-lbl">Villa / Apt</div>
+                        <div class="od-val">${shipVilla}</div>
+                    </div>
+                    ` : ''}                </div>
+            </div>
+            ` : ''}
+            
+            ${(order?.order_notes) ? html`            <div class="od-note">
+                <i class="fas fa-sticky-note"></i>
+                <div>
+                    <div class="od-note-title">Order Note</div>
+                    ${order?.order_notes}
+                </div>
+            </div>
+            ` : ''}
+        </div>
+
+        
+        <div class="col-lg-5 d-flex flex-column gap-3">
+
+            
+            <div class="od-card">
+                <div class="od-card-head">
+                    <div class="od-card-title"><i class="fas fa-receipt"></i> Order Summary</div>
+                </div>
+                <div class="od-card-body">
+
+                    <div class="od-total-box">
+                        <div class="od-total-lbl">Grand Total</div>
+                        <div class="od-total-val">PKR ${number_format(order?.total, 0)}</div>
+                        <div class="od-total-sub">
+                            ${order?.items?.sum('quantity')} unit(s) &middot; ${order?.items?.count()} product(s)
+                        </div>
+                    </div>
+
+                    <div class="od-fin-row">
+                        <span class="od-fin-lbl">Products</span>
+                        <span class="od-fin-val">PKR ${number_format(productSubtotal, 0)}</span>
+                    </div>
+                    ${(order?.shipping) ? html`                    <div class="od-fin-row">
+                        <span class="od-fin-lbl">Shipping</span>
+                        <span class="od-fin-val">PKR ${number_format(order?.shipping, 0)}</span>
+                    </div>
+                    ` : ''}                    ${(order?.discount) ? html`                    <div class="od-fin-row od-fin-discount">
+                        <span class="od-fin-lbl">Discount${order?.coupon_code ? ' (' + (strtoupper(order?.coupon_code) ?? '') + ')' : ''}</span>
+                        <span class="od-fin-val">− PKR ${number_format(order?.discount, 0)}</span>
+                    </div>
+                    ` : ''}                    <div class="od-fin-row od-fin-total">
+                        <span class="od-fin-lbl">Total</span>
+                        <span class="od-fin-val" style="color:var(--c-indigo);font-size:15px;">PKR ${number_format(order?.total, 0)}</span>
+                    </div>
+
+                    
+                    <div class="od-pay-badge">
+                        <div class="od-pay-icon"><i class="fas fa-truck"></i></div>
+                        <div>
+                            <div class="od-pay-main">${order?.payment_method ? ucwords(str_replace('_',' ',order?.payment_method)) : 'Cash on Delivery'}</div>
+                            <div class="od-pay-sub">Amount collected upon delivery</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    
+    <div class="od-card mt-4">
+        <div class="od-card-head">
+            <div class="od-card-title">
+                <i class="fas fa-shopping-bag"></i> Ordered Items
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span class="od-chip od-chip--indigo">${order?.items?.sum('quantity')} units</span>
+                <span class="od-chip od-chip--gray">${order?.items?.count()} product(s)</span>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="od-table">
+                <thead>
+                    <tr>
+                        <th style="width:66px;">Image</th>
+                        <th>Product</th>
+                        <th>Variants & Options</th>
+                        <th style="width:60px;text-align:center;">Qty</th>
+                        <th style="width:110px;text-align:right;">Unit Price</th>
+                        <th style="width:120px;text-align:right;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${foreach(order?.items, (item, loop) => { let product = item?.product;
+let variantModel = item?.variant;
+let optionValues = variantModel ? (variantModel?.option_values ?? []) : [];
+let img = variantModel?.primary_image ?? (product?.primaryImage?.image_path ?? null);
+let hasOptions = !empty(optionValues);
+ return html`                                        <tr>
+                        
+                        <td>
+                            <img class="od-prod-img"
+                                 src="${img ? asset('storage/' + (img ?? '')) : asset('images/placeholder.png')}"
+                                 alt="${product?.name ?? ''}">
+                        </td>
+
+                        
+                        <td>
+                            <div class="od-prod-name">${product?.name ?? '—'}</div>
+                            ${(variantModel?.sku) ? html`                            <div class="od-prod-sku">SKU: ${variantModel?.sku}</div>
+                            ` : ''}                        </td>
+
+                        
+                        <td>
+                            
+                            ${(item?.options_label) ? html`                                ${foreach(explode(' · ', item?.options_label), (opt, loop) => html`                                <span class="od-opt-tag">${opt}</span>
+                                `)}                            ` : html`                            <span style="color:var(--c-light);font-size:12px;">Standard</span>
+                            `}                        </td>
+
+                        
+                        <td class="text-center">
+                            <span class="od-qty">${item?.quantity}</span>
+                        </td>
+
+                        
+                        <td class="text-end">
+                            <div style="font-size:13px;font-weight:700;color:var(--c-dark);">
+                                PKR ${number_format(item?.price, 0)}
+                            </div>
+                        </td>
+
+                        
+                        <td class="text-end">
+                            <div style="font-size:14px;font-weight:800;color:var(--c-indigo);">
+                                PKR ${number_format(item?.price * item?.quantity, 0)}
+                            </div>
+                        </td>
+                    </tr>
+                    `; })}                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+`,
+    scripts: html`<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const btn     = document.getElementById('statusUpdateBtn');
+    const sel     = document.getElementById('statusSelect');
+    const msg     = document.getElementById('statusMsg');
+    const CSRF    = '${csrf_token()}';
+    const orderId = ${order?.id};
+
+    const allowed = {
+        pending:    ['processing', 'completed', 'cancelled'],
+        processing: ['completed', 'cancelled'],
+        completed:  [],
+        cancelled:  [],
+    };
+
+    const currentStatus = '${order?.status}';
+    sel.value = currentStatus;
+
+    btn.addEventListener('click', async function () {
+        const newStatus = sel.value;
+        if (newStatus === currentStatus) {
+            msg.textContent = 'Already set to ' + newStatus + '.';
+            return;
+        }
+        if (!(allowed[currentStatus] ?? []).includes(newStatus)) {
+            Swal.fire({ icon: 'warning', title: 'Not allowed', text: 'Cannot change from ' + currentStatus + ' to ' + newStatus, timer: 2500, showConfirmButton: false });
+            sel.value = currentStatus;
+            return;
+        }
+        if (newStatus === 'cancelled') {
+            const res = await Swal.fire({ icon: 'question', title: 'Cancel this order?', text: 'Stock will be restored automatically.', showCancelButton: true, confirmButtonText: 'Yes, cancel it' });
+            if (!(res.isConfirmed || res.value)) { sel.value = currentStatus; return; }
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating…';
+        msg.textContent = '';
+
+        try {
+            const httpResp = await fetch(\`/admin/orders/\${orderId}/update-status\`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': CSRF,
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            let resp = null;
+            try { resp = await httpResp.json(); } catch (_) { /* non-json error page */ }
+
+            if (httpResp.ok && resp && resp.success) {
+                Swal.fire({ icon: 'success', title: 'Status Updated', text: 'Order is now ' + newStatus, timer: 1600, showConfirmButton: false })
+                    .then(() => location.reload());
+            } else {
+                const err = (resp && resp.message) || \`HTTP \${httpResp.status} \${httpResp.statusText}\`;
+                Swal.fire({ icon: 'error', title: 'Failed', text: err });
+                sel.value = currentStatus;
+            }
+        } catch (e) {
+            Swal.fire({ icon: 'error', title: 'Network Error', text: e.message || 'Please try again.' });
+            sel.value = currentStatus;
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check"></i> Apply';
+        }
+    });
+});
+</script>
+`,
+  };
+}

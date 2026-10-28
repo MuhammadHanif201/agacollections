@@ -1,0 +1,65 @@
+.ty-page { --ty-ink:#161426; --ty-muted:#6e6c80; --ty-line:#e6e5ec; --ty-soft:#f6f6f9; background:#fff; padding:48px 0 88px; }
+.ty-wrap { max-width:1100px; margin:0 auto; padding:0 24px; }
+@media (max-width:575px){ .ty-wrap { padding:0 16px; } .ty-page { padding:28px 0 64px; } }
+
+.ty-hero { text-align:center; max-width:640px; margin:0 auto 40px; animation:tyIn .5s ease both; }
+.ty-check { width:72px; height:72px; border-radius:50%; background:var(--ty-ink); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:18px; }
+.ty-eyebrow { font-size:.66rem; letter-spacing:.3em; text-transform:uppercase; font-weight:700; color:var(--ty-muted); margin:0 0 10px; }
+.ty-page .ty-title { font-family:var(--heading-font,'Cormorant Garamond',Georgia,serif) !important; font-style:normal !important; font-weight:500 !important; font-size:clamp(2rem,4vw,2.9rem) !important; line-height:1.1 !important; color:var(--ty-ink) !important; margin:0 0 12px !important; }
+.ty-lead { font-size:.95rem; line-height:1.7; color:#45435a; margin:0; }
+.ty-pill { display:inline-flex; align-items:center; gap:8px; margin-top:18px; padding:8px 16px; border:1px solid var(--ty-line); font-size:.78rem; letter-spacing:.08em; color:var(--ty-ink); }
+.ty-pill strong { letter-spacing:.04em; }
+
+.ty-grid { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); gap:28px; align-items:start; }
+@media (max-width:899px){ .ty-grid { grid-template-columns:1fr; } }
+.ty-box { border:1px solid var(--ty-line); background:#fff; animation:tyIn .5s ease .08s both; }
+.ty-box + .ty-box { margin-top:20px; }
+.ty-box-hd { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; border-bottom:1px solid var(--ty-line); }
+.ty-box-hd h2 { font-size:.72rem !important; font-family:var(--body-font,'Arimo',sans-serif) !important; letter-spacing:.22em !important; text-transform:uppercase; font-weight:700 !important; color:var(--ty-ink) !important; margin:0 !important; }
+.ty-box-hd span { font-size:.76rem; color:var(--ty-muted); }
+.ty-box-bd { padding:6px 22px 18px; }
+
+.ty-item { display:grid; grid-template-columns:64px 1fr auto; gap:14px; align-items:center; padding:14px 0; border-bottom:1px solid #eeedf2; }
+.ty-item:last-child { border-bottom:0; }
+.ty-item img, .ty-item .ph { width:64px; height:80px; object-fit:cover; background:var(--ty-soft); display:block; }
+.ty-item-name { font-size:.9rem; font-weight:600; color:var(--ty-ink); text-decoration:none; line-height:1.35; }
+.ty-item-opts { font-size:.74rem; letter-spacing:.06em; color:var(--ty-muted); margin-top:3px; text-transform:uppercase; }
+.ty-item-qty { font-size:.78rem; color:var(--ty-muted); margin-top:3px; }
+.ty-item-price { font-size:.9rem; font-weight:700; color:var(--ty-ink); white-space:nowrap; }
+
+.ty-rows { padding:6px 0 0; }
+.ty-row { display:flex; justify-content:space-between; padding:8px 0; font-size:.88rem; color:#45435a; }
+.ty-row.total { border-top:1px solid var(--ty-line); margin-top:8px; padding-top:14px; font-size:1.05rem; font-weight:700; color:var(--ty-ink); }
+
+.ty-meta { display:grid; grid-template-columns:1fr 1fr; gap:0; }
+.ty-meta div { padding:14px 0; border-bottom:1px solid #eeedf2; }
+.ty-meta div:nth-last-child(-n+2) { border-bottom:0; }
+.ty-meta small { display:block; font-size:.64rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ty-muted); margin-bottom:4px; }
+.ty-meta b { font-size:.9rem; color:var(--ty-ink); }
+.ty-addr { font-size:.88rem; line-height:1.7; color:#45435a; padding-top:10px; }
+.ty-addr strong { color:var(--ty-ink); }
+
+.ty-steps { list-style:none; margin:0; padding:10px 0 0; }
+.ty-steps li { display:grid; grid-template-columns:34px 1fr; gap:12px; padding:10px 0; }
+.ty-steps .n { width:34px; height:34px; border-radius:50%; border:1px solid var(--ty-line); display:flex; align-items:center; justify-content:center; font-size:.78rem; font-weight:700; color:var(--ty-ink); }
+.ty-steps .n.done { background:var(--ty-ink); border-color:var(--ty-ink); color:#fff; }
+.ty-steps b { display:block; font-size:.86rem; color:var(--ty-ink); margin-bottom:2px; }
+.ty-steps span { font-size:.8rem; color:var(--ty-muted); line-height:1.55; }
+
+.ty-actions { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:34px; }
+.ty-btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; height:52px; padding:0 28px; font-size:.72rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; text-decoration:none; border:1px solid var(--ty-ink); transition:background .2s, color .2s; }
+.ty-btn.primary { background:var(--ty-ink); color:#fff !important; }
+.ty-btn.primary:hover { background:#fff; color:var(--ty-ink) !important; }
+.ty-btn.ghost { background:#fff; color:var(--ty-ink) !important; }
+.ty-btn.ghost:hover { background:var(--ty-soft); }
+.ty-btn .ri-whatsapp-line { color:#1faa53; font-size:1.1rem; }
+@media (max-width:575px){ .ty-btn { width:100%; } }
+
+@keyframes tyIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce){ .ty-hero, .ty-box { animation:none; } }
+
+/* Phones: the floating WhatsApp and back-to-top buttons covered the order total; the page has its own WhatsApp button */
+@media (max-width: 767px) {
+  body:has(.ty-page) .whatsapp-float,
+  body:has(.ty-page) .dc-back-top { display: none !important; }
+}

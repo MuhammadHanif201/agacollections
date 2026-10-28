@@ -1,0 +1,27 @@
+.aff-page { padding: 28px; }
+.aff-head { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; margin-bottom: 22px; }
+.aff-head h1 { font-size: 1.4rem; font-weight: 600; margin: 0; }
+.aff-tabs  { display:flex; gap:4px; flex-wrap:wrap; margin-bottom: 18px; }
+.aff-tab   { padding: 8px 14px; font-size:.78rem; color:#737373; background:#F4F4F4; border-radius:8px; text-decoration:none; transition: all .15s; }
+.aff-tab.is-active { background:#111111; color:#fff; }
+.aff-tab:hover:not(.is-active) { background:#E5E5E5; color:#111111; }
+.aff-tab .ct { background:rgba(0,0,0,.08); padding:1px 7px; border-radius:10px; font-size:.7rem; margin-left:4px; }
+
+.aff-card { background:#fff; border:1px solid #E5E5E5; border-radius: 14px; overflow: hidden; }
+.aff-table { width:100%; border-collapse: collapse; }
+.aff-table th, .aff-table td { padding: 12px 14px; border-bottom: 1px solid #F4F4F4; font-size:.85rem; vertical-align: middle; }
+.aff-table th { text-align:left; font-size:.7rem; letter-spacing: .12em; text-transform:uppercase; color:#737373; background:#FAFAFA; font-weight: 600; }
+.aff-table tbody tr:last-child td { border-bottom:none; }
+.aff-table tbody tr:hover { background:#fafbfc; }
+.aff-empty { padding: 60px 20px; text-align:center; color:#A3A3A3; }
+.pill { display:inline-block; padding: 3px 9px; font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; font-weight:700; border-radius: 4px; }
+.pill.pending   { background:#fef3c7; color:#92400e; }
+.pill.approved  { background:#d1fae5; color:#065f46; }
+.pill.rejected  { background:#fee2e2; color:#991b1b; }
+.pill.suspended { background:#e5e7eb; color:#374151; }
+.code-tag { font-family: monospace; background:#F4F4F4; padding: 3px 8px; font-size:.78rem; color:#111111; border-radius: 4px; }
+.aff-search { display:flex; gap:8px; }
+.aff-search input { padding: 8px 14px; border: 1px solid #E5E5E5; border-radius: 8px; font-size:.85rem; min-width: 240px; }
+.aff-search button { padding: 8px 18px; background: #111111; color:#fff; border:none; border-radius: 8px; cursor:pointer; }
+.btn-link { color: #111111; text-decoration: none; font-weight: 500; font-size: .82rem; }
+.btn-link:hover { text-decoration: underline; }

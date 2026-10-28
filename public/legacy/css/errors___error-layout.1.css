@@ -1,0 +1,110 @@
+            [data-err] {
+                direction: ltr;
+            }
+
+            .error-hero {
+                min-height: 70vh;
+                display: grid;
+                place-items: center;
+                background:
+                    linear-gradient(rgba(17, 17, 17, 0.72), rgba(17, 17, 17, 0.62)),
+                    var(--zq-error-photo) center/cover no-repeat;
+                border-radius: 20px;
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+                overflow: hidden;
+            }
+
+            .error-card {
+                background: rgba(255, 255, 255, 0.96);
+                backdrop-filter: blur(4px);
+                border-radius: 20px;
+                padding: 2.5rem 2rem;
+                box-shadow: 0 14px 40px rgba(0, 0, 0, 0.10);
+                max-width: 720px;
+                width: 92%;
+            }
+
+            .error-code {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 84px;
+                height: 84px;
+                border-radius: 18px;
+                background: linear-gradient(135deg, #111111, #3a3a3a);
+                color: #fff;
+                font-weight: 800;
+                font-size: 1.4rem;
+                letter-spacing: 0.04em;
+                box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+            }
+
+            .error-title {
+                font-size: 2rem;
+                font-weight: 700;
+                color: #111111;
+                margin-bottom: 12px;
+            }
+
+            .error-text {
+                font-size: 1rem;
+                line-height: 1.8;
+                color: #555;
+                max-width: 560px;
+                margin: 0 auto;
+            }
+
+            .error-actions {
+                margin-top: 1.75rem;
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .error-btn-primary,
+            .error-btn-secondary {
+                display: inline-block;
+                padding: 12px 24px;
+                border-radius: 999px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: all 0.25s ease;
+            }
+
+            .error-btn-primary {
+                background: #111111;
+                color: #ffffff;
+            }
+
+            .error-btn-primary:hover {
+                background: #222222;
+                color: #ffffff;
+            }
+
+            .error-btn-secondary {
+                background: #f3ede8;
+                color: #111111;
+            }
+
+            .error-btn-secondary:hover {
+                background: #e9dfd6;
+                color: #111111;
+            }
+
+            @media (max-width: 576px) {
+                .error-card {
+                    padding: 2rem 1.25rem;
+                }
+
+                .error-title {
+                    font-size: 1.6rem;
+                }
+
+                .error-code {
+                    width: 74px;
+                    height: 74px;
+                    font-size: 1.2rem;
+                }
+            }
+        
