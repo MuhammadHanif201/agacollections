@@ -6,6 +6,5 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .vercel
-# Local test database (npm run dev:db) and a local copy of the uploads
+# Local test database (npm run dev:db)
 .devdb/
-public/storage/
