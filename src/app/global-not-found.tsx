@@ -3,6 +3,9 @@ import StoreLayout from './(store)/layout';
 import ErrorView, { ERRORS } from '@/components/store/ErrorView';
 import { getCompanySetting } from '@/services/settings';
 
+// Reads the company name from the database, so render per request rather than at build time
+export const dynamic = 'force-dynamic';
+
 // URLs that match no route (the store and admin areas have separate root layouts)
 export const metadata: Metadata = {
   description: ERRORS['404'].message,

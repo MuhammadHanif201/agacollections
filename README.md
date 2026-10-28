@@ -125,7 +125,7 @@ Without mail settings the shop still works; emails are skipped and logged, as be
 
 ## Deploy to Vercel
 
-1. Import the repository in Vercel with **Root Directory = `web`** (framework: Next.js).
+1. Import the repository in Vercel, leaving **Root Directory** empty (framework: Next.js).
 2. Add the environment variables above (Production and Preview).
 3. Deploy. Proxy, pages and route handlers run as Node.js functions.
 
