@@ -77,7 +77,7 @@ export default async function Header({
 
           <div className="zq-header-logo">
             <StoreLink href="/" aria-label="AGA Collections — Home" className="dc-brand-wordmark" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.7em' }}>
-              <img src="/clientside/company_logo/monogram-terracotta.png" alt="" width={32} height={26} style={{ height: '1.7em', width: 'auto' }} />
+              <img src="/clientside/company_logo/monogram-aga.png" alt="" width={52} height={26} style={{ height: '1.5em', width: 'auto' }} />
               <span>AGA Collections</span>
             </StoreLink>
           </div>

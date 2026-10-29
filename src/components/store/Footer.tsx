@@ -124,7 +124,7 @@ export default function Footer({
                 <>
                   <StoreLink href="/" className="d-inline-flex align-items-center mb-2" aria-label="AGA Collections — Home"
                     style={{ fontFamily: "var(--body-font,'Arimo',sans-serif)", fontWeight: 500, fontSize: '1rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', lineHeight: 1, whiteSpace: 'nowrap', gap: '0.7em' }}>
-                    <img src="/clientside/company_logo/monogram-terracotta.png" alt="" width={36} height={30} style={{ height: '1.9em', width: 'auto' }} />
+                    <img src="/clientside/company_logo/monogram-aga.png" alt="" width={60} height={30} style={{ height: '1.8em', width: 'auto' }} />
                     <span>AGA Collections</span>
                   </StoreLink>
                   <p className="dc-footer__tagline">&ldquo;Made for Your Style.&rdquo;</p>
