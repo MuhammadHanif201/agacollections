@@ -123,7 +123,7 @@ export default function Footer({
               {company && (
                 <>
                   <StoreLink href="/" className="d-inline-flex align-items-center mb-2" aria-label="AGA Collections — Home"
-                    style={{ fontFamily: "var(--body-font,'Arimo',sans-serif)", fontWeight: 600, fontSize: '1.2rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', lineHeight: 1, whiteSpace: 'nowrap', gap: '0.7em' }}>
+                    style={{ fontFamily: "var(--body-font,'Arimo',sans-serif)", fontWeight: 500, fontSize: '1rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: '#fff', textDecoration: 'none', lineHeight: 1, whiteSpace: 'nowrap', gap: '0.7em' }}>
                     <img src="/clientside/company_logo/monogram-terracotta.png" alt="" width={36} height={30} style={{ height: '1.9em', width: 'auto' }} />
                     <span>AGA Collections</span>
                   </StoreLink>
