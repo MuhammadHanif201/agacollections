@@ -15,6 +15,7 @@ import { Session } from '@/models/Session';
 import { CITY_ZONES, cartSubtotal, shippingForCity } from '@/services/pricing';
 import { getCompanySetting } from '@/services/settings';
 import StoreLink from '@/components/store/StoreLink';
+import CityPicker from '@/components/store/CityPicker';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'checkout', image: '/clientside/company_logo/logo.png' });
@@ -160,10 +161,8 @@ export default async function CheckoutPage() {
 
                         <div className="co-field">
                           <label className="co-label">City / Province <span className="req">*</span></label>
-                          <input type="text" id="co_city" name="city" className="co-input" list="pk-cities-list" autoComplete="off" placeholder="Type your city…" defaultValue={val('city', customer?.city)} required maxLength={100} />
-                          <datalist id="pk-cities-list">
-                            {CITIES.flatMap(([, names]) => names).map((c) => <option value={c} key={c} />)}
-                          </datalist>
+                          <CityPicker id="co_city" name="city" className="co-input" placeholder="Type your city…" defaultValue={val('city', customer?.city)} required maxLength={100}
+                            cities={CITIES.flatMap(([, names]) => names)} />
                           <div style={{ fontSize: '.62rem', color: '#aaa', marginTop: 5, display: 'flex', alignItems: 'center', gap: 5 }}>
                             <i className="ri-information-line"></i>
                             Not in the list? Just type your city name.
