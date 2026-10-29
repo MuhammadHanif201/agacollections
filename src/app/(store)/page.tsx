@@ -75,16 +75,18 @@ export default async function HomePage() {
         pushed={['/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', 'clientside__zayqora__partials__home-reviews.1']}
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-poster.jpg') + '?v=13'} fetchPriority="high" />
+      {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-poster.webp') + '?v=14'} media="(min-width: 768px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-poster-m.webp') + '?v=14'} media="(max-width: 767px)" fetchPriority="high" />
       <JsonLd {...await meta()} />
       <ScrollReveal threshold={0.08} />
 
       {/* Shared AGA Collections hero: same height and style as the shop, category and policies banners */}
       <ZqHero
-        image={mediaUrl('banners/zq-hero-poster.jpg') + '?v=13'}
-        imageMobile={mediaUrl('banners/zq-hero-poster-m.jpg') + '?v=13'}
-        video={mediaUrl('banners/zq-hero-clothes.mp4') + '?v=1'}
-        poster={mediaUrl('banners/zq-hero-clothes-poster.jpg') + '?v=1'}
+        image={mediaUrl('banners/zq-hero-poster.webp') + '?v=14'}
+        imageMobile={mediaUrl('banners/zq-hero-poster-m.webp') + '?v=14'}
+        video={mediaUrl('banners/zq-hero-clothes.mp4') + '?v=2'}
+        poster={mediaUrl('banners/zq-hero-clothes-poster.webp') + '?v=2'}
         position="50% 50%"
         eyebrow={`New Collection · ${year}`}
         title="Made for Your Style"

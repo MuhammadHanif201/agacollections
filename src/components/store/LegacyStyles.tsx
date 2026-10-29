@@ -19,8 +19,9 @@ const BASE = [
   '/clientside/common_assets/css/magnific-popup.css',
   '/clientside/common_assets/css/fontawesome-all.min.css',
   '/clientside/common_assets/css/futura-std-font.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css',
-  '/clientside/common_assets/fonts/remixicon.css',
+  // Bootstrap 5.3.0 from the CDN, served from this site: no extra connection before first paint
+  '/clientside/common_assets/css/bootstrap-5.3.0.min.css',
+  // remixicon.css was linked here too; the identical copy below wins the cascade either way
   css('components__common-assets.1'),
   // header.blade.php <head>
   '/clientside/zayqora/assets/css/animate.min.css',
