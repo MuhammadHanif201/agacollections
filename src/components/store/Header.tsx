@@ -2,7 +2,7 @@
 // same markup as clientside/zayqora/layout/header.blade.php.
 import { connectDb } from '@/lib/db';
 import { mediaUrl } from '@/lib/media';
-import { numberFormat, plural, strTitle } from '@/lib/format';
+import { numberFormat, plural, strTitle, waLink } from '@/lib/format';
 import { Product } from '@/models/Product';
 import type { CompanySettingDoc } from '@/models/content';
 import type { CartLine } from '@/models/Session';
@@ -214,7 +214,7 @@ export default async function Header({
         <div className="zqd-help">
           <p className="zqd-help-title">Need help with sizing or an order?</p>
           {wa && (
-            <StoreLink href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" className="zqd-wa">
+            <StoreLink href={waLink(wa)} target="_blank" rel="noopener noreferrer" className="zqd-wa">
               <i className="ri-whatsapp-line" aria-hidden="true"></i> Chat on WhatsApp
             </StoreLink>
           )}

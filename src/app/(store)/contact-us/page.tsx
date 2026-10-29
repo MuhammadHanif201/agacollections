@@ -1,6 +1,6 @@
 // clientside/zayqora/contact.blade.php
 import { env } from '@/lib/env';
-import { isProfileUrl } from '@/lib/format';
+import { isProfileUrl, waLink } from '@/lib/format';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, JsonLd, type MetaOptions } from '@/lib/seo';
 import ContactSection from '@/components/store/ContactSection';
@@ -73,7 +73,7 @@ export default async function ContactPage() {
           <div className="ct-info-row-body">
             <span className="ct-info-row-key">WhatsApp</span>
             <div className="ct-info-row-val">
-              <StoreLink href={`https://wa.me/${wa.replace(/[^0-9]/g, '')}`} target="_blank" rel="noopener noreferrer">{wa}</StoreLink>
+              <StoreLink href={waLink(wa)} target="_blank" rel="noopener noreferrer">{wa}</StoreLink>
             </div>
           </div>
         </div>

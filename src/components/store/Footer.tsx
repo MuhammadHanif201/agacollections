@@ -1,6 +1,6 @@
 // clientside/zayqora/layout/footer.blade.php
 import { env } from '@/lib/env';
-import { isProfileUrl } from '@/lib/format';
+import { isProfileUrl, waLink } from '@/lib/format';
 import type { CompanySettingDoc, PolicyDoc } from '@/models/content';
 import { emailList, type MenuCategory } from '@/services/settings';
 import BackToTop from './BackToTop';
@@ -95,7 +95,7 @@ export default function Footer({
       {/* popup area end */}
 
       {waNumber && (
-        <StoreLink href={`https://wa.me/${waNumber}`} target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Chat on WhatsApp">
+        <StoreLink href={waLink(waNumber)} target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Chat on WhatsApp">
           <i className="fab fa-whatsapp"></i>
         </StoreLink>
       )}
@@ -213,7 +213,7 @@ export default function Footer({
                 <div className="dc-footer__ci" key={i}>
                   <i className="ri-whatsapp-line dc-footer__ci-icon wa"></i>
                   <span className="dc-footer__ci-text">
-                    <StoreLink href={`https://wa.me/${wa.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+                    <StoreLink href={waLink(wa)} target="_blank" rel="noopener noreferrer">
                       <span dir="ltr" style={{ unicodeBidi: 'plaintext' }}>{wa}</span>
                     </StoreLink>
                   </span>
@@ -221,7 +221,7 @@ export default function Footer({
               )) : (
                 <div className="dc-footer__ci">
                   <i className="ri-whatsapp-line dc-footer__ci-icon wa"></i>
-                  <span className="dc-footer__ci-text"><StoreLink href="https://wa.me/923089367692" target="_blank" rel="noopener noreferrer">0308-9367692</StoreLink></span>
+                  <span className="dc-footer__ci-text"><StoreLink href={waLink('923089367692')} target="_blank" rel="noopener noreferrer">0308-9367692</StoreLink></span>
                 </div>
               )}
 

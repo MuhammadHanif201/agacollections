@@ -37,6 +37,10 @@ export function isProfileUrl(url: string | null | undefined): boolean {
   }
 }
 
+/** wa.me link that opens the chat with a first message already typed in */
+export const waLink = (number: string) =>
+  'https://wa.me/' + number.replace(/\D/g, '') + '?text=' + encodeURIComponent('Hi AGA Collections, I need help with my order.');
+
 export const ucfirst = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
 /** Laravel Str::title(Str::lower($s)) — mb_convert_case(MB_CASE_TITLE): a letter after any non-letter (apostrophes excepted) */
