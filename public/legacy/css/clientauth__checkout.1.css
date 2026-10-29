@@ -167,8 +167,11 @@
 .co-textarea { resize: vertical; min-height: 90px; }
 .co-select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
 
-.co-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 575px) { .co-row-2 { grid-template-columns: 1fr; } }
+.co-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+/* Fields in a row are spaced by the row: the same 16px before the next field as everywhere else */
+.co-row-2 > .co-field { margin-bottom: 0; }
+.co-row-2:last-child { margin-bottom: 0; }
+@media (max-width: 575px) { .co-row-2 { grid-template-columns: 1fr; gap: 16px; } }
 
 /* ── Phone row ── */
 .co-phone-grid {
