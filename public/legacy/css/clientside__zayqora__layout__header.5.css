@@ -51,6 +51,8 @@
         .dc-brand-wordmark:hover { color: #161426; }
         @media (max-width: 1199px) { .dc-brand-wordmark { font-size: 0.9rem; } }
         @media (max-width: 767px)  { .dc-brand-wordmark { font-size: 0.8rem; } }
+        .dc-brand-wordmark span { white-space: nowrap; }
+        @media (max-width: 767px)  { .dc-brand-wordmark { gap: 0.45em !important; font-size: 0.72rem; } .dc-brand-wordmark span { letter-spacing: 0.14em; } }
 
         /* ── Text wordmark: AGA Collections ── */
         .dc-wordmark {

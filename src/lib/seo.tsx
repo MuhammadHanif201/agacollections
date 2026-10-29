@@ -75,9 +75,8 @@ async function base(opts: MetaOptions) {
   let robots = opts.robots || p.robots;
   if (opts.hasSearch) robots = 'noindex, follow';
 
-  const defaultImg = s?.logo
-    ? absolute(mediaUrl(s.logo))
-    : s?.favicon ? absolute(mediaUrl(s.favicon)) : `${env.appUrl}/clientside/company_logo/default-logo.png`;
+  // The brand's 1200x630 logo card ships with the site (the old uploaded logo/favicon files are gone)
+  const defaultImg = `${env.appUrl}/clientside/company_logo/default-logo.png`;
   // The 1200x630 share card (storage/logos/zayqora-share.jpg) when it was uploaded, else the logo
   let image = opts.image ?? (process.env.SHARE_IMAGE_PATH ? absolute(mediaUrl(process.env.SHARE_IMAGE_PATH)) : defaultImg);
   if (image && !/^https?:\/\//i.test(image)) image = env.appUrl + (image.startsWith('/') ? image : '/' + image);
@@ -94,7 +93,7 @@ export async function buildMetadata(opts: MetaOptions): Promise<Metadata> {
   const b = await base(opts);
   const twUrl = b.sameAs.find((u) => /(twitter|x)\.com\//i.test(u));
   const twHandle = twUrl?.match(/(?:twitter|x)\.com\/([^/?]+)/i)?.[1];
-  const fav = b.s?.favicon ? absolute(mediaUrl(b.s.favicon)) : '/clientside/company_logo/favicon.png';
+  const fav = '/clientside/company_logo/favicon.png';
   return {
     metadataBase: new URL(env.appUrl),
     title: b.title,
@@ -120,8 +119,8 @@ export async function buildMetadata(opts: MetaOptions): Promise<Metadata> {
       site: twHandle ? '@' + twHandle : undefined,
     },
     icons: {
-      icon: [{ url: fav, type: 'image/png' }],
-      apple: b.s?.favicon ? [{ url: fav }] : undefined,
+      icon: [{ url: fav, type: 'image/png' }, { url: '/favicon.ico', sizes: '48x48' }],
+      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
     },
     manifest: '/site.webmanifest',
   };
