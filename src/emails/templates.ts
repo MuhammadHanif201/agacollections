@@ -154,13 +154,14 @@ export function customerOrderHtml(order: OrderMailData, ctx: OrderMailContext): 
 
     <tr>
         <td align="center" style="background:#0d0c18;padding:9px 16px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#cfcbe6;">
-            Wear Your ${e(brand)}<span class="tz-hide-sm"> &nbsp;·&nbsp; Cash on Delivery Across Pakistan</span>
+            Made for Your Style<span class="tz-hide-sm"> &nbsp;·&nbsp; Cash on Delivery Across Pakistan</span>
         </td>
     </tr>
 
     <tr>
         <td align="center" style="background:${navy};padding:38px 24px 34px;">
-            <a href="${e(site)}" style="font-family:Arial,Helvetica,sans-serif;font-size:34px;font-weight:bold;letter-spacing:12px;color:#ffffff;text-decoration:none;padding-left:12px;">${e(brand.toUpperCase())}</a>
+            <a href="${e(site)}" style="text-decoration:none;"><img src="${e(site)}/clientside/company_logo/monogram-aga.png" width="70" height="40" alt="" style="display:block;margin:0 auto 14px;width:70px;height:auto;border:0;"></a>
+            <a href="${e(site)}" style="font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;letter-spacing:8px;color:#ffffff;text-decoration:none;padding-left:8px;">${e(brand.toUpperCase())}</a>
             <div style="margin-top:10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#9d98bd;">Streetwear &nbsp;·&nbsp; Lahore</div>
         </td>
     </tr>
@@ -305,7 +306,7 @@ export function customerOrderHtml(order: OrderMailData, ctx: OrderMailContext): 
     <tr>
         <td align="center" style="background:${navy};padding:34px 24px 30px;font-family:Arial,Helvetica,sans-serif;">
             <div style="font-size:18px;font-weight:bold;letter-spacing:8px;color:#ffffff;padding-left:8px;">${e(brand.toUpperCase())}</div>
-            <div style="margin-top:8px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:14px;color:#cfcbe6;">Wear your ${e(brand)}.</div>
+            <div style="margin-top:8px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:14px;color:#cfcbe6;">Made for Your Style.</div>
             ${socials.length ? `<div style="margin-top:20px;font-size:11px;letter-spacing:2px;text-transform:uppercase;">
                             ${socialLinks}
                 </div>` : ''}
@@ -336,7 +337,7 @@ export function customerOrderText(order: OrderMailData, ctx: OrderMailContext): 
   const firstName = (order.contact.name ?? '').trim().split(' ')[0]?.trim() || 'there';
   const saved = order.items.reduce((s, i) => s + (wasPrice(i) ? (wasPrice(i) - i.price) * i.quantity : 0), 0) + Number(order.discount);
   const lines = [
-    `${brand.toUpperCase()} — Wear Your ${brand}`,
+    `${brand.toUpperCase()} — Made for Your Style`,
     '',
     `Thank you, ${firstName}.`,
     `Your order #${order.id} is in. We may call or WhatsApp you on ${order.contact.phone ?? ''} to confirm it, then we pack it and send it your way.`,
