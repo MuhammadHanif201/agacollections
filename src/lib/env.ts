@@ -1,7 +1,8 @@
 import 'server-only';
 
 function optional(name: string, fallback = ''): string {
-  const v = process.env[name];
+  // A pasted value often carries a trailing newline or space
+  const v = process.env[name]?.trim();
   return v === undefined || v === '' ? fallback : v;
 }
 
