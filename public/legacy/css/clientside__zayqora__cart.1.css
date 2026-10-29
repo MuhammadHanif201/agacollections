@@ -470,8 +470,9 @@
     gap: 10px;
     margin: 0 28px 22px;
     padding: 15px 24px;
-    background: var(--dc-gold);
-    color: #fff;
+    /* light button on the dark summary panel: the theme colour (near black) disappeared on navy */
+    background: #fff;
+    color: #161426;
     font-size: .7rem;
     letter-spacing: .2em;
     text-transform: uppercase;
@@ -481,7 +482,7 @@
     cursor: pointer;
     transition: background .22s;
 }
-.cs-checkout-btn:hover { background: #161426; color: #fff; }
+.cs-checkout-btn:hover, .cs-checkout-btn:focus-visible { background: #c97864; color: #fff; }
 .cs-checkout-btn i { font-size: 1rem; }
 
 .cs-cod-badge {
