@@ -70,6 +70,14 @@ export default function HeaderInteractions() {
       if (window.ResizeObserver) { ro = new ResizeObserver(tune); ro.observe(annTrack); }
     }
 
+    // Sections the CSS fallback already showed (slow start) stay shown; the observer takes over from here
+    if (!document.documentElement.classList.contains('dc-hydrated')) {
+      document.querySelectorAll<HTMLElement>('[data-dc-reveal]').forEach((el) => {
+        if (parseFloat(getComputedStyle(el).opacity) > 0.01) el.classList.add('is-visible');
+      });
+      document.documentElement.classList.add('dc-hydrated');
+    }
+
     // Scroll-reveal for [data-dc-reveal]
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
