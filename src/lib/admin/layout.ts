@@ -51,8 +51,8 @@ export function settingModel(s: unknown) {
     return Object.fromEntries(['default', 'support', 'sales', 'contact'].map((k) => [k, e[k] ?? '']));
   };
   doc.getPrimaryEmail = () => { const e = normalizeEmails(); return e.orders ?? e.contact ?? e.support ?? e.default ?? null; };
-  doc.favicon_url = doc.favicon ? asset('storage/' + doc.favicon) : asset('images/default-favicon.png');
-  doc.logo_url = doc.logo ? asset('storage/' + doc.logo) : asset('images/default-logo.png');
+  doc.favicon_url = doc.favicon ? asset('storage/' + doc.favicon) : asset('clientside/company_logo/favicon.png');
+  doc.logo_url = doc.logo ? asset('storage/' + doc.logo) : asset('clientside/company_logo/favicon.png');
   return doc;
 }
 

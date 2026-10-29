@@ -9,9 +9,7 @@ export default function view(d: any) {
   let {  } = d;
   let brandName = companySetting?.name ?? config('app.name','AGA Collections');
   let brandTagline = 'Streetwear Made for Your Style';
-  let favicon = (!empty(companySetting?.logo))
-          ? asset('storage/' + (companySetting?.logo ?? ''))
-          : asset('clientside/company_logo/default-logo.png');
+  let favicon = asset('clientside/company_logo/favicon.png');
   return {
     title: html``,
     styles: html``,

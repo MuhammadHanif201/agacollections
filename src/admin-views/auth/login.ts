@@ -443,7 +443,7 @@ body.zq-auth-body {
         <div class="zq-brand-top">
             <div class="zq-logo-box">
                 <img
-                    src="${companySetting?.logo ? asset(`storage/${companySetting?.logo}`) : asset('clientside/company_logo/default-logo.png')}"
+                    src="${asset('clientside/company_logo/favicon.png')}"
                     alt="${companySetting?.name ?? 'AGA Collections'}"
                 >
             </div>

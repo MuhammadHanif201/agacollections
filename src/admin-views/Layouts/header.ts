@@ -26,7 +26,7 @@ export default function view(d: any) {
 
     ${d.title}
     <link rel="shortcut icon" type="image/x-icon"
-        href="${url(optional(companySetting)?.favicon ? 'storage/'  +  (companySetting?.favicon ?? '') : 'clientside/company_logo/favicon.png')}">
+        href="${url('clientside/company_logo/favicon.png')}">
 
     <!-- Google Fonts: Archivo + Manrope (same pair as the AGA Collections storefront) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -618,7 +618,7 @@ export default function view(d: any) {
 
             
             <a href="${route('admin.home')}" class="brand-link">
-                <img src="${asset(optional(companySetting)?.logo ? 'storage/' + (companySetting?.logo ?? '') : 'clientside/company_logo/default-logo.png')}"
+                <img src="${asset('clientside/company_logo/favicon.png')}"
                     alt="Logo" class="brand-image img-circle elevation-0">
                 <span class="brand-text">
                     <span class="brand-name">${optional(companySetting)?.company_name ?? 'AGA Collections'}</span>

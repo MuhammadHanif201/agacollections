@@ -85,7 +85,7 @@ body.zq-auth-body { margin:0; padding:0; font-family:'Manrope',sans-serif; backg
     <div class="zq-left">
         <div class="zq-brand-top">
             <div class="zq-logo-box">
-                <img src="${companySetting?.logo ? asset('storage/' + (companySetting?.logo ?? '')) : asset('clientside/company_logo/default-logo.png')}"
+                <img src="${asset('clientside/company_logo/favicon.png')}"
                      alt="${companySetting?.name ?? 'AGA Collections'}">
             </div>
             <span class="zq-brand-name-small">${companySetting?.name ?? 'AGA Collections'}</span>
