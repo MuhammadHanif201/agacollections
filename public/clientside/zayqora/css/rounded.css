@@ -69,3 +69,21 @@
 
 /* rounded boxes clip their square inner buttons */
 .qty-stepper:not(#zq), .pd-qty:not(#zq) { overflow: hidden; }
+
+/* Boxes, cards and icon tiles (8px) */
+.zq-reviews-cta:not(#zq),
+.dc-footer__cod:not(#zq),
+.co-card:not(#zq),
+.co-pay-option:not(#zq),
+.co-cod-trust:not(#zq),
+.co-step-num:not(#zq),
+.ab-trust-item i:not(#zq),
+.ab-promise-card:not(#zq),
+.ab-promise-icon-wrap:not(#zq),
+.cs-guarantee:not(#zq) {
+  border-radius: 8px !important;
+}
+
+/* Cart summary is navy: its truck and shield icons in white */
+.cs-cod-badge i:not(#zq),
+.cs-guarantee i:not(#zq) { color: #fff !important; }
