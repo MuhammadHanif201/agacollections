@@ -606,3 +606,11 @@
 }
 
 input[type="number"] { font-size: 16px !important; }
+
+/* Quantity label above the stepper; Remove lines up with the stepper; rounded controls (8px) */
+.ci-actions { align-items: flex-end; }
+.ci-qty { display: flex; flex-direction: column; gap: 6px; }
+.ci-qty-label { font-size: .62rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #161426; }
+.ci-delete-btn { border-radius: 8px; }
+/* global.css forces .qty-stepper to radius 0 !important */
+.ci-qty .qty-stepper { border-radius: 8px !important; }

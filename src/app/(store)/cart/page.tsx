@@ -89,10 +89,13 @@ export default async function CartPage() {
                             ))}
 
                             <div className="ci-actions">
-                              <div className="qty-stepper">
-                                <button type="button" className="btn-decrease" data-key={key} aria-label="Decrease">−</button>
-                                <input type="number" className="quantity-input" defaultValue={item.quantity} min={1} data-key={key} aria-label="Quantity" />
-                                <button type="button" className="btn-increase" data-key={key} aria-label="Increase">+</button>
+                              <div className="ci-qty">
+                                <span className="ci-qty-label" aria-hidden="true">Quantity</span>
+                                <div className="qty-stepper">
+                                  <button type="button" className="btn-decrease" data-key={key} aria-label="Decrease">−</button>
+                                  <input type="number" className="quantity-input" defaultValue={item.quantity} min={1} data-key={key} aria-label="Quantity" />
+                                  <button type="button" className="btn-increase" data-key={key} aria-label="Increase">+</button>
+                                </div>
                               </div>
                               <button type="button" data-remove-key={key} className="ci-delete-btn" title="Remove from bag" aria-label={`Remove ${item.name} from bag`}>
                                 <i className="ri-delete-bin-line" aria-hidden="true"></i>
