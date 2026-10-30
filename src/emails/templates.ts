@@ -373,92 +373,139 @@ export function customerOrderText(order: OrderMailData, ctx: OrderMailContext): 
   return lines.join('\n') + '\n';
 }
 
-export function adminOrderHtml(order: OrderMailData, appName: string): string {
-  const rows = order.items.map((item) => `
-                        <tr>
-                            <td>${e(item.name ?? 'Item')}${item.optionsLabel ? `<br><strong>${e(item.optionsLabel)}</strong>` : ''}</td>
-                            <td>${item.quantity}</td>
-                            <td>${numberFormat(item.price, 2)}</td>
-                        </tr>`).join('');
+/** "New order" alert for the shop's own inbox: the customer email's look, with what staff act on */
+export function adminOrderHtml(order: OrderMailData, appName: string, siteUrl: string): string {
+  const navy = '#161426';
+  const site = siteUrl.replace(/\/+$/, '');
+  const adminUrl = `${site}/admin/orders/${order.id}`;
+  const placedAt = formatDate(karachi(order.created_at), 'd M Y, h:i A');
+  const itemCount = order.items.reduce((s, i) => s + i.quantity, 0);
+  const isCod = (order.payment_method ?? 'cod') === 'cod';
+  const label = 'font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#8a86a3;font-weight:bold;';
+  const phoneDigits = (order.contact.phone ?? '').replace(/\D+/g, '');
+  const contactRow = (name: string, value: string) => value ? `
+                <tr>
+                    <td style="padding:5px 0;width:84px;vertical-align:top;font-size:12px;color:#8a86a3;">${name}</td>
+                    <td style="padding:5px 0;font-size:14px;color:#1a1a1a;">${value}</td>
+                </tr>` : '';
+
+  const items = order.items.map((item) => `
+                <tr>
+                    <td width="64" style="padding:14px 0;border-bottom:1px solid #efedf3;vertical-align:top;">
+                        ${item.image ? `<img src="${e(item.image)}" width="56" height="70" alt="" style="display:block;width:56px;height:70px;object-fit:cover;border:0;background:#f3f1ec;">` : `<div style="width:56px;height:70px;background:#f3f1ec;"></div>`}
+                    </td>
+                    <td style="padding:14px 12px;border-bottom:1px solid #efedf3;vertical-align:top;font-family:Arial,Helvetica,sans-serif;">
+                        <div style="font-size:13px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#1a1a1a;">${e(item.name ?? 'Item')}</div>
+                        ${item.optionsLabel ? `<div style="margin-top:4px;font-size:12px;color:#8a86a3;">${e(item.optionsLabel)}</div>` : ''}
+                        <div style="margin-top:4px;font-size:12px;color:#8a86a3;">Qty ${item.quantity} × ${money(item.price)}</div>
+                    </td>
+                    <td align="right" style="padding:14px 0;border-bottom:1px solid #efedf3;vertical-align:top;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;color:#1a1a1a;white-space:nowrap;">${money(item.price * item.quantity)}</td>
+                </tr>`).join('');
+
   return `<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>New Order Received</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>New order #${order.id}</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f5f2; padding: 20px; color: #222; margin: 0; }
-        .container { max-width: 700px; margin: auto; background: #fff; padding: 30px; border-radius: 14px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06); }
-        .brand-header { text-align: center; background: #111; color: #fff; padding: 22px; border-radius: 10px 10px 0 0; margin: -30px -30px 30px -30px; }
-        .brand-header h2 { margin: 0; font-size: 24px; letter-spacing: 0.5px; }
-        .brand-header p { margin: 8px 0 0; font-size: 12px; opacity: 0.85; }
-        h3, h4 { color: #111; margin-bottom: 10px; }
-        p { font-size: 14px; line-height: 1.7; color: #444; margin: 0 0 12px; }
-        .section { margin-top: 24px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 14px; }
-        th, td { padding: 12px; border: 1px solid #e8e2dc; text-align: left; font-size: 14px; }
-        th { background: #f8f5f2; color: #111; }
-        .total-box { margin-top: 18px; padding: 14px 16px; background: #f8f5f2; border-radius: 10px; font-size: 15px; color: #111; }
-        .payment-box { margin-top: 14px; padding: 12px 16px; background: #fcfaf8; border: 1px solid #eee3da; border-radius: 10px; font-size: 14px; color: #333; }
-        .footer { font-size: 12px; text-align: center; margin-top: 30px; color: #888; line-height: 1.7; }
+        @media (max-width: 620px) {
+            .tz-wrap { width: 100% !important; }
+            .tz-pad { padding-left: 22px !important; padding-right: 22px !important; }
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="brand-header">
-            <h2>${e(appName)}</h2>
-            <p>Streetwear · Made for Your Style</p>
-        </div>
+<body style="margin:0;padding:0;background:#efeee9;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#efeee9;">
+<tr><td align="center" style="padding:28px 12px;">
 
-        <h3>New Order Received ✨</h3>
+<table role="presentation" class="tz-wrap" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px;max-width:600px;background:#ffffff;">
 
-        <p><strong>Order ID:</strong> #${order.id}</p>
-        <p>
-            <strong>Placed on:</strong>
-            ${e(formatDate(karachi(order.created_at), 'd M Y, h:i A'))}
-        </p>
+    <tr>
+        <td align="center" style="background:${navy};padding:28px 24px 26px;">
+            <img src="${e(site)}/clientside/company_logo/monogram-aga.png" width="56" height="32" alt="" style="display:block;margin:0 auto 12px;width:56px;height:auto;border:0;">
+            <div style="font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:bold;letter-spacing:6px;color:#ffffff;padding-left:6px;">${e(appName.toUpperCase())}</div>
+            <div style="margin-top:8px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#9d98bd;">Admin &nbsp;·&nbsp; New order</div>
+        </td>
+    </tr>
 
-        <div class="section">
-            <h4>Customer Information</h4>
-            <p>
-                <strong>Name:</strong> ${e(order.contact.name ?? '')}<br>
-                <strong>Email:</strong> ${e(order.contact.email ?? '')}<br>
-                <strong>Phone:</strong> ${e(order.contact.phone ?? '')}<br>
-                <strong>Address:</strong> ${e(order.contact.address ?? '')}<br>
-                <strong>City:</strong> ${e(order.contact.city ?? '')}
-                ${order.order_notes ? `<br><strong>Notes:</strong> ${e(order.order_notes)}` : ''}
-            </p>
-        </div>
+    <tr>
+        <td class="tz-pad" style="padding:36px 44px 0;font-family:Arial,Helvetica,sans-serif;">
+            <div style="${label}">New order received</div>
+            <div style="margin-top:10px;font-family:Georgia,'Times New Roman',serif;font-style:italic;font-size:30px;line-height:1.2;color:#1a1a1a;">Order #${order.id} &middot; ${money(order.total)}</div>
+            <div style="margin-top:10px;font-size:14px;line-height:1.7;color:#4a4760;">${itemCount} ${itemCount === 1 ? 'item' : 'items'} from <strong style="color:#1a1a1a;">${e(order.contact.name ?? 'a customer')}</strong>, placed ${e(placedAt)}.</div>
+        </td>
+    </tr>
 
-        <div class="section">
-            <h4>Order Items</h4>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Qty</th>
-                        <th>Price (PKR)</th>
-                    </tr>
-                </thead>
-                <tbody>${rows}
-                </tbody>
+    <tr>
+        <td class="tz-pad" align="center" style="padding:24px 44px 0;">
+            <a href="${e(adminUrl)}" style="display:block;background:${navy};color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;letter-spacing:3px;text-transform:uppercase;text-decoration:none;padding:16px 20px;text-align:center;">Open order in admin</a>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="tz-pad" style="padding:32px 44px 0;font-family:Arial,Helvetica,sans-serif;">
+            <div style="${label}padding-bottom:8px;border-bottom:2px solid ${navy};color:${navy};">Customer</div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:10px;font-family:Arial,Helvetica,sans-serif;">${[
+              contactRow('Name', e(order.contact.name ?? '')),
+              contactRow('Phone', order.contact.phone ? `<a href="tel:${e(order.contact.phone)}" style="color:#1a1a1a;text-decoration:none;font-weight:bold;">${e(order.contact.phone)}</a>${phoneDigits ? ` &nbsp;<a href="https://wa.me/${e(phoneDigits)}" style="color:#1f8f4e;text-decoration:none;font-size:12px;font-weight:bold;">WhatsApp</a>` : ''}` : ''),
+              contactRow('Email', order.contact.email ? `<a href="mailto:${e(order.contact.email)}" style="color:#1a1a1a;">${e(order.contact.email)}</a>` : ''),
+              contactRow('Address', e(order.contact.address ?? '')),
+              contactRow('City', e(order.contact.city ?? '')),
+            ].join('')}
             </table>
-        </div>
+            ${order.order_notes ? `<div style="margin-top:12px;padding:12px 14px;background:#fff8ec;border-left:3px solid #c97864;font-size:13px;line-height:1.6;color:#4a4760;"><strong style="color:#1a1a1a;">Note:</strong> ${e(order.order_notes)}</div>` : ''}
+        </td>
+    </tr>
 
-        <div class="total-box">
-            Subtotal: PKR ${numberFormat(order.subtotal, 2)}
-            ${Number(order.discount) > 0 ? ` · Discount${order.coupon_code ? e(' (' + order.coupon_code + ')') : ''}: − PKR ${numberFormat(order.discount, 2)}` : ''}
-            · Shipping: PKR ${numberFormat(order.shipping, 2)}<br>
-            <strong>Total:</strong> PKR ${numberFormat(order.total, 2)}
-        </div>
+    <tr>
+        <td class="tz-pad" style="padding:30px 44px 0;font-family:Arial,Helvetica,sans-serif;">
+            <div style="${label}padding-bottom:8px;border-bottom:2px solid ${navy};color:${navy};">Items <span style="color:#8a86a3;">(${itemCount})</span></div>
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">${items}
+            </table>
+        </td>
+    </tr>
 
-        <div class="payment-box">
-            ✔️ Cash On Delivery (COD)
-        </div>
+    <tr>
+        <td class="tz-pad" style="padding:16px 44px 0;font-family:Arial,Helvetica,sans-serif;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size:14px;color:#4a4760;">
+                <tr><td style="padding:4px 0;">Subtotal</td><td align="right" style="padding:4px 0;">${money(order.subtotal)}</td></tr>
+                ${Number(order.discount) > 0 ? `<tr><td style="padding:4px 0;">Discount${order.coupon_code ? ' (' + e(order.coupon_code) + ')' : ''}</td><td align="right" style="padding:4px 0;">− ${money(order.discount)}</td></tr>` : ''}
+                <tr><td style="padding:4px 0;">Delivery</td><td align="right" style="padding:4px 0;">${Number(order.shipping) > 0 ? money(order.shipping) : 'Free'}</td></tr>
+            </table>
+        </td>
+    </tr>
 
-        <p class="footer">
-            Please log in to the admin panel to review and process this order.
-        </p>
-    </div>
+    <tr>
+        <td class="tz-pad" style="padding:16px 44px 0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${navy};">
+                <tr>
+                    <td style="padding:18px 22px;font-family:Arial,Helvetica,sans-serif;">
+                        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9d98bd;">${isCod ? 'Collect on delivery' : 'Order total'}</div>
+                        <div style="margin-top:4px;font-size:13px;color:#ffffff;">${isCod ? 'Cash on delivery' : e(ucfirst(String(order.payment_method ?? '')))}</div>
+                    </td>
+                    <td align="right" style="padding:18px 22px;font-family:Arial,Helvetica,sans-serif;font-size:24px;font-weight:bold;color:#ffffff;white-space:nowrap;">${money(order.total)}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr>
+        <td class="tz-pad" align="center" style="padding:28px 44px 34px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.7;color:#8a86a3;">
+            Confirm the order with the customer, then update its status in the admin panel.
+        </td>
+    </tr>
+
+    <tr>
+        <td align="center" style="background:${navy};padding:18px 24px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#9d98bd;">
+            ${e(appName)} &nbsp;·&nbsp; Staff notification
+        </td>
+    </tr>
+
+</table>
+
+</td></tr>
+</table>
 </body>
 </html>
 `;

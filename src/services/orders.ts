@@ -306,7 +306,7 @@ async function sendOrderEmails(order: OrderDoc, customer: Parameters<typeof orde
   const adminTo = primaryEmail(setting);
   if (adminTo) {
     try {
-      await sendMail({ to: adminTo, subject: `New order #${order._id} — PKR ${numberFormat(order.total)}`, html: adminOrderHtml(data, appName) });
+      await sendMail({ to: adminTo, subject: `New order #${order._id} — PKR ${numberFormat(order.total)}`, html: adminOrderHtml(data, appName, env.appUrl) });
     } catch (e) {
       console.warn('Admin order notification email failed: ' + (e as Error).message);
     }
