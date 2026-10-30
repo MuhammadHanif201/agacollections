@@ -30,6 +30,16 @@ export const env = {
     fromAddress: optional('MAIL_FROM_ADDRESS', 'hello@example.com'),
     fromName: optional('MAIL_FROM_NAME', 'AGA Collections'),
   },
+  /** Second SMTP server, used when the first one refuses or fails (e.g. its daily quota is used up) */
+  mailFallback: {
+    host: optional('MAIL_FALLBACK_HOST'),
+    port: Number(optional('MAIL_FALLBACK_PORT', '587')),
+    username: optional('MAIL_FALLBACK_USERNAME'),
+    password: optional('MAIL_FALLBACK_PASSWORD'),
+    encryption: optional('MAIL_FALLBACK_ENCRYPTION', 'tls'),
+    // Gmail only sends as its own address, so this defaults to the login
+    fromAddress: optional('MAIL_FALLBACK_FROM_ADDRESS', optional('MAIL_FALLBACK_USERNAME')),
+  },
   metaPixelId: optional('META_PIXEL_ID'),
   clarityId: optional('CLARITY_ID'),
   socialLinksEnabled: optional('SOCIAL_LINKS_ENABLED', 'false') === 'true',
