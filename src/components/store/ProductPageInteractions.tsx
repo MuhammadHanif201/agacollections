@@ -218,11 +218,16 @@ export default function ProductPageInteractions({
     const selected: Record<string, string> = {};
     const fmt = (n: string | number) => Math.round(parseFloat(String(n))).toLocaleString('en-US');
     const optionsOf = (el: HTMLElement) => JSON.parse(el.dataset.options || '{}') as Record<string, string>;
-    const setAtc = (ok: boolean) => atcs.forEach((b) => {
-      b.classList.toggle('disabled', !ok);
-      b.setAttribute('aria-disabled', ok ? 'false' : 'true');
-      b.innerHTML = ok ? '<i class="ri-shopping-bag-line"></i> Add to Cart' : '<i class="ri-close-circle-line"></i> Sold out';
-    });
+    const buys = $$<HTMLButtonElement>('.js-pd-buynow');
+    const setAtc = (ok: boolean) => {
+      atcs.forEach((b) => {
+        b.classList.toggle('disabled', !ok);
+        b.setAttribute('aria-disabled', ok ? 'false' : 'true');
+        b.innerHTML = ok ? '<i class="ri-shopping-bag-line"></i> Add to Cart' : '<i class="ri-close-circle-line"></i> Sold out';
+      });
+      // Buy it now only while the chosen size can be bought
+      buys.forEach((b) => { b.hidden = !ok; });
+    };
 
     const updateDisplay = (v: VariantInfo) => {
       if (v.image) setImage(v.image);
@@ -319,17 +324,28 @@ export default function ProductPageInteractions({
     }
 
     // ── Add to Cart (main button and the sticky bar) with the chosen size and quantity ──
-    atcs.forEach((b) => on(b, 'click', (e) => {
-      e.preventDefault();
+    const addChosen = async (): Promise<boolean> => {
       const variantId = selectedInput?.value ? Number(selectedInput.value) : null;
       if (variantEls.length && !variantId) {
         const missing = groups.filter((g) => selected[String(g.dataset.optionGroup).toLowerCase()] === undefined).map((g) => String(g.dataset.optionGroup).toLowerCase());
         scope?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         void getSwal().then((Swal) => Swal.fire({ icon: 'info', title: `Please choose a ${missing[0] ?? 'size'}`, timer: 2200, showConfirmButton: false, toast: true, position: 'top-end' }));
-        return;
+        return false;
       }
       const quantity = parseInt(qty?.value ?? '1', 10) || 1;
-      void addToCart(productId, variantId, quantity);
+      return addToCart(productId, variantId, quantity);
+    };
+    atcs.forEach((b) => on(b, 'click', (e) => { e.preventDefault(); void addChosen(); }));
+
+    // ── Buy it now: the same, then straight to checkout ──
+    buys.forEach((b) => on(b, 'click', (e) => {
+      e.preventDefault();
+      if (b.hidden || b.disabled) return;
+      b.disabled = true;
+      void addChosen().then((added) => {
+        if (added) window.location.assign('/checkout');
+        else b.disabled = false;
+      });
     }));
 
     return () => cleanups.forEach((c) => c());

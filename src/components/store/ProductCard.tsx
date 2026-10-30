@@ -5,16 +5,12 @@ import { numberFormat, ucfirst } from '@/lib/format';
 import type { CardProduct } from '@/types/catalog';
 import { AddToCartButton, WishlistButton } from './StoreButtons';
 import ProductImageSwiper from './ProductImageSwiper';
+import OffBadge from './OffBadge';
 import StoreLink from './StoreLink';
 
 export default function ProductCard({ product }: { product: CardProduct }) {
   const hasVariants = product.variants.length > 0;
   const fv = hasVariants ? (product.variants.find((v) => v.quantity > 0) ?? product.variants[0]) : null;
-
-  // Discount badge (sale_price = old price; variants fall back to the product's)
-  const now = Number(fv ? (fv.price || product.price) : product.price) || 0;
-  const was = Number(fv ? (fv.sale_price || product.sale_price) : product.sale_price) || 0;
-  const off = was > now && now > 0 ? Math.round(100 - (now / was) * 100) : 0;
 
   const basePrice = hasVariants ? (fv?.price || product.price) : product.price;
   const salePrice = hasVariants ? (fv?.sale_price || product.sale_price) : product.sale_price;
@@ -36,12 +32,6 @@ export default function ProductCard({ product }: { product: CardProduct }) {
   return (
     <div className="product-card h-100 d-flex flex-column position-relative" style={{ background: '#fff', borderBottom: '1px solid var(--dc-border)' }}>
       <WishlistButton productId={product.id} productName={product.name} />
-
-      {off >= 5 && (
-        <span className="pc-off-badge" style={{ position: 'absolute', top: 10, left: 10, zIndex: 10, background: '#161426', color: '#fff', fontFamily: 'var(--body-font)', fontSize: '0.62rem', fontWeight: 700, letterSpacing: '0.08em', padding: '5px 8px', lineHeight: 1 }}>
-          {`−${off}%`}
-        </span>
-      )}
 
       <ProductImageSwiper>
         {product.images.map((img, i) => (
@@ -77,6 +67,7 @@ export default function ProductCard({ product }: { product: CardProduct }) {
             <>
               <span style={{ fontWeight: 400, fontSize: '0.78rem', color: '#7a788c', textDecoration: 'line-through' }}>{numberFormat(salePrice)}</span>
               <span style={{ color: 'var(--dc-gold)' }}>{numberFormat(basePrice)}</span>
+              <OffBadge now={basePrice} was={salePrice} />
             </>
           ) : (
             <span>{numberFormat(basePrice ?? 0)}</span>

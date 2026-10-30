@@ -279,6 +279,9 @@ export default async function ProductPage({ params }: Props) {
                   <WishlistToggle productId={product._id} className="pd-wish wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} />
                 )}
               </div>
+              <button type="button" className="pd-buynow js-pd-buynow" id="pd-buynow">
+                Buy it now
+              </button>
 
               {waNum && (
                 <StoreLink className="pd-wa" id="pd-wa-order" target="_blank" rel="noopener" href={`https://wa.me/${waNum}?text=${encodeURIComponent(waText)}`} data-base-text={waText}>

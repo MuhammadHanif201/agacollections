@@ -163,4 +163,7 @@
             0%   { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-    
+
+        /* Discount beside a product price (components/store/OffBadge.tsx) */
+        .zq-off { display: inline-block; background: #ffe600; color: #111; font-size: .62rem; font-weight: 700; letter-spacing: .04em; line-height: 1.4; padding: 2px 6px; border-radius: 2px; white-space: nowrap; vertical-align: middle; text-decoration: none; }
+        .pc-price, .dc-product-price, .dc-na-price-row { flex-wrap: wrap; row-gap: 4px; }

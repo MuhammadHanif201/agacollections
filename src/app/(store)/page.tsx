@@ -13,6 +13,7 @@ import { homeData, homeReviews } from '@/services/home';
 import { getActivePopup, getCompanySetting, getMenuCategories } from '@/services/settings';
 import type { CardProduct } from '@/types/catalog';
 import StoreLink from '@/components/store/StoreLink';
+import OffBadge from '@/components/store/OffBadge';
 
 const NEW_ARRIVAL = 'Home Page - New Arrival';
 
@@ -131,7 +132,6 @@ export default async function HomePage() {
                 <article className="dc-na-card " style={{ '--na-delay': `${naIdx * 55}ms` } as React.CSSProperties} key={product.id}>
                   <div className="dc-na-img">
                     <span className="dc-na-badge dc-na-badge--new">New</span>
-                    {onSale && <span className="dc-na-badge dc-na-badge--sale">{`−${Math.trunc(Math.round(100 - (Number(bp) / Number(sp)) * 100))}%`}</span>}
                     <WishlistToggle productId={product.id} className="wishlist-btn dc-na-wish" ariaLabel="Wishlist" />
                     <StoreLink href={`/product/${product.slug}`} className="dc-na-photo-link">
                       <img src={img(product)} alt={product.name} loading="lazy" />
@@ -158,6 +158,7 @@ export default async function HomePage() {
                         <>
                           <span className="dc-na-was">{numberFormat(sp, 0)}</span>
                           <span className="dc-na-price">{numberFormat(bp, 0)}</span>
+                          <OffBadge now={bp} was={sp} />
                         </>
                       ) : (
                         <span className="dc-na-price">{numberFormat(bp, 0)}</span>
@@ -225,7 +226,6 @@ export default async function HomePage() {
                   <div className="col-6 col-md-4 col-lg-3" key={product.id}>
                     <div className="dc-product-card">
                       <div className="dc-product-img-wrap">
-                        {sp && sp > bp ? <span className="dc-sale-badge">{`−${Math.round(100 - (bp / sp) * 100)}%`}</span> : null}
                         <span className="dc-badge-tag">Best Seller</span>
                         <WishlistToggle productId={product.id} className="wishlist-btn dc-wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} iconHidden />
                         <StoreLink href={`/product/${product.slug}`}>
@@ -251,6 +251,7 @@ export default async function HomePage() {
                             <>
                               <span className="was">{numberFormat(sp)}</span>
                               <span>{numberFormat(bp)}</span>
+                              <OffBadge now={bp} was={sp} />
                             </>
                           ) : (
                             <span>{numberFormat(bp)}</span>
@@ -343,7 +344,6 @@ export default async function HomePage() {
                       <div className="col-6 col-md-4 col-lg-2" key={product.id}>
                         <div className="dc-product-card">
                           <div className="dc-product-img-wrap">
-                            {sp && sp > bp ? <span className="dc-sale-badge">{`−${Math.round(100 - (bp / sp) * 100)}%`}</span> : null}
                             <StoreLink href={`/product/${product.slug}`}>
                               <img src={img(product)} alt={product.name} loading="lazy" />
                             </StoreLink>
@@ -359,6 +359,7 @@ export default async function HomePage() {
                                 <>
                                   <span className="was">{numberFormat(sp, 0)}</span>
                                   <span>{numberFormat(bp, 0)}</span>
+                                  <OffBadge now={bp} was={sp} />
                                 </>
                               ) : (
                                 <span>{numberFormat(bp ?? 0, 0)}</span>
@@ -396,12 +397,10 @@ export default async function HomePage() {
             <div className="row g-3 g-md-4">
               {sale.map((product) => {
                 const { bp, sp } = prices(product);
-                const savePct = sp && sp > bp ? Math.round(((sp - bp) / sp) * 100) : null;
                 return (
                   <div className="col-6 col-md-4 col-lg-3" key={product.id}>
                     <div className="dc-product-card">
                       <div className="dc-product-img-wrap">
-                        {savePct ? <span className="dc-deal-pill">{`−${savePct}%`}</span> : null}
                         <WishlistToggle productId={product.id} className="wishlist-btn dc-wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} iconHidden />
                         <StoreLink href={`/product/${product.slug}`}>
                           <img src={img(product)} alt={product.name} loading="lazy" />
@@ -429,6 +428,7 @@ export default async function HomePage() {
                             <>
                               <span className="was">{numberFormat(sp, 0)}</span>
                               <span>{numberFormat(bp, 0)}</span>
+                              <OffBadge now={bp} was={sp} />
                             </>
                           ) : (
                             <span>{numberFormat(bp ?? 0, 0)}</span>
