@@ -37,13 +37,8 @@ export default async function ThankYouPage({ params }: { params: Promise<{ order
   // Purchase pixel only on the first view right after checkout
   const firePurchase = session.data.just_purchased_order_id === order._id;
   if (session.id) {
-    // A Buy it now order bought one item outside the bag: the bag and its coupon stay
-    const boughtNow = Number(session.data.buy_now_order_id) === order._id;
     await Session.updateOne({ _id: session.id }, {
-      $unset: {
-        ...(boughtNow ? {} : { 'data.cart': 1, 'data.coupon': 1 }),
-        'data.pending_checkout_data': 1, 'data.pending_cart_data': 1, 'data.just_purchased_order_id': 1, 'data.buy_now_order_id': 1,
-      },
+      $unset: { 'data.cart': 1, 'data.coupon': 1, 'data.pending_checkout_data': 1, 'data.pending_cart_data': 1, 'data.just_purchased_order_id': 1 },
     });
   }
 

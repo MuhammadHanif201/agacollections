@@ -23,10 +23,6 @@ export interface SessionCoupon {
 export interface SessionData {
   cart?: Record<string, CartLine>;
   coupon?: SessionCoupon;
-  /** "Buy it now": the one item being bought straight away, kept apart from the bag */
-  buy_now?: Record<string, CartLine>;
-  /** The order just placed with Buy it now: its thank-you page must leave the bag alone */
-  buy_now_order_id?: number;
   /** Orders this browser placed: only they (or the owner) may open the thank-you page */
   zq_order_access?: number[];
   just_purchased_order_id?: number;
