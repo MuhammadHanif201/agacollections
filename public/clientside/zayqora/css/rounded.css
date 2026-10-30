@@ -132,3 +132,8 @@
 /* Product page gallery: main photo and thumbnails (the phone gallery runs edge to edge, so it stays square) */
 .pd-stage:not(#zq),
 .pd-thumb:not(#zq) { border-radius: 8px !important; overflow: hidden; }
+
+/* Cart page: item photos and the bag panel */
+.ci-img:not(#zq),
+.cart-items-panel:not(#zq),
+.cart-summary-panel:not(#zq) { border-radius: 8px !important; overflow: hidden; }
