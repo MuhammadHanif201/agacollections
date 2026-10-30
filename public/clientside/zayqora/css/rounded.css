@@ -87,3 +87,7 @@
 /* Cart summary is navy: its truck and shield icons in white */
 .cs-cod-badge i:not(#zq),
 .cs-guarantee i:not(#zq) { color: #fff !important; }
+
+/* Header bag count badge: yellow like the discount badges */
+.dc-cart-badge:not(#zq),
+.dc-hbtn:hover .dc-cart-badge:not(#zq) { background: #ffe600 !important; color: #111 !important; }
