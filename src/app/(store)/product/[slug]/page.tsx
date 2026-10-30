@@ -109,8 +109,6 @@ export default async function ProductPage({ params }: Props) {
     .map((s) => String(s).trim().toUpperCase()))];
   const freeShipOn = Boolean(company?.free_shipping_enabled);
   const freeShipMin = Number(company?.free_shipping_threshold ?? 0);
-  const waNum = (company?.whatsapps?.[0] ?? '').replace(/\D+/g, '');
-  const waText = `Hi ${brandName}, I would like to order: ${product.name} — ${pageUrl}`;
   const hasSizeChart = Boolean(company?.size_chart_image);
 
   // Option groups, with sizes that are sold out in every variant disabled
@@ -286,12 +284,6 @@ export default async function ProductPage({ params }: Props) {
               <button type="button" className="pd-buynow js-pd-buynow" id="pd-buynow">
                 Buy it now
               </button>
-
-              {waNum && (
-                <StoreLink className="pd-wa" id="pd-wa-order" target="_blank" rel="noopener" href={`https://wa.me/${waNum}?text=${encodeURIComponent(waText)}`} data-base-text={waText}>
-                  <i className="ri-whatsapp-line"></i> Order on WhatsApp
-                </StoreLink>
-              )}
 
               <ul className="pd-trust">
                 <li><i className="ri-hand-coin-line"></i><div><strong>Cash on Delivery</strong><span>Pay when your order arrives</span></div></li>

@@ -212,7 +212,6 @@ export default function ProductPageInteractions({
     const scope = $('#pd-options');
     const atcs = $$<HTMLButtonElement>('.js-pd-atc');
     const stock = $<HTMLElement>('#pd-stock-note');
-    const wa = $<HTMLAnchorElement>('#pd-wa-order');
     const variantEls = $$<HTMLElement>('.variant-data');
     const selectedInput = $<HTMLInputElement>('#selected-variant-id');
     const selected: Record<string, string> = {};
@@ -253,11 +252,6 @@ export default function ProductPageInteractions({
       setAtc(q > 0);
       if (stock) {
         if (q > 0 && q <= 5) { stock.textContent = `Only ${q} left in this size`; stock.hidden = false; } else stock.hidden = true;
-      }
-      if (wa) {
-        const opts = Object.keys(v.options).map((k) => k.charAt(0).toUpperCase() + k.slice(1) + ': ' + String(v.options[k]).toUpperCase()).join(', ');
-        const text = (wa.dataset.baseText ?? '').replace(' — ', (opts ? ` (${opts})` : '') + ' — ');
-        wa.href = wa.href.split('?')[0] + '?text=' + encodeURIComponent(text);
       }
     };
 
