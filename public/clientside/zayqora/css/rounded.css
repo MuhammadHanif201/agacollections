@@ -107,3 +107,13 @@
 
 /* Page numbers (shop, categories) */
 .pagination .page-link:not(#zq) { border-radius: 8px !important; }
+
+/* Side menu (drawer): account links, help box, WhatsApp, category rows and thumbnails, feature banner */
+.zqd-account a:not(#zq),
+.zqd-help:not(#zq),
+.zqd-wa:not(#zq),
+.zqd-cat:not(#zq),
+.zqd-cat-img:not(#zq),
+.zqd-cat-img img:not(#zq),
+.zqd-feature:not(#zq) { border-radius: 8px !important; }
+.zqd-cat-img:not(#zq), .zqd-feature:not(#zq) { overflow: hidden; }
