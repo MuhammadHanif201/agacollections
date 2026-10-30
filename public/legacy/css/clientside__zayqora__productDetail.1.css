@@ -132,14 +132,21 @@
 @media (max-width:575px){ .pd-trust { grid-template-columns:1fr; gap:14px; } }
 
 /* Accordions */
-.pd-acc { border-bottom:1px solid var(--pd-line); }
-.pd-acc:first-of-type { border-top:1px solid var(--pd-line); }
-.pd-acc summary { list-style:none; display:flex; justify-content:space-between; align-items:center; padding:18px 0; cursor:pointer; font-size:.74rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--pd-ink); }
+/* Product info: separate rounded cards; a round +/x icon; open card in the brand terracotta.
+   Opening and closing are animated in ProductPageInteractions (0.5s, same curve as the icon). */
+.pd-acc { border:1px solid var(--pd-line); border-radius:12px; background:#fff; margin-bottom:12px; transition:border-color .35s, background-color .35s, box-shadow .35s; }
+.pd-acc:hover { border-color:#d9cfc4; }
+.pd-acc[open] { border-color:#c97864; background:#fdf9f6; box-shadow:0 8px 24px -16px rgba(22,20,38,.35); }
+.pd-acc summary { list-style:none; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:18px 20px; cursor:pointer; font-size:.74rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--pd-ink); border-radius:12px; transition:color .35s; }
+.pd-acc[open] summary { color:#a3563f; }
+.pd-acc summary:focus-visible { outline:2px solid #c97864; outline-offset:2px; }
 .pd-acc summary::-webkit-details-marker { display:none; }
-.pd-acc summary::after { content:'+'; font-size:1.2rem; font-weight:300; letter-spacing:0; transition:transform .25s; }
-.pd-acc[open] summary::after { transform:rotate(45deg); }
-.pd-acc-body { padding:0 0 20px; font-size:.88rem; line-height:1.8; color:#45435a; }
+.pd-acc summary::after { content:'+'; flex:0 0 28px; width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:#f5f0eb; color:#c97864; font-size:1.15rem; font-weight:400; line-height:1; letter-spacing:0; transition:transform .5s cubic-bezier(.4,0,.2,1), background-color .35s, color .35s; }
+.pd-acc[open] summary::after { transform:rotate(45deg); background:#c97864; color:#fff; }
+.pd-acc-body { padding:0 20px 20px; font-size:.88rem; line-height:1.8; color:#45435a; }
 .pd-acc-body p { margin:0 0 10px; }
+.pd-acc-body > :last-child { margin-bottom:0; }
+.pd-acc-body p:empty { display:none; }
 .pd-acc-body ul { margin:0 0 10px; padding-left:18px; }
 .pd-acc-body li { margin-bottom:4px; }
 .pd-acc-body a { color:var(--pd-ink); border-bottom:1px solid currentColor; }

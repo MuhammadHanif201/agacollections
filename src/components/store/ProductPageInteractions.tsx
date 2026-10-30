@@ -43,6 +43,40 @@ export default function ProductPageInteractions({
 
     if (window.fbq) window.fbq('track', 'ViewContent', { content_ids: [pixel.id], content_name: pixel.name, content_type: 'product', value: Number(pixel.value), currency: 'PKR' });
 
+    // ── Product info cards (<details class="pd-acc">): open and close smoothly instead of jumping ──
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const EASE = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    $$<HTMLDetailsElement>('details.pd-acc').forEach((d) => {
+      const summary = d.querySelector('summary');
+      const body = d.querySelector<HTMLElement>('.pd-acc-body');
+      if (!summary || !body) return;
+      let running: Animation | null = null;
+      on(summary, 'click', (e) => {
+        if (reduceMotion) return; // the browser toggles it at once
+        e.preventDefault();
+        // clicked again mid-way: carry on from where it is
+        const cs = getComputedStyle(body);
+        const from = running ? { height: `${body.getBoundingClientRect().height}px`, paddingBottom: cs.paddingBottom, opacity: Number(cs.opacity) } : null;
+        running?.cancel();
+        const opening = !d.open || d.dataset.closing === '1';
+        delete d.dataset.closing;
+        d.open = true;
+        const full = body.scrollHeight;
+        const pad = getComputedStyle(body).paddingBottom;
+        const shut = { height: '0px', paddingBottom: '0px', opacity: 0 };
+        const shown = { height: `${full}px`, paddingBottom: pad, opacity: 1 };
+        const start = from ?? (opening ? shut : shown);
+        body.style.overflow = 'hidden';
+        if (!opening) d.dataset.closing = '1';
+        running = body.animate([start, opening ? shown : shut], { duration: 500, easing: EASE });
+        running.onfinish = () => {
+          running = null;
+          body.style.overflow = '';
+          if (!opening) { d.open = false; delete d.dataset.closing; }
+        };
+      });
+    });
+
     // ── Desktop gallery ──
     const IMGS = images;
     let current = 0;
