@@ -98,3 +98,9 @@
 .ct-info-row-icon:not(#zq),
 .ct-info-hours:not(#zq),
 .ct-map-dir:not(#zq) { border-radius: 8px !important; }
+
+/* Footer newsletter: email field and Subscribe read as one box while they share a line */
+@media (min-width: 481px) {
+  .dc-footer__nl .newsletter-form input[name="email"]:not(#zq) { border-radius: 8px 0 0 8px !important; border-right: 0 !important; }
+  .dc-footer__nl .newsletter-form button[type="submit"]:not(#zq) { border-radius: 0 8px 8px 0 !important; }
+}
