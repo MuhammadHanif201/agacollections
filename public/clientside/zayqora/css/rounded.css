@@ -128,3 +128,7 @@
 
 /* Product page share icons (WhatsApp and Facebook are links) */
 .pd-share a:not(#zq) { border-radius: 8px !important; }
+
+/* Product page gallery: main photo and thumbnails (the phone gallery runs edge to edge, so it stays square) */
+.pd-stage:not(#zq),
+.pd-thumb:not(#zq) { border-radius: 8px !important; overflow: hidden; }
