@@ -117,3 +117,8 @@
 .zqd-cat-img img:not(#zq),
 .zqd-feature:not(#zq) { border-radius: 8px !important; }
 .zqd-cat-img:not(#zq), .zqd-feature:not(#zq) { overflow: hidden; }
+
+/* Product photos in every card style (home sections, shop/category/related/search) */
+.dc-na-img:not(#zq),
+.dc-product-img-wrap:not(#zq),
+.product-img-swiper:not(#zq) { border-radius: 8px !important; overflow: hidden; }
