@@ -73,7 +73,8 @@
 .pd-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 14px; margin:0 0 6px; }
 .pd-price-now { font-size:1.65rem; font-weight:700; letter-spacing:-.01em; color:var(--pd-ink); }
 .pd-price-was { font-size:1rem; color:#77758a; text-decoration:line-through; }
-.pd-price-off { font-size:.68rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--pd-sale); border:1px solid rgba(180,35,24,.35); padding:4px 8px; line-height:1; align-self:center; }
+/* discount beside the price: the same yellow as the product cards (.zq-off) */
+.pd-price-off { font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:#111; background:#ffe600; border:0; border-radius:2px; padding:4px 8px; line-height:1.2; align-self:center; white-space:nowrap; }
 .pd-price-note { font-size:.74rem; color:var(--pd-muted); margin:0 0 20px; }
 .pd-lead { font-size:.92rem; line-height:1.75; color:#45435a; margin:0 0 24px; }
 

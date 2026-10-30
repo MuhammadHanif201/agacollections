@@ -131,7 +131,8 @@ export default async function ProductPage({ params }: Props) {
 
   const starCounts: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
   for (const r of approvedReviews) starCounts[r.rating] = (starCounts[r.rating] ?? 0) + 1;
-  const badges = !inStock ? <span className="pd-badge pd-badge--muted">Sold out</span> : hasSale ? <span className="pd-badge">{`−${savePct}%`}</span> : null;
+  // The discount is shown beside the price (yellow), not on the photo
+  const badges = !inStock ? <span className="pd-badge pd-badge--muted">Sold out</span> : null;
 
   return (
     <>

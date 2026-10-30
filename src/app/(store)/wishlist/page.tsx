@@ -10,6 +10,7 @@ import { PageStyles } from '@/components/store/LegacyStyles';
 import { Wishlist } from '@/models/content';
 import { Product } from '@/models/Product';
 import StoreLink from '@/components/store/StoreLink';
+import OffBadge from '@/components/store/OffBadge';
 
 export async function generateMetadata() {
   return buildMetadata({ page: 'wishlist' });
@@ -62,13 +63,13 @@ export default async function WishlistPage() {
                   <div className="dbw-card" key={item._id}>
                     <StoreLink href={href} className="dbw-img-wrap">
                       {primary ? <img src={mediaUrl(primary.image_path)} alt={product?.name} className="dbw-img" loading="lazy" /> : <div className="dbw-img-placeholder"><i className="ri-image-line"></i></div>}
-                      {hasSale && <span className="dbw-sale-badge">Sale</span>}
                     </StoreLink>
                     <div className="dbw-body">
                       <StoreLink href={href} className="dbw-name">{product?.name ?? 'Product'}</StoreLink>
                       <div className="dbw-price">
                         <span className="dbw-price-main">PKR {numberFormat(price ?? 0, 2)}</span>
                         {hasSale && <span className="dbw-price-was">PKR {numberFormat(product!.sale_price, 2)}</span>}
+                        {hasSale && <OffBadge now={price} was={product!.sale_price} />}
                       </div>
                       <div className="dbw-actions">
                         <StoreLink href={href} className="db-btn db-btn-dark db-btn-sm" style={{ flex: 1, justifyContent: 'center' }}>
