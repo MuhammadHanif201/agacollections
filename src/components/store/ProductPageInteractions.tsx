@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { getSwal } from './client-utils';
+import { getSwal, postJson } from './client-utils';
 import { useStore } from './StoreProvider';
 
 interface VariantInfo {
@@ -318,28 +318,39 @@ export default function ProductPageInteractions({
     }
 
     // ── Add to Cart (main button and the sticky bar) with the chosen size and quantity ──
-    const addChosen = async (): Promise<boolean> => {
+    /** The chosen size and quantity, or null after asking for the missing size */
+    const chosen = (): { variantId: number | null; quantity: number } | null => {
       const variantId = selectedInput?.value ? Number(selectedInput.value) : null;
       if (variantEls.length && !variantId) {
         const missing = groups.filter((g) => selected[String(g.dataset.optionGroup).toLowerCase()] === undefined).map((g) => String(g.dataset.optionGroup).toLowerCase());
         scope?.scrollIntoView({ behavior: 'smooth', block: 'center' });
         void getSwal().then((Swal) => Swal.fire({ icon: 'info', title: `Please choose a ${missing[0] ?? 'size'}`, timer: 2200, showConfirmButton: false, toast: true, position: 'top-end' }));
-        return false;
+        return null;
       }
-      const quantity = parseInt(qty?.value ?? '1', 10) || 1;
-      return addToCart(productId, variantId, quantity);
+      return { variantId, quantity: parseInt(qty?.value ?? '1', 10) || 1 };
     };
-    atcs.forEach((b) => on(b, 'click', (e) => { e.preventDefault(); void addChosen(); }));
+    atcs.forEach((b) => on(b, 'click', (e) => {
+      e.preventDefault();
+      const c = chosen();
+      if (c) void addToCart(productId, c.variantId, c.quantity);
+    }));
 
-    // ── Buy it now: the same, then straight to checkout ──
+    // ── Buy it now: checks the item like Add to Cart but keeps it out of the bag, then
+    //    opens a checkout for only this item ──
     buys.forEach((b) => on(b, 'click', (e) => {
       e.preventDefault();
       if (b.hidden || b.disabled) return;
+      const c = chosen();
+      if (!c) return;
       b.disabled = true;
-      void addChosen().then((added) => {
-        if (added) window.location.assign('/checkout');
-        else b.disabled = false;
-      });
+      void postJson<{ status?: string; message?: string }>('/cart/buy-now', { product_id: productId, variant_id: c.variantId, quantity: c.quantity })
+        .then(async ({ ok, data }) => {
+          if (ok && data.status === 'success') { window.location.assign('/checkout?buy=now'); return; }
+          b.disabled = false;
+          const Swal = await getSwal();
+          void Swal.fire('Error', data.message || 'Could not continue to checkout. Please try again.', 'error');
+        })
+        .catch(() => { b.disabled = false; });
     }));
 
     return () => cleanups.forEach((c) => c());

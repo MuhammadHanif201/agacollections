@@ -30,9 +30,11 @@ const CITIES: [string, string[]][] = [
   ['AJK / GB / Remote', ['Muzaffarabad', 'Mirpur', 'Gilgit', 'Skardu', 'Rawalakot', 'Kotli', 'Bhimber']],
 ];
 
-export default async function CheckoutPage() {
+export default async function CheckoutPage({ searchParams }: { searchParams: Promise<{ buy?: string }> }) {
   const session = await getSession();
-  const cart = session.data.cart ?? {};
+  // "Buy it now" checks out only that item (kept apart from the bag), without the bag's coupon
+  const buyNow = (await searchParams).buy === 'now' && Object.keys(session.data.buy_now ?? {}).length > 0;
+  const cart = (buyNow ? session.data.buy_now : session.data.cart) ?? {};
   // Nothing to buy: back to the (empty) bag instead of a PKR 0 checkout
   if (!Object.keys(cart).length) redirect('/cart');
 
@@ -47,7 +49,7 @@ export default async function CheckoutPage() {
   const pending = data.pending_checkout_data ?? {};
   const val = (key: string, fallback?: string | null) => old?.[key] ?? pending[key] ?? fallback ?? '';
 
-  const coupon = session.data.coupon;
+  const coupon = buyNow ? undefined : session.data.coupon;
   const discountCoupon = Number(coupon?.amount ?? 0);
   const subtotal = cartSubtotal(cart);
   const selCity = old?.city ?? pending.city ?? customer?.city ?? '';
@@ -101,6 +103,7 @@ export default async function CheckoutPage() {
         <div className="co-body">
           <div className="container">
             <form action="/checkout/submit" method="POST" id="checkoutForm">
+              {buyNow && <input type="hidden" name="buy_now" value="1" />}
               <div className="row g-4 align-items-start">
                 <div className="col-lg-7">
                   <div className="co-notice">

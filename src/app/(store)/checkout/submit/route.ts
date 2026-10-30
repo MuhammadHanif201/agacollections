@@ -36,6 +36,9 @@ export async function POST(req: Request) {
   const body = await readBody(req);
   const input: Record<string, string> = {};
   for (const f of FIELDS) if (typeof body[f] === 'string') input[f] = body[f] as string;
+  // Buy it now: only the item in session.buy_now is ordered; the bag and its coupon stay
+  const buyNow = body.buy_now === '1' && Object.keys(session.data.buy_now ?? {}).length > 0;
+  const back = buyNow ? '/checkout?buy=now' : '/checkout';
 
   const parsed = checkoutSchema.safeParse(input);
   if (!parsed.success) {
@@ -43,20 +46,20 @@ export async function POST(req: Request) {
     data._old = input;
     await saveSession(session);
     await setFlash('errors', 'Validation Error', firstErrors(parsed.error));
-    return to(req, '/checkout');
+    return to(req, back);
   }
   const form = parsed.data;
 
-  const cart = session.data.cart ?? {};
+  const cart = (buyNow ? session.data.buy_now : session.data.cart) ?? {};
   if (!Object.keys(cart).length) {
     await setFlash('error', 'Your cart is empty.');
-    return to(req, '/checkout');
+    return to(req, back);
   }
 
   // Snapshot of the form and the prices, kept with the session
   const company = await getCompanySetting();
   const subtotal = cartSubtotal(cart);
-  const discountCoupon = Number(session.data.coupon?.amount ?? 0);
+  const discountCoupon = buyNow ? 0 : Number(session.data.coupon?.amount ?? 0);
   const afterCoupons = Math.max(0, subtotal - discountCoupon);
   const shipping = applyFreeShipping(company, afterCoupons, shippingForCity(company, form.city));
   const data = session.data as typeof session.data & Record<string, unknown>;
@@ -94,15 +97,30 @@ export async function POST(req: Request) {
   if (!customer) {
     await saveSession(session);
     await setFlash('error', 'Sorry, we could not place your order right now. Please try again.');
-    return to(req, '/checkout');
+    return to(req, back);
   }
 
   const affiliateCookie = (await cookies()).get(AFFILIATE_COOKIE)?.value;
+  // placeOrder orders session.cart (with session.coupon) and clears both: for Buy it now hand it
+  // only that item, then put the bag and its coupon back as they were
+  const keptCart = session.data.cart;
+  const keptCoupon = session.data.coupon;
+  if (buyNow) {
+    session.data.cart = session.data.buy_now;
+    delete session.data.coupon;
+  }
   const result = await placeOrder(session.data, form, customer, affiliateCookie, 'cod', guest);
+  if (buyNow) {
+    // on success the item is bought; on failure placeOrder may have updated its price
+    if (result.ok) { delete session.data.buy_now; session.data.buy_now_order_id = result.orderId; }
+    else session.data.buy_now = session.data.cart;
+    if (keptCart) session.data.cart = keptCart; else delete session.data.cart;
+    if (keptCoupon) session.data.coupon = keptCoupon; else delete session.data.coupon;
+  }
   if (!result.ok) {
     await saveSession(session);
     await setFlash('error', result.error);
-    return to(req, '/cart');
+    return to(req, buyNow ? back : '/cart');
   }
 
   delete data.pending_checkout_data;
