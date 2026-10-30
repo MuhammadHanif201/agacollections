@@ -88,10 +88,7 @@
 .cs-cod-badge i:not(#zq),
 .cs-guarantee i:not(#zq) { color: #fff !important; }
 
-/* Header bag count badge: yellow like the discount badges */
-.dc-cart-badge:not(#zq),
-.dc-hbtn:hover .dc-cart-badge:not(#zq) { background: #ffe600 !important; color: #111 !important; }
-/* a full circle (a pill from 10 up) */
+/* Header bag count badge: a full circle (a pill from 10 up); colours stay the header's own */
 .dc-cart-badge:not(#zq) { border-radius: 999px !important; min-width: 17px; height: 17px; line-height: 17px; padding: 0 4px; font-size: 9px; }
 
 /* Contact page: info icon tiles, business hours box, Get directions */
