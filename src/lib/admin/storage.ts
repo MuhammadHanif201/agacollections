@@ -16,7 +16,8 @@ const TYPES: Record<string, string> = {
   jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', gif: 'image/gif', webp: 'image/webp', avif: 'image/avif',
   svg: 'image/svg+xml', ico: 'image/x-icon', bmp: 'image/bmp', mp4: 'video/mp4', webm: 'video/webm', mov: 'video/quicktime',
 };
-const blobConfigured = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+/** A Blob store is connected: by read-write token, or by Vercel's OIDC connection (BLOB_STORE_ID) */
+export const blobConfigured = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN?.trim() || process.env.BLOB_STORE_ID?.trim());
 const localRoot = () => path.join(process.cwd(), 'public', 'storage');
 
 export async function storePublic(rel: string, data: Buffer) {
@@ -24,8 +25,18 @@ export async function storePublic(rel: string, data: Buffer) {
   const ext = path.extname(rel).slice(1).toLowerCase();
   await connectDb();
   if (blobConfigured()) {
-    const blob = await put(rel, data, { access: 'public', addRandomSuffix: false, allowOverwrite: true, contentType: TYPES[ext] ?? 'application/octet-stream', cacheControlMaxAge: 60 * 60 * 24 * 365 });
-    await MediaFile.updateOne({ _id: rel }, { $set: { url: blob.url, size: data.length, created_at: new Date() } }, { upsert: true });
+    const opts = { addRandomSuffix: false, allowOverwrite: true, contentType: TYPES[ext] ?? 'application/octet-stream', cacheControlMaxAge: 60 * 60 * 24 * 365 };
+    let access: 'public' | 'private' = 'public';
+    let blob;
+    try {
+      blob = await put(rel, data, { ...opts, access });
+    } catch (e) {
+      // a private store refuses public files: keep it private and serve it through /storage
+      console.warn('Public Blob upload failed, trying private: ' + (e as Error).message);
+      access = 'private';
+      blob = await put(rel, data, { ...opts, access });
+    }
+    await MediaFile.updateOne({ _id: rel }, { $set: { url: blob.url, access, size: data.length, created_at: new Date() } }, { upsert: true });
   } else {
     const abs = path.join(localRoot(), rel);
     await fs.mkdir(path.dirname(abs), { recursive: true });

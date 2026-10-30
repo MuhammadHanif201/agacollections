@@ -5,12 +5,14 @@ import mongoose, { Schema, type Model } from 'mongoose';
 export interface MediaFileDoc {
   _id: string; // relative path, e.g. "banners/zq-jeans-m.jpg"
   url: string;
+  /** 'private' when the Blob store only takes private files: they are read through /storage */
+  access?: 'public' | 'private';
   size?: number;
   created_at: Date;
 }
 
 const MediaFileSchema = new Schema<MediaFileDoc>(
-  { _id: String, url: { type: String, required: true }, size: Number, created_at: { type: Date, default: () => new Date() } },
+  { _id: String, url: { type: String, required: true }, access: String, size: Number, created_at: { type: Date, default: () => new Date() } },
   { versionKey: false },
 );
 

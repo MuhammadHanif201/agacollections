@@ -1,5 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { get } from '@vercel/blob';
+import { blobConfigured } from '@/lib/admin/storage';
 import { connectDb } from '@/lib/db';
 import { MediaFile } from '@/models/MediaFile';
 
@@ -18,11 +20,19 @@ export async function GET(_req: Request, { params }: { params: Promise<{ path: s
   const file = path.resolve(root, ...parts);
   if (!file.startsWith(root + path.sep)) return new Response('Not Found', { status: 404 });
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (blobConfigured()) {
     await connectDb();
     const row = await MediaFile.findById(parts.join('/')).lean();
     if (row?.url && /^https?:\/\//i.test(row.url)) {
-      return new Response(null, { status: 308, headers: { location: row.url, 'cache-control': 'public, max-age=3600' } });
+      if (row.access !== 'private') {
+        return new Response(null, { status: 308, headers: { location: row.url, 'cache-control': 'public, max-age=3600' } });
+      }
+      // a private store's file is read with the store's credentials and passed on
+      const got = await get(row.url, { access: 'private' }).catch(() => null);
+      if (got?.statusCode === 200) {
+        return new Response(got.stream, { headers: { 'content-type': got.blob.contentType, 'cache-control': 'public, max-age=31536000, immutable' } });
+      }
+      return new Response('Not Found', { status: 404 });
     }
   }
 
