@@ -235,9 +235,6 @@ export default async function ProductPage({ params }: Props) {
                         {strTitle(optionName)}:{' '}
                         <span className="selected-val" id={`variant-${optionName.toLowerCase()}-text`}>—</span>
                       </span>
-                      {hasSizeChart && optionName.toLowerCase() === 'size' && (
-                        <button type="button" className="pd-guide-link" data-open-sizechart=""><i className="ri-ruler-line"></i> Size guide</button>
-                      )}
                     </div>
                     <div className="pd-option-btns" data-option-group={optionName.toLowerCase()} role="group" aria-label={`Choose ${optionName.toLowerCase()}`}>
                       {values.map((value) => {
