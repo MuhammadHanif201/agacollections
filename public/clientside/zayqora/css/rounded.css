@@ -104,3 +104,6 @@
 
 /* Contact page: the whole card (dark info panel + form) with rounded corners */
 .ct-grid:not(#zq) { border-radius: 8px !important; overflow: hidden; }
+
+/* Page numbers (shop, categories) */
+.pagination .page-link:not(#zq) { border-radius: 8px !important; }
