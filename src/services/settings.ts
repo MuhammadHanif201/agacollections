@@ -55,7 +55,16 @@ export const getMenuCategories = shared<MenuCategory[]>('menu', async () => {
     .filter((c) => c.products_count > 0);
 });
 
-const productCountRows = shared<{ _id: number; n: number }[]>('product-counts', countRows);
+/** The header's Hoodies menu (under /shop/hoodies): its three kinds, shown even while empty */
+export const HOODIE_MENU = [
+  { slug: 'plain-hoodies', label: 'Plain Hoodies' },
+  { slug: 'printed-hoodies', label: 'Printed Hoodies' },
+  { slug: 'zipper-hoodies', label: 'Zippers' },
+];
+export const getHoodieCategories = shared<CategoryDoc[]>('hoodie-menu', async () =>
+  Category.find({ slug: { $in: HOODIE_MENU.map((m) => m.slug) }, status: 'active' }).sort({ _id: 1 }).lean());
+
+const productCountRows =shared<{ _id: number; n: number }[]>('product-counts', countRows);
 
 /** category id → number of active products in it */
 export const activeProductCounts = cache(async (): Promise<Map<number, number>> => {

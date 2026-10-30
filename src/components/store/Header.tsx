@@ -6,7 +6,7 @@ import { numberFormat, plural, strTitle, waLink } from '@/lib/format';
 import { Product } from '@/models/Product';
 import type { CompanySettingDoc } from '@/models/content';
 import type { CartLine } from '@/models/Session';
-import { getActiveHeadlines, type MenuCategory } from '@/services/settings';
+import { getActiveHeadlines, getHoodieCategories, HOODIE_MENU, type MenuCategory } from '@/services/settings';
 import { toCards } from '@/services/catalog';
 import { cartSubtotal } from '@/services/pricing';
 import CartBadge from './CartBadge';
@@ -43,6 +43,8 @@ export default async function Header({
   const feat = cats.find((c) => !!c.banner) ?? null;
   const brand = company?.name ?? 'AGA Collections';
   const total = cartSubtotal(cart);
+  const hoodieCats = await getHoodieCategories();
+  const hoodies = HOODIE_MENU.map((m) => ({ ...m, image: hoodieCats.find((c) => c.slug === m.slug)?.image ?? null }));
 
   let navCount = 0;
   const navCats = menuCategories.filter((c) => {
@@ -133,6 +135,17 @@ export default async function Header({
               </div>
             ))}
             <div className="dc-nav-item">
+              <StoreLink href="/shop/hoodies">Hoodies</StoreLink>
+              <div className="dc-nav-dropdown">
+                {hoodies.map((h) => (
+                  <StoreLink href={`/shop/${h.slug}`} key={h.slug}>
+                    {h.image && <img src={mediaUrl(h.image)} alt={h.label} loading="lazy" />}
+                    {h.label}
+                  </StoreLink>
+                ))}
+              </div>
+            </div>
+            <div className="dc-nav-item">
               <StoreLink href="/shop">Collections</StoreLink>
               <div className="dc-nav-dropdown">
                 {cats.map((cat) => (
@@ -184,6 +197,19 @@ export default async function Header({
                   </span>
                   <span className="zqd-cat-t">{strTitle(category.title)}</span>
                   <span className="zqd-cat-n">{category.products_count} {plural('style', category.products_count)}</span>
+                </StoreLink>
+              ))}
+            </div>
+          </details>
+          <details className="zqd-group">
+            <summary className="zqd-link"><span>Hoodies</span><i className="zqd-plus" aria-hidden="true"></i></summary>
+            <div className="zqd-sub">
+              {hoodies.map((h) => (
+                <StoreLink href={`/shop/${h.slug}`} className="zqd-cat" key={h.slug}>
+                  <span className="zqd-cat-img">
+                    {h.image && <img src={mediaUrl(h.image)} alt="" loading="lazy" width={48} height={60} />}
+                  </span>
+                  <span className="zqd-cat-t">{h.label}</span>
                 </StoreLink>
               ))}
             </div>
