@@ -101,3 +101,6 @@
   .dc-footer__nl .newsletter-form input[name="email"]:not(#zq) { border-radius: 8px 0 0 8px !important; border-right: 0 !important; }
   .dc-footer__nl .newsletter-form button[type="submit"]:not(#zq) { border-radius: 0 8px 8px 0 !important; }
 }
+
+/* Contact page: the whole card (dark info panel + form) with rounded corners */
+.ct-grid:not(#zq) { border-radius: 8px !important; overflow: hidden; }
