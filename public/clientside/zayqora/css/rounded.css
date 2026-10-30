@@ -122,3 +122,6 @@
 .dc-na-img:not(#zq),
 .dc-product-img-wrap:not(#zq),
 .product-img-swiper:not(#zq) { border-radius: 8px !important; overflow: hidden; }
+
+/* Home: category tiles */
+.dc-cat-tile:not(#zq) { border-radius: 8px !important; overflow: hidden; }
