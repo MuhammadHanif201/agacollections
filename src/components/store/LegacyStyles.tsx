@@ -48,6 +48,8 @@ const CHROME = [
 const FOOTER = [
   css('clientside__zayqora__layout__footer.1'),
   css('components__newsletter-form.1'),
+  // 8px corners on buttons and form fields; last so it wins over global.css
+  '/clientside/zayqora/css/rounded.css',
 ];
 
 export function LayoutStyles({ productCardRatio }: { productCardRatio?: string }) {

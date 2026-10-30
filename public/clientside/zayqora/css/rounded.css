@@ -1,0 +1,71 @@
+/* Rounded corners (8px) for the storefront's buttons and form fields.
+   global.css squares most of them with border-radius: 0 !important; :not(#zq) gives these
+   selectors id-level weight so they win. Round controls (circles, pills) are not listed.
+   Loaded last (LegacyStyles FOOTER). */
+
+/* Buttons and button-like links */
+.btn:not(#zq),
+.ab-btn:not(#zq),
+.al-btn:not(#zq),
+.al-toggle:not(#zq),
+.cart-empty-cta:not(#zq),
+.dc-na-footer-btn:not(#zq),
+.dc-view-all-btn:not(#zq),
+.zq-hero-btn:not(#zq),
+.zq-reviews-btn:not(#zq),
+.add-to-cart-btn:not(.pd-atc):not(#zq),
+.pd-atc:not(#zq),
+.pd-buynow:not(#zq),
+.pc-cta:not(#zq),
+.dc-add-cart-btn:not(#zq),
+.dc-na-cta:not(#zq),
+.ct-submit:not(#zq),
+.pd-submit:not(#zq),
+.pd-btn-outline:not(#zq),
+.option-btn:not(#zq),
+.dc-back-top:not(#zq),
+.dc-filter-fab:not(#zq),
+.dc-grid-btn:not(#zq),
+.dc-drawer-close:not(#zq),
+.dc-so-close:not(#zq),
+.dc-mobile-search-pill:not(#zq),
+.zqd-search:not(#zq),
+.view_close:not(#zq),
+.wishlist-btn:not(#zq),
+.pd-share button:not(#zq),
+.pd-social a:not(#zq),
+.newsletter-form button:not(#zq),
+.cs-checkout-btn:not(#zq),
+.ci-delete-btn:not(#zq),
+.swiper-button-prev:not(#zq),
+.swiper-button-next:not(#zq),
+.db-btn:not(#zq),
+.co-place-btn:not(#zq),
+.co-back-btn:not(#zq),
+
+/* Form fields */
+.form-control:not(#zq),
+.form-select:not(#zq),
+.al-input:not(#zq),
+.al-select:not(#zq),
+.ct-field:not(#zq),
+.co-input:not(#zq),
+.co-textarea:not(#zq),
+.pd-form-input:not(#zq),
+.pd-form-textarea:not(#zq),
+.dc-sort-select:not(#zq),
+.newsletter-form input:not([type=hidden]):not(#zq),
+.dc-so-input-row:not(#zq),
+.coupon-row input:not(#zq),
+
+/* Quantity boxes (their inner +/- buttons stay square inside) */
+.qty-stepper:not(#zq),
+.pd-qty:not(#zq) {
+  border-radius: 8px !important;
+}
+
+/* keep the round sticky-bar Add to Cart as it was */
+.pd-sticky .pd-atc:not(#zq) { border-radius: 999px !important; }
+
+/* rounded boxes clip their square inner buttons */
+.qty-stepper:not(#zq), .pd-qty:not(#zq) { overflow: hidden; }
