@@ -243,3 +243,7 @@
 
 .pd-visually-hidden { position:absolute !important; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 @media (prefers-reduced-motion:reduce){ .pd-page *, .pd-sticky { transition:none !important; } }
+
+/* Rounded buy controls (8px) */
+.pd-atc, .pd-buynow, .pd-wish { border-radius:8px; }
+.pd-qty-row { border-radius:8px; overflow:hidden; }

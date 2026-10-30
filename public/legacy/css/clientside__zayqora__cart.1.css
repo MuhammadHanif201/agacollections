@@ -473,6 +473,7 @@
     /* light button on the dark summary panel: the theme colour (near black) disappeared on navy */
     background: #fff;
     color: #161426;
+    border-radius: 8px;
     font-size: .7rem;
     letter-spacing: .2em;
     text-transform: uppercase;

@@ -9,7 +9,7 @@ import { useMemo, useRef, useState, type CSSProperties } from 'react';
 const LIST: CSSProperties = {
   position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 1050,
   margin: 0, padding: '4px 0', listStyle: 'none',
-  background: '#fff', border: '1px solid #e6e1da', borderRadius: 10,
+  background: '#fff', border: '1px solid #e6e1da', borderRadius: 8,
   boxShadow: '0 10px 30px rgba(22,20,38,.12)',
   maxHeight: 'min(600px, 60vh)', overflowY: 'auto', overscrollBehavior: 'contain',
 };
