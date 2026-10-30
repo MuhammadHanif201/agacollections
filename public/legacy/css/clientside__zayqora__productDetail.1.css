@@ -102,9 +102,14 @@
 .pd-qty button:hover { background:var(--pd-soft); }
 .pd-qty input { width:40px; height:54px; border:0; text-align:center; font-weight:700; font-size:.92rem; color:var(--pd-ink); -moz-appearance:textfield; background:#fff; outline:none; }
 .pd-qty input::-webkit-outer-spin-button, .pd-qty input::-webkit-inner-spin-button { -webkit-appearance:none; }
+/* quantity stepper on its own row above the buttons */
+.pd-qty-head { margin-bottom:8px; }
+.pd-qty-row { display:inline-flex; margin-bottom:14px; }
+.pd-qty-row button { width:46px; height:48px; }
+.pd-qty-row input { width:48px; height:48px; }
 .pd-atc { flex:1; height:56px; display:flex; align-items:center; justify-content:center; gap:10px; background:var(--pd-ink); color:#fff !important; border:1px solid var(--pd-ink); font-size:.76rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; cursor:pointer; transition:background .22s, color .22s; }
 /* Buy it now: under Add to Cart, adds the item and goes to checkout */
-.pd-buynow { width:100%; height:52px; margin-top:10px; display:flex; align-items:center; justify-content:center; background:#fff; color:var(--pd-ink); border:1px solid var(--pd-ink); font-size:.76rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; cursor:pointer; transition:background .22s, color .22s; }
+.pd-buynow { width:100%; height:56px; margin-top:0; display:flex; align-items:center; justify-content:center; background:#fff; color:var(--pd-ink); border:1px solid var(--pd-ink); font-size:.76rem; font-weight:700; letter-spacing:.22em; text-transform:uppercase; cursor:pointer; transition:background .22s, color .22s; }
 .pd-buynow:hover, .pd-buynow:focus-visible { background:var(--pd-ink); color:#fff; }
 .pd-buynow:disabled { opacity:.6; cursor:progress; }
 .pd-buynow[hidden] { display:none; }

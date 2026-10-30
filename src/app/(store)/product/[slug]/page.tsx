@@ -266,13 +266,16 @@ export default async function ProductPage({ params }: Props) {
               <p className="pd-stock" id="pd-stock-note" hidden></p>
               <input type="hidden" id="selected-variant-id" name="variant_id" value="" />
 
+              {/* Quantity on its own row; Add to Cart and Buy it now below it at full width */}
+              <div className="pd-option-head pd-qty-head">
+                <label htmlFor="product-qty" className="pd-option-label">Quantity</label>
+              </div>
+              <div className="pd-qty pd-qty-row">
+                <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
+                <input type="number" id="product-qty" defaultValue={1} min={1} max={99} inputMode="numeric" />
+                <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
+              </div>
               <div className="pd-buy" id="pd-buy">
-                <div className="pd-qty">
-                  <button type="button" data-qty="-1" aria-label="Decrease quantity">−</button>
-                  <label htmlFor="product-qty" className="pd-visually-hidden">Quantity</label>
-                  <input type="number" id="product-qty" defaultValue={1} min={1} max={99} inputMode="numeric" />
-                  <button type="button" data-qty="1" aria-label="Increase quantity">+</button>
-                </div>
                 <button type="button" className="pd-atc add-to-cart-btn js-pd-atc" id="pd-atc-main" data-product-id={product._id} data-has-variants="no">
                   <i className="ri-shopping-bag-line"></i> Add to Cart
                 </button>
