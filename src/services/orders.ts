@@ -264,10 +264,14 @@ async function orderMailData(order: OrderDoc, customer: Parameters<typeof orderC
       const v = item.variant_id ? p?.variants.find((x) => x._id === item.variant_id) : null;
       const img = p?.images.find((i) => i.is_primary)?.image_path ?? null;
       const imgUrl = img ? mediaUrl(img) : null;
+      // Uploaded photos go through /email-image, which hands mail apps a JPEG (they are WebP)
+      const emailImg = img && !/^https?:/i.test(img)
+        ? `${env.appUrl}/email-image/${img.replace(/^\/+/, '').replace(/^storage\//, '')}.jpg`
+        : imgUrl;
       return {
         name: p?.name ?? null,
         slug: p?.slug ?? null,
-        image: imgUrl ? (imgUrl.startsWith('http') ? imgUrl : env.appUrl + imgUrl) : null,
+        image: emailImg ? (emailImg.startsWith('http') ? emailImg : env.appUrl + emailImg) : null,
         optionsLabel: item.variant_label || variantLabelFor(v?.option_values),
         quantity: item.quantity,
         price: item.price,
