@@ -125,3 +125,6 @@
 
 /* Home: category tiles */
 .dc-cat-tile:not(#zq) { border-radius: 8px !important; overflow: hidden; }
+
+/* Product page share icons (WhatsApp and Facebook are links) */
+.pd-share a:not(#zq) { border-radius: 8px !important; }
