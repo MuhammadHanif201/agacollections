@@ -220,13 +220,6 @@ export default async function CartPage() {
         </div>
       </div>
 
-      <div id="cart-loading-overlay" style={{ display: 'none', position: 'fixed', inset: 0, zIndex: 9999, background: 'rgba(249,247,244,.85)', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 36, height: 36, border: '2.5px solid #e3e2ea', borderTopColor: '#161426', borderRadius: '50%', animation: 'spin .7s linear infinite' }}></div>
-          <span style={{ fontSize: '.65rem', letterSpacing: '.18em', textTransform: 'uppercase', color: '#999' }}>Updating…</span>
-        </div>
-      </div>
-
       <CartPageInteractions />
     </>
   );
