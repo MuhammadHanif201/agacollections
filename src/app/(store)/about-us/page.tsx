@@ -14,7 +14,7 @@ export async function generateMetadata() {
   const brand = s?.name ?? 'AGA Collections';
   return buildMetadata({
     page: 'about',
-    metaDesc: `The story behind ${brand}, a Lahore streetwear label making baggy jeans, oversized tees, button-down shirts, football jerseys and zip-up hoodies.`,
+    metaDesc: `The story behind ${brand}, a Lahore streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
   });
 }
 

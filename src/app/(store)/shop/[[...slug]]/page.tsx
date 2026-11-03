@@ -40,9 +40,9 @@ function catSeo(brand: string): Record<string, { title: string; desc: string; in
       intro: 'Relaxed, oversized button-down shirts in clean colours, made from lightweight, breathable fabric.',
     },
     'sports-jerseys': {
-      title: `Football Jerseys in Pakistan | ${brand}`,
-      desc: `Barcelona and Real Madrid inspired football jerseys in a breathable, oversized fit. Order online at ${brand} with cash on delivery across Pakistan.`,
-      intro: 'Football jerseys in breathable, sweat-wicking fabric with an oversized street fit.',
+      title: `Sports Jerseys in Pakistan | ${brand}`,
+      desc: `Barcelona and Real Madrid inspired sports jerseys in a breathable, oversized fit. Order online at ${brand} with cash on delivery across Pakistan.`,
+      intro: 'Sports jerseys in breathable, sweat-wicking fabric with an oversized street fit.',
     },
     'zipper-hoodies': {
       title: `Zip Up Hoodies in Pakistan | ${brand}`,
@@ -56,7 +56,7 @@ const LINES: Record<string, string> = {
   jeans: 'Baggy, wide-leg and washed denim.',
   't-shirts': 'Oversized and graphic tees.',
   'button-down-shirts': 'Relaxed button-downs in clean colours.',
-  'sports-jerseys': 'Football jerseys, styled for the street.',
+  'sports-jerseys': 'Sports jerseys, styled for the street.',
   'zipper-hoodies': 'Zip hoodies for every day.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
@@ -86,7 +86,7 @@ async function load(props: Props) {
     seoTitle: cat ? seo?.title ?? `${metaTitle} | ${brand} Pakistan` : `Shop Streetwear Online in Pakistan | ${brand}`,
     metaDesc: cat
       ? seo?.desc ?? `Shop ${metaTitle} at ${brand}. Cash on delivery across Pakistan.`
-      : `Shop the full ${brand} collection: baggy jeans, oversized tees, button-down shirts, football jerseys and zip-up hoodies. Cash on delivery across Pakistan.`,
+      : `Shop the full ${brand} collection: baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies. Cash on delivery across Pakistan.`,
     // An empty category is thin content: keep it out of search results
     robots: cat && result.total === 0 ? 'noindex, follow' : null,
     image: cat?.banner ? absolute(mediaUrl(cat.banner)) : null,
@@ -256,7 +256,7 @@ export default async function ShopPage(props: Props) {
                 <p>
                   {`${cat && seo?.intro
                     ? seo.intro
-                    : `${brand} makes everyday streetwear: unisex baggy jeans, oversized down shoulder tees, relaxed button-down shirts, football jerseys and zip-up hoodies.`} Every order is cash on delivery, shipped with TCS, Leopards or BlueEx in 2–4 working days to Karachi, Lahore and Islamabad.`}
+                    : `${brand} makes everyday streetwear: unisex baggy jeans, oversized down shoulder tees, relaxed button-down shirts, sports jerseys and zip-up hoodies.`} Every order is cash on delivery, shipped with TCS, Leopards or BlueEx in 2–4 working days to Karachi, Lahore and Islamabad.`}
                 </p>
                 {guideCats.length > 0 && (
                   <p className="dc-shop-guide-links">

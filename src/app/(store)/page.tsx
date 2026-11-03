@@ -22,7 +22,7 @@ async function meta() {
   const brand = s?.name ?? 'AGA Collections';
   return {
     page: 'home' as const,
-    metaDesc: `Baggy jeans, oversized tees, button-down shirts, football jerseys and zip-up hoodies from ${brand}, Lahore. Cash on delivery across Pakistan.`,
+    metaDesc: `Baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies from ${brand}, Lahore. Cash on delivery across Pakistan.`,
   };
 }
 

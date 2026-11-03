@@ -656,7 +656,7 @@ export function customerWelcomeHtml(brand: string, customer: { full_name: string
                             </p>
 
                             <p style="font-size:16px; line-height:1.7; color:#444;">
-                                Discover baggy jeans, oversized tees, button-down shirts, football jerseys and zip-up hoodies, with cash on delivery across Pakistan.
+                                Discover baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies, with cash on delivery across Pakistan.
                             </p>
 
                             <hr style="border:none; border-top:1px solid #e7e5e4; margin:28px 0;">

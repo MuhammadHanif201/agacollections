@@ -38,7 +38,7 @@ export interface MetaOptions {
   hasSearch?: boolean;
 }
 
-const RANGE = 'baggy jeans, oversized tees, button-down shirts, football jerseys and zip-up hoodies';
+const RANGE = 'baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies';
 
 async function currentUrl(): Promise<string> {
   const h = await headers();
