@@ -13,12 +13,17 @@ export async function homeData() {
   await connectDb();
   const active = { status: 'active' as const };
 
-  // New In: 16 new in-stock products taken in turn from each category (newest first in each),
-  // so one big upload does not fill the row with a single kind; shown in the curated order
-  const latestProducts = sortStable(
-    mixByCategory(await Product.find({ ...active, ...inStockFilter }).sort({ created_at: -1, _id: 1 }).limit(200).lean(), 16),
-    (a, b) => a.sort_order - b.sort_order,
-  );
+  // New In: the admin's Featured products first, then new ones, 16 in all, taken in turn from each
+  // category (newest first in each) so one big upload does not fill the row with a single kind;
+  // shown in the curated order
+  const [featured, newest] = await Promise.all([
+    Product.find({ ...active, ...inStockFilter, is_featured: true }).sort({ created_at: -1, _id: 1 }).limit(64).lean(),
+    Product.find({ ...active, ...inStockFilter }).sort({ created_at: -1, _id: 1 }).limit(200).lean(),
+  ]);
+  const picked = mixByCategory(featured, 16);
+  const pickedIds = new Set(picked.map((p) => p._id));
+  picked.push(...mixByCategory(newest.filter((p) => !pickedIds.has(p._id)), 16 - picked.length));
+  const latestProducts = sortStable(picked, (a, b) => a.sort_order - b.sort_order);
 
   // Most Loved: admin-marked, else most viewed with stock
   let bestSellers = await Product.find({ ...active, is_best_seller: true }).sort({ sort_order: 1, _id: 1 }).limit(8).lean();
