@@ -15,13 +15,9 @@ export default function CartPageInteractions() {
   const router = useRouter();
   const [updating, startTransition] = useTransition();
 
-  // Dim the cart and block clicks while it updates (instead of the full-screen overlay)
+  // Dim the cart, show a spinner and block clicks while it updates (rounded.css .zq-loading)
   useEffect(() => {
-    const page = document.querySelector<HTMLElement>('.cart-page');
-    if (!page) return;
-    page.style.transition = 'opacity 150ms';
-    page.style.opacity = updating ? '.55' : '';
-    page.style.pointerEvents = updating ? 'none' : '';
+    document.querySelector('.cart-page')?.classList.toggle('zq-loading', updating);
   }, [updating]);
 
   useEffect(() => {

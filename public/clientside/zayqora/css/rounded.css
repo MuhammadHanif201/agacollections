@@ -146,3 +146,15 @@
 .swal2-popup.zq-limit .swal2-html-container { font-size: .9rem; margin: 0; padding: 0 4px; }
 .swal2-popup.zq-limit .swal2-actions { margin-top: 20px; }
 .swal2-popup.zq-limit .swal2-confirm { padding: 10px 40px; font-size: .9rem; background: #161426; border-radius: 8px; }
+
+/* Updating in place (shop sort, cart quantity): content dims, a spinner shows mid-screen */
+.zq-loading { pointer-events: none; }
+.zq-loading > * { opacity: .45; transition: opacity .15s; }
+.zq-loading::after {
+  content: ''; position: fixed; top: 50%; left: 50%; z-index: 60;
+  width: 40px; height: 40px; margin: -20px 0 0 -20px;
+  border: 3px solid rgba(22, 20, 38, .15); border-top-color: #161426; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 0 9px #fff, 0 8px 24px 9px rgba(22, 20, 38, .18);
+  animation: zq-spin .7s linear infinite;
+}
+@keyframes zq-spin { to { transform: rotate(360deg); } }

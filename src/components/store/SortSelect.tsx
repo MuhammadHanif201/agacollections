@@ -12,12 +12,9 @@ export default function SortSelect({ value }: { value: string }) {
   const router = useRouter();
   const [loading, startTransition] = useTransition();
 
-  // Dim the products while the sorted list loads
+  // Dim the products and show a spinner while the sorted list loads (rounded.css .zq-loading)
   useEffect(() => {
-    const grid = document.getElementById('dcProductGrid');
-    if (!grid) return;
-    grid.style.transition = 'opacity 150ms';
-    grid.style.opacity = loading ? '.5' : '';
+    document.getElementById('dcProductGrid')?.classList.toggle('zq-loading', loading);
   }, [loading]);
 
   return (
