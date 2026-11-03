@@ -1,14 +1,39 @@
 'use client';
 
-/** The sort <select> that submits its form on change */
+import { useEffect, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+
+/**
+ * The sort <select>: on change it opens its form's URL (sort + kept filters) with client-side
+ * navigation, so the products change without a full page load. The form still works
+ * without JavaScript.
+ */
 export default function SortSelect({ value }: { value: string }) {
+  const router = useRouter();
+  const [loading, startTransition] = useTransition();
+
+  // Dim the products while the sorted list loads
+  useEffect(() => {
+    const grid = document.getElementById('dcProductGrid');
+    if (!grid) return;
+    grid.style.transition = 'opacity 150ms';
+    grid.style.opacity = loading ? '.5' : '';
+  }, [loading]);
+
   return (
     <select
       className="dc-sort-select"
       name="sort"
       id="dcSortSelect"
       defaultValue={value}
-      onChange={(e) => e.currentTarget.form?.submit()}
+      onChange={(e) => {
+        const form = e.currentTarget.form;
+        if (!form) return;
+        const params = new URLSearchParams();
+        new FormData(form).forEach((v, k) => { if (typeof v === 'string' && !(k === 'sort' && v === '')) params.append(k, v); });
+        const qs = params.toString();
+        startTransition(() => router.push(form.getAttribute('action') + (qs ? '?' + qs : ''), { scroll: false }));
+      }}
       aria-label="Sort products"
     >
       <option value="">Default</option>
