@@ -46,9 +46,11 @@ export default async function Header({
   const hoodieCats = await getHoodieCategories();
   const hoodies = HOODIE_MENU.map((m) => ({ ...m, image: hoodieCats.find((c) => c.slug === m.slug)?.image ?? null }));
 
+  // the hoodie kinds have their own Hoodies menu, so they do not take a place in the strip
+  const hoodieSlugs = new Set(HOODIE_MENU.map((m) => m.slug));
   let navCount = 0;
   const navCats = menuCategories.filter((c) => {
-    if (c.title !== NEW_ARRIVAL && navCount < 4) { navCount++; return true; }
+    if (c.title !== NEW_ARRIVAL && !hoodieSlugs.has(c.slug ?? '') && navCount < 4) { navCount++; return true; }
     return false;
   });
 
