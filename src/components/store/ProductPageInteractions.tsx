@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { getSwal, postJson } from './client-utils';
+import { getSwal, postJson, showLimit } from './client-utils';
 import { useStore } from './StoreProvider';
 
 interface VariantInfo {
@@ -382,7 +382,7 @@ export default function ProductPageInteractions({
           if (ok && data.status === 'success') { window.location.assign('/checkout?buy=now'); return; }
           b.disabled = false;
           const Swal = await getSwal();
-          if (ok && data.limit) void Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: data.message, confirmButtonText: 'Got it' });
+          if (ok && data.limit) void showLimit(data.message);
           else void Swal.fire('Error', data.message || 'Could not continue to checkout. Please try again.', 'error');
         })
         .catch(() => { b.disabled = false; });

@@ -137,3 +137,12 @@
 .ci-img:not(#zq),
 .cart-items-panel:not(#zq),
 .cart-summary-panel:not(#zq) { border-radius: 8px !important; overflow: hidden; }
+
+/* Stock-limit popup ("Limit reached"): small and compact */
+.swal2-popup.zq-limit { padding: 18px 16px 16px; border-radius: 8px; }
+.swal2-popup.zq-limit .swal2-icon { width: 44px; height: 44px; margin: 4px auto 8px; border-width: 2px; }
+.swal2-popup.zq-limit .swal2-icon .swal2-icon-content { font-size: 28px; }
+.swal2-popup.zq-limit .swal2-title { font-size: 1.2rem; padding: 0; margin: 0 0 4px; }
+.swal2-popup.zq-limit .swal2-html-container { font-size: .9rem; margin: 0; padding: 0 4px; }
+.swal2-popup.zq-limit .swal2-actions { margin-top: 14px; }
+.swal2-popup.zq-limit .swal2-confirm { padding: 7px 26px; font-size: .85rem; background: #161426; border-radius: 8px; }

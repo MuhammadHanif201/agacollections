@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { getSwal, postJson } from './client-utils';
+import { getSwal, postJson, showLimit } from './client-utils';
 import VariantModal, { type VariantData } from './VariantModal';
 
 export { getSwal, postJson };
@@ -91,7 +91,7 @@ export default function StoreProvider({
         return true;
       }
       if (ok && data.limit) {
-        Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: data.message, confirmButtonText: 'Got it' });
+        void showLimit(data.message);
       } else if (ok) {
         Swal.fire('Error', data.message || 'Could not add to cart.', 'error');
       } else {

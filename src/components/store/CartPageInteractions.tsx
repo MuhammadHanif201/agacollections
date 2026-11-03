@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { getSwal, postJson, useStore } from './StoreProvider';
+import { showLimit } from './client-utils';
 
 /** cart.blade.php script: quantity stepper and Remove (the page reloads to recalculate totals) */
 export default function CartPageInteractions() {
@@ -27,7 +28,7 @@ export default function CartPageInteractions() {
           // Stock limit: nothing changed in the bag, so put the number back and explain
           const input = quantityInput(key);
           if (input) input.value = input.defaultValue;
-          Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: data.message, confirmButtonText: 'Got it' });
+          void showLimit(data.message);
         } else {
           Swal.fire({ icon: 'error', title: 'Oops…', text: data.message || 'Update failed.' });
           setTimeout(() => location.reload(), 2000);
