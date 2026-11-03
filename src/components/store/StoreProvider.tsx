@@ -69,7 +69,7 @@ export default function StoreProvider({
   const addToCart = useCallback(async (productId: number, variantId: number | null, quantity: number) => {
     const Swal = await getSwal();
     try {
-      const { ok, data } = await postJson<{ status?: string; message?: string; value?: number }>('/cart/add', {
+      const { ok, data } = await postJson<{ status?: string; message?: string; value?: number; limit?: boolean }>('/cart/add', {
         product_id: productId,
         variant_id: variantId,
         quantity,
@@ -90,7 +90,9 @@ export default function StoreProvider({
         }
         return true;
       }
-      if (ok) {
+      if (ok && data.limit) {
+        Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: data.message, confirmButtonText: 'Got it' });
+      } else if (ok) {
         Swal.fire('Error', data.message || 'Could not add to cart.', 'error');
       } else {
         Swal.fire('Error', data.message || 'Could not add to cart. Please try again.', 'error');

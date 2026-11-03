@@ -42,7 +42,26 @@ export async function recalculateCoupon(data: SessionData): Promise<string | nul
   return null;
 }
 
-const isIntLike = (v: unknown) => v === null || v === undefined || v === '' || (/^-?\d+$/.test(String(v)) && typeof v !== 'object');
+/** " (Size: 32)" from a line's options, for the messages */
+function optionLabel(options: Record<string, unknown> | undefined): string {
+  const pairs = Object.entries(options ?? {})
+    .filter(([, v]) => v !== null && v !== '')
+    .map(([k, v]) => `${k ? k.charAt(0).toUpperCase() + k.slice(1) : 'Option'}: ${String(v).charAt(0).toUpperCase() + String(v).slice(1)}`);
+  return pairs.length ? ` (${pairs.join(', ')})` : '';
+}
+
+/** The stock limit, in words a shopper understands; `limit` lets the page show it as a notice, not an error */
+function stockLimit(name: string, details: string, available: number, inCart: number, extra: Record<string, unknown> = {}) {
+  const left = Math.max(0, available - inCart);
+  const pcs = (n: number) => `${n} ${n === 1 ? 'piece' : 'pieces'}`;
+  let message: string;
+  if (available <= 0) message = `Sorry, ${name}${details} is out of stock right now.`;
+  else if (left <= 0) message = `You can order up to ${pcs(available)} of ${name}${details}, and all ${available} are already in your bag.`;
+  else message = `You can order up to ${pcs(available)} of ${name}${details}.` + (inCart > 0 ? ` You already have ${inCart} in your bag, so you can add ${left} more.` : '');
+  return { httpStatus: 200, body: { status: 'error', limit: true, message, ...extra } as Result };
+}
+
+const isIntLike =(v: unknown) => v === null || v === undefined || v === '' || (/^-?\d+$/.test(String(v)) && typeof v !== 'object');
 
 export async function addToCart(data: SessionData, input: { product_id?: unknown; variant_id?: unknown; quantity?: unknown }): Promise<{ httpStatus: number; body: Result; flash?: string | null }> {
   // Scalars only (arrays or text here used to crash with a 500)
@@ -65,8 +84,7 @@ export async function addToCart(data: SessionData, input: { product_id?: unknown
     const available = Number(variant.quantity ?? 0);
     const inCart = Object.values(cart).reduce((s, l) => s + (l.variant_id === variant._id ? Number(l.quantity) : 0), 0);
     const remain = Math.max(0, available - inCart);
-    if (remain <= 0) return { httpStatus: 200, body: { status: 'error', message: 'Out of stock.' } };
-    if (quantity > remain) return { httpStatus: 200, body: { status: 'error', message: `Only ${remain} left.` } };
+    if (quantity > remain) return stockLimit(product.name, optionLabel(variant.option_values), available, inCart);
 
     const existing = Number(cart[key]?.quantity ?? 0);
     const primary = product.images.find((i) => i.is_primary);
@@ -93,8 +111,7 @@ export async function addToCart(data: SessionData, input: { product_id?: unknown
     const available = Number(product.quantity ?? 0);
     const inCart = Object.values(cart).reduce((s, l) => s + (l.variant_id === null && l.product_id === product._id ? Number(l.quantity) : 0), 0);
     const remain = Math.max(0, available - inCart);
-    if (remain <= 0) return { httpStatus: 200, body: { status: 'error', message: 'Out of stock.' } };
-    if (quantity > remain) return { httpStatus: 200, body: { status: 'error', message: `Only ${remain} left.` } };
+    if (quantity > remain) return stockLimit(product.name, '', available, inCart);
 
     const existing = Number(cart[key]?.quantity ?? 0);
     const primary = product.images.find((i) => i.is_primary);
@@ -129,12 +146,6 @@ export async function updateCartLine(data: SessionData, rawKey: unknown, rawQty:
   const currentQty = Number(item.quantity ?? 0);
   const isIncrease = newQuantity > currentQty;
 
-  // Friendly variant details for the messages
-  const pairs = Object.entries(item.variant_options ?? {})
-    .filter(([, v]) => v !== null && v !== '')
-    .map(([k, v]) => `${k ? k.charAt(0).toUpperCase() + k.slice(1) : 'Option'}: ${String(v).charAt(0).toUpperCase() + String(v).slice(1)}`);
-  const variantDetails = pairs.length ? ` (${pairs.join(', ')})` : '';
-
   await connectDb();
   let nameForMsg = 'This product';
   let availableQty: number;
@@ -153,14 +164,11 @@ export async function updateCartLine(data: SessionData, rawKey: unknown, rawQty:
     availableQty = Number(product.quantity ?? 0);
     for (const [k, line] of Object.entries(cart)) if (k !== key && line.variant_id === null && line.product_id === item.product_id) inCartOther += Number(line.quantity ?? 0);
   }
-  const details = item.variant_id ? variantDetails : '';
+  const details = item.variant_id ? optionLabel(item.variant_options) : '';
   const additionalAvailable = Math.max(0, availableQty - inCartOther - currentQty);
   const maxTotalForThisLine = currentQty + additionalAvailable;
   if (isIncrease && newQuantity > maxTotalForThisLine) {
-    const message = additionalAvailable <= 0
-      ? `No more stock available for ${nameForMsg}${details}. You already have ${currentQty} in cart.`
-      : `You can add only ${additionalAvailable} more (max ${maxTotalForThisLine} total) for ${nameForMsg}${details}.`;
-    return { httpStatus: 200, body: { status: 'error', message, max_total: maxTotalForThisLine, additional_available: additionalAvailable } };
+    return stockLimit(nameForMsg, details, availableQty, inCartOther + currentQty, { max_total: maxTotalForThisLine, additional_available: additionalAvailable });
   }
 
   cart[key] = { ...item, quantity: newQuantity };

@@ -377,12 +377,13 @@ export default function ProductPageInteractions({
       const c = chosen();
       if (!c) return;
       b.disabled = true;
-      void postJson<{ status?: string; message?: string }>('/cart/buy-now', { product_id: productId, variant_id: c.variantId, quantity: c.quantity })
+      void postJson<{ status?: string; message?: string; limit?: boolean }>('/cart/buy-now', { product_id: productId, variant_id: c.variantId, quantity: c.quantity })
         .then(async ({ ok, data }) => {
           if (ok && data.status === 'success') { window.location.assign('/checkout?buy=now'); return; }
           b.disabled = false;
           const Swal = await getSwal();
-          void Swal.fire('Error', data.message || 'Could not continue to checkout. Please try again.', 'error');
+          if (ok && data.limit) void Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: data.message, confirmButtonText: 'Got it' });
+          else void Swal.fire('Error', data.message || 'Could not continue to checkout. Please try again.', 'error');
         })
         .catch(() => { b.disabled = false; });
     }));

@@ -20,9 +20,14 @@ export default function CartPageInteractions() {
       }
       showSpinner();
       try {
-        const { data } = await postJson<{ status?: string; message?: string }>('/cart/update', { key, quantity });
+        const { data } = await postJson<{ status?: string; message?: string; limit?: boolean }>('/cart/update', { key, quantity });
         if (data.status === 'success') {
           location.reload();
+        } else if (data.limit) {
+          // Stock limit: nothing changed in the bag, so put the number back and explain
+          const input = quantityInput(key);
+          if (input) input.value = input.defaultValue;
+          Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: data.message, confirmButtonText: 'Got it' });
         } else {
           Swal.fire({ icon: 'error', title: 'Oops…', text: data.message || 'Update failed.' });
           setTimeout(() => location.reload(), 2000);
