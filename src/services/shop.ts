@@ -3,9 +3,12 @@ import type { PipelineStage } from 'mongoose';
 import { connectDb } from '@/lib/db';
 import { Category, type CategoryDoc } from '@/models/Category';
 import { Product, type ProductDoc } from '@/models/Product';
-import { activeProductCounts } from './settings';
+import { activeProductCounts, HOODIE_MENU } from './settings';
 
 export const PER_PAGE = 18;
+
+/** A category page that also lists the products of its kinds (the Hoodies menu: plain, printed, zippers) */
+const INCLUDES: Record<string, string[]> = { hoodies: HOODIE_MENU.map((m) => m.slug) };
 
 type Query = Record<string, string | string[] | undefined>;
 
@@ -90,7 +93,12 @@ export async function shopQuery(slug: string | null, q: Query): Promise<ShopResu
 
   const and: Record<string, unknown>[] = [{ status: 'active' }];
   if (selectedCategory) {
-    and.push(wantKids ? { $or: [{ category_ids: selectedCategory._id }, kidName] } : { category_ids: selectedCategory._id });
+    const kinds = INCLUDES[selectedCategory.slug ?? ''];
+    const ids = kinds
+      ? (await Category.find({ slug: { $in: [selectedCategory.slug ?? '', ...kinds] }, status: 'active' }).lean()).map((c) => c._id)
+      : [selectedCategory._id];
+    const inCat = { category_ids: { $in: ids } };
+    and.push(wantKids ? { $or: [inCat, kidName] } : inCat);
   } else if (wantKids) {
     and.push(kidName);
   }

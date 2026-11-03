@@ -58,6 +58,9 @@ const LINES: Record<string, string> = {
   'button-down-shirts': 'Relaxed button-downs in clean colours.',
   'sports-jerseys': 'Sports jerseys, styled for the street.',
   'zipper-hoodies': 'Zip hoodies for every day.',
+  hoodies: 'Plain, printed and zip hoodies.',
+  'plain-hoodies': 'Heavyweight plain hoodies.',
+  'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
