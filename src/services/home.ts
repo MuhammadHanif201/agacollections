@@ -13,9 +13,10 @@ export async function homeData() {
   await connectDb();
   const active = { status: 'active' as const };
 
-  // New In: the 16 newest in-stock products, shown in the curated order
+  // New In: 16 new in-stock products taken in turn from each category (newest first in each),
+  // so one big upload does not fill the row with a single kind; shown in the curated order
   const latestProducts = sortStable(
-    await Product.find({ ...active, ...inStockFilter }).sort({ created_at: -1, _id: 1 }).limit(16).lean(),
+    mixByCategory(await Product.find({ ...active, ...inStockFilter }).sort({ created_at: -1, _id: 1 }).limit(200).lean(), 16),
     (a, b) => a.sort_order - b.sort_order,
   );
 
@@ -72,6 +73,26 @@ export async function homeReviews() {
     .slice(0, 6)
     .map((r) => ({ ...r, product: byId.get(r.product_id)! }));
   return { count, avg, show };
+}
+
+/** Up to `n` products, one from each category in turn (by first category), keeping each one's newest-first order */
+function mixByCategory<T extends { category_ids?: number[] }>(newestFirst: T[], n: number): T[] {
+  const groups = new Map<number, T[]>();
+  for (const p of newestFirst) {
+    const key = p.category_ids?.[0] ?? 0;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(p);
+  }
+  const queues = [...groups.values()];
+  const out: T[] = [];
+  while (out.length < n && queues.some((q) => q.length)) {
+    for (const q of queues) {
+      const next = q.shift();
+      if (next) out.push(next);
+      if (out.length === n) break;
+    }
+  }
+  return out;
 }
 
 export function sortStable<T>(arr: T[], cmp: (a: T, b: T) => number): T[] {
