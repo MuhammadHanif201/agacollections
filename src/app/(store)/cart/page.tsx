@@ -121,7 +121,7 @@ export default async function CartPage() {
                 <div className="col-lg-4 cart-col-summary">
                   <div className="cart-summary-panel">
                     <div className="cs-header">
-                      <i className="ri-price-tag-3-line" style={{ color: 'var(--dc-gold)' }}></i>
+                      <i className="ri-price-tag-3-line" style={{ color: '#fff' }}></i>
                       <span className="cs-header-title">Order Summary</span>
                     </div>
 
