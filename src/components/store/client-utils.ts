@@ -14,7 +14,7 @@ export function getSwal(): Promise<SwalType> {
 /** The stock-limit notice: a small popup with one short line (styled in rounded.css) */
 export async function showLimit(message?: string) {
   const Swal = await getSwal();
-  return Swal.fire({ icon: 'info', title: 'Limit reached', text: message, confirmButtonText: 'OK', width: 250, customClass: { popup: 'zq-limit' } });
+  return Swal.fire({ icon: 'info', title: 'Maximum quantity reached', text: message, confirmButtonText: 'OK', width: 320, customClass: { popup: 'zq-limit' } });
 }
 
 export async function postJson<T = Record<string, unknown>>(url: string, body: unknown): Promise<{ ok: boolean; status: number; data: T }> {
