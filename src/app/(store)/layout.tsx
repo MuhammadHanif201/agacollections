@@ -35,7 +35,8 @@ export default async function StoreLayout({ children }: { children: ReactNode })
     getSession(),
   ]);
   const cart = session.data.cart ?? {};
-  const [wishlist, flash] = await Promise.all([wishlistIds(customer?._id), peekFlash()]);
+  // a guest's hearts are kept in the session
+  const [wishlist, flash] = await Promise.all([customer ? wishlistIds(customer._id) : session.data.wishlist ?? [], peekFlash()]);
   const newsletterNotice = flash && (flash.type === 'newsletter_success' || flash.type === 'newsletter_error')
     ? { ok: flash.type === 'newsletter_success', text: flash.text }
     : null;

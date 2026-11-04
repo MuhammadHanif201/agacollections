@@ -3,6 +3,7 @@ import { getCurrentCustomer } from '@/lib/auth';
 import { connectDb } from '@/lib/db';
 import { setFlash } from '@/lib/flash';
 import { json, readBody, rejectCrossSite } from '@/lib/route';
+import { getWritableSession, saveSession } from '@/lib/session';
 import { Wishlist } from '@/models/content';
 import { Product } from '@/models/Product';
 
@@ -11,9 +12,6 @@ export async function POST(req: Request) {
   if (bad) return bad;
   const customer = await getCurrentCustomer();
   const wantsJson = (req.headers.get('accept') ?? '').includes('application/json');
-  if (!customer) {
-    return wantsJson ? json({ message: 'Unauthenticated.' }, 401) : NextResponse.redirect(new URL('/customer/login', req.url), 303);
-  }
 
   const body = await readBody(req);
   const productId = Number(body.product_id);
@@ -21,7 +19,14 @@ export async function POST(req: Request) {
   if (!Number.isInteger(productId) || !(await Product.exists({ _id: productId }))) {
     return json({ message: 'The selected product id is invalid.', errors: { product_id: ['The selected product id is invalid.'] } }, 422);
   }
-  await Wishlist.deleteMany({ user_id: customer._id, product_id: productId });
+  if (customer) {
+    await Wishlist.deleteMany({ user_id: customer._id, product_id: productId });
+  } else {
+    // a guest's wishlist lives in the session
+    const s = await getWritableSession();
+    s.data.wishlist = (s.data.wishlist ?? []).filter((id) => id !== productId);
+    await saveSession(s);
+  }
 
   // Heart buttons call this with fetch; the wishlist page posts a form
   if (wantsJson) return json({ status: 'removed', message: 'Removed from your wishlist.' });

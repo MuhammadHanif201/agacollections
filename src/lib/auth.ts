@@ -4,8 +4,10 @@ import bcrypt from 'bcryptjs';
 import { cookies } from 'next/headers';
 import { cache } from 'react';
 import { connectDb } from './db';
-import { getSession, invalidateSession, regenerateSession } from './session';
+import { getSession, invalidateSession, regenerateSession, saveSession } from './session';
 import { Customer, type CustomerDoc } from '@/models/Customer';
+import { Wishlist } from '@/models/content';
+import { nextId } from '@/models/Counter';
 
 const REMEMBER_COOKIE = 'zq_remember';
 const REMEMBER_DAYS = 400; // browsers cap cookie lifetime at about 400 days
@@ -55,7 +57,18 @@ export const hashPassword = (plain: string) => bcrypt.hash(plain, 12);
 
 /** Sign a customer in on a fresh session id (protects against session fixation). */
 export async function loginCustomer(customerId: number, remember: boolean) {
-  await regenerateSession(customerId);
+  const s = await regenerateSession(customerId);
+  // What the visitor saved as a guest joins their wishlist
+  const guest = s.data.wishlist ?? [];
+  if (guest.length) {
+    const have = new Set((await Wishlist.find({ user_id: customerId, product_id: { $in: guest } }).select('product_id').lean()).map((w) => w.product_id));
+    for (const productId of guest) {
+      if (!have.has(productId)) await Wishlist.create({ _id: await nextId('wishlists'), user_id: customerId, product_id: productId });
+    }
+    const { wishlist: _moved, ...rest } = s.data;
+    void _moved;
+    await saveSession({ id: s.id, data: rest });
+  }
   const jar = await cookies();
   if (remember) {
     const token = randomBytes(30).toString('base64url');

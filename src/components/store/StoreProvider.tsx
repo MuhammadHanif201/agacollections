@@ -134,7 +134,7 @@ export default function StoreProvider({
         return next;
       });
     try {
-      const { ok, status, data } = await postJson<{ status?: string; message?: string; error?: string }>(
+      const { ok, data } = await postJson<{ status?: string; message?: string; error?: string }>(
         removing ? '/customer/wishlist/remove' : '/customer/wishlist/add',
         { product_id: productId },
       );
@@ -154,12 +154,7 @@ export default function StoreProvider({
         }
         return;
       }
-      if (status === 401) {
-        const r = await Swal.fire({ title: 'Login Required', text: 'Please login to add items to your wishlist.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Login', cancelButtonText: 'Cancel' });
-        if (r.isConfirmed) window.location.href = '/customer/login';
-      } else {
-        Swal.fire('Error', data.error || 'Something went wrong', 'error');
-      }
+      Swal.fire('Error', data.error || data.message || 'Something went wrong', 'error');
     } catch {
       Swal.fire('Error', 'Something went wrong', 'error');
     }

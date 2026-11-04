@@ -30,6 +30,8 @@ export interface SessionData {
   /** Orders this browser placed: only they (or the owner) may open the thank-you page */
   zq_order_access?: number[];
   just_purchased_order_id?: number;
+  /** A guest's wishlist (product ids); moved to the customer's wishlist when they sign in */
+  wishlist?: number[];
 }
 
 export interface SessionDoc {

@@ -3,8 +3,8 @@ import { connectDb } from '@/lib/db';
 import { numberFormat } from '@/lib/format';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata } from '@/lib/seo';
-import { redirect } from 'next/navigation';
 import { getCurrentCustomer } from '@/lib/auth';
+import { getSession } from '@/lib/session';
 import AccountShell from '@/components/store/AccountShell';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import { Wishlist } from '@/models/content';
@@ -18,21 +18,20 @@ export async function generateMetadata() {
 
 export default async function WishlistPage() {
   const customer = await getCurrentCustomer();
-  if (!customer) redirect('/customer/login/wishlist');
   await connectDb();
-  const saved = await Wishlist.find({ user_id: customer._id }).sort({ _id: 1 }).lean();
+  // A guest's wishlist is kept in the session; a customer's in the database
+  const saved = customer
+    ? (await Wishlist.find({ user_id: customer._id }).sort({ _id: 1 }).lean()).map((i) => i.product_id)
+    : (await getSession()).data.wishlist ?? [];
   // Only products still on sale: drafts and deleted products drop out of the list
-  const products = await Product.find({ _id: { $in: saved.map((i) => i.product_id) }, status: 'active' }).lean();
+  const products = await Product.find({ _id: { $in: saved }, status: 'active' }).lean();
   const byId = new Map(products.map((p) => [p._id, p]));
-  const items = saved.filter((i) => byId.has(i.product_id));
+  const items = [...new Set(saved)].filter((id) => byId.has(id)).map((product_id) => ({ product_id }));
 
-  return (
-    <>
-      <PageStyles pushed={['clientauth__dashboard__customer-sidebar.1', 'clientauth__dashboard__wishlist.1']} />
-      <AccountShell customer={customer} active="wishlist">
+  const content = (
         <div className="db-col-main">
           <div className="db-ph">
-            <span className="db-ph-ey">Account</span>
+            <span className="db-ph-ey">{customer ? 'Account' : 'Saved items'}</span>
             <h1>My Wishlist
               {items.length > 0 && (
                 <>{' '}<span style={{ fontFamily: "'Inter',sans-serif", fontSize: '.85rem', fontStyle: 'normal', fontWeight: 400, color: 'var(--dc-muted)', marginLeft: 8 }}>({items.length})</span></>
@@ -60,7 +59,7 @@ export default async function WishlistPage() {
                 const hasSale = Boolean(product?.sale_price && product.sale_price > Number(product.price));
                 const href = `/product/${product?.slug ?? product?._id ?? ''}`;
                 return (
-                  <div className="dbw-card" key={item._id}>
+                  <div className="dbw-card" key={item.product_id}>
                     <StoreLink href={href} className="dbw-img-wrap">
                       {primary ? <img src={mediaUrl(primary.image_path)} alt={product?.name} className="dbw-img" loading="lazy" /> : <div className="dbw-img-placeholder"><i className="ri-image-line"></i></div>}
                     </StoreLink>
@@ -89,7 +88,14 @@ export default async function WishlistPage() {
             </div>
           )}
         </div>
-      </AccountShell>
+  );
+
+  return (
+    <>
+      <PageStyles pushed={['clientauth__dashboard__customer-sidebar.1', 'clientauth__dashboard__wishlist.1']} />
+      {customer
+        ? <AccountShell customer={customer} active="wishlist">{content}</AccountShell>
+        : <div className="container py-4 py-md-5">{content}</div>}
     </>
   );
 }

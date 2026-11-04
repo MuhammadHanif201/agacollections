@@ -158,3 +158,8 @@
   animation: zq-spin .7s linear infinite;
 }
 @keyframes zq-spin { to { transform: rotate(360deg); } }
+
+/* Home card text (New In, Deals, Most Loved): the same side space as the shop cards, so the
+   name and price do not touch the card's edge */
+.dc-na-info:not(#zq),
+.dc-product-info:not(#zq) { padding-left: 14px; padding-right: 14px; }
