@@ -141,14 +141,14 @@ export default function StoreProvider({
       if (ok) {
         if (data.status === 'removed') {
           setHeart(false);
-          Swal.fire({ title: 'Removed', text: data.message, icon: 'success', timer: 1300, showConfirmButton: false });
+          Swal.fire({ title: 'Removed', text: data.message, icon: 'success', timer: 1300, showConfirmButton: false, width: 320 });
           return;
         }
         if (data.status === 'added' || data.status === 'exists') setHeart(true);
         if (data.status === 'added') {
-          Swal.fire({ title: 'Success', text: data.message || 'Product added to your wishlist.', icon: 'success', timer: 1500, showConfirmButton: false });
+          Swal.fire({ title: 'Success', text: data.message || 'Product added to your wishlist.', icon: 'success', timer: 1500, showConfirmButton: false, width: 320 });
         } else if (data.status === 'exists') {
-          Swal.fire({ title: 'Already in wishlist', text: data.message || 'This product is already in your wishlist.', icon: 'info', timer: 1500, showConfirmButton: false });
+          Swal.fire({ title: 'Already in wishlist', text: data.message || 'This product is already in your wishlist.', icon: 'info', timer: 1500, showConfirmButton: false, width: 320 });
         } else {
           Swal.fire({ title: 'Success', text: data.message || 'Action completed successfully.', icon: 'success' });
         }
