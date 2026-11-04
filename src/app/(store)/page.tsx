@@ -14,6 +14,7 @@ import { getActivePopup, getCompanySetting, getMenuCategories } from '@/services
 import type { CardProduct } from '@/types/catalog';
 import StoreLink from '@/components/store/StoreLink';
 import OffBadge from '@/components/store/OffBadge';
+import RowScroller from '@/components/store/RowScroller';
 
 const NEW_ARRIVAL = 'Home Page - New Arrival';
 
@@ -337,11 +338,11 @@ export default async function HomePage() {
                   </StoreLink>
                 </div>
 
-                <div className="row g-3 g-md-4">
+                <RowScroller>
                   {products.map((product) => {
                     const { bp, sp } = prices(product);
                     return (
-                      <div className="col-6 col-md-4 col-lg-2" key={product.id}>
+                      <div className="zq-rs-item" key={product.id}>
                         <div className="dc-product-card">
                           <div className="dc-product-img-wrap">
                             <StoreLink href={`/product/${product.slug}`}>
@@ -370,7 +371,7 @@ export default async function HomePage() {
                       </div>
                     );
                   })}
-                </div>
+                </RowScroller>
               </div>
             ))}
           </div>

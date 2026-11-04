@@ -39,7 +39,7 @@ export async function homeData() {
     return db - da || a.sort_order - b.sort_order || a._id - b._id;
   }).slice(0, 8);
 
-  // Shop the Edit: the 3 categories with most products (at least 4), 6 in-stock products each
+  // Shop the Edit: the 3 categories with most products (at least 4), up to 12 in-stock products each (a sideways row)
   const counts = await activeProductCounts();
   const showcaseCats = (await Category.find({ status: 'active', title: { $ne: NEW_ARRIVAL } }).lean())
     .map((c) => ({ ...c, products_count: counts.get(c._id) ?? 0 }))
@@ -48,7 +48,7 @@ export async function homeData() {
   const categoryShowcase: { category: (typeof topCats)[number]; products: ProductDoc[] }[] = [];
   for (const cat of topCats) {
     const items = sortStable(
-      await Product.find({ ...active, category_ids: cat._id, ...inStockFilter }).sort({ created_at: -1, _id: 1 }).limit(6).lean(),
+      await Product.find({ ...active, category_ids: cat._id, ...inStockFilter }).sort({ created_at: -1, _id: 1 }).limit(12).lean(),
       (a, b) => a.sort_order - b.sort_order,
     );
     if (items.length) categoryShowcase.push({ category: cat, products: items });

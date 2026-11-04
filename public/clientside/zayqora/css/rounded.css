@@ -163,3 +163,34 @@
    name and price do not touch the card's edge */
 .dc-na-info:not(#zq),
 .dc-product-info:not(#zq) { padding-left: 14px; padding-right: 14px; }
+
+/* Shop the Edit: one sideways row per category, 4 cards on desktop, 3 on tablet, 2 and a bit on phones */
+.zq-rs { position: relative; }
+.zq-rs-track {
+  display: flex; gap: 24px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 4px;
+}
+.zq-rs-track::-webkit-scrollbar { display: none; }
+.zq-rs-item { flex: 0 0 calc((100% - 72px) / 4); min-width: 0; scroll-snap-align: start; }
+.zq-rs-btn {
+  position: absolute; top: 38%; transform: translateY(-50%); z-index: 3;
+  width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(0,0,0,.08);
+  background: #fff; color: #161426; box-shadow: 0 4px 16px rgba(0,0,0,.14);
+  display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer;
+  transition: opacity .2s, background .2s, color .2s;
+}
+.zq-rs-btn:hover { background: #161426; color: #fff; }
+.zq-rs-btn:disabled { opacity: 0; pointer-events: none; }
+.zq-rs-prev { left: 10px; }
+.zq-rs-next { right: 10px; }
+@media (max-width: 991.98px) {
+  .zq-rs-track { gap: 16px; }
+  .zq-rs-item { flex-basis: calc((100% - 32px) / 3); }
+}
+@media (max-width: 767.98px) {
+  .zq-rs-track { gap: 12px; }
+  .zq-rs-item { flex-basis: 44%; }
+  .zq-rs-btn { width: 36px; height: 36px; font-size: 20px; }
+  .zq-rs-prev { left: 6px; }
+  .zq-rs-next { right: 6px; }
+}
