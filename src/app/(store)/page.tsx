@@ -87,8 +87,8 @@ export default async function HomePage() {
       <ZqHero
         image={mediaUrl('banners/zq-hero-poster.webp') + '?v=14'}
         imageMobile={mediaUrl('banners/zq-hero-poster-m.webp') + '?v=14'}
-        video={mediaUrl('banners/zq-hero-clothes.mp4') + '?v=2'}
-        poster={mediaUrl('banners/zq-hero-clothes-poster.webp') + '?v=2'}
+        video={mediaUrl('banners/zq-hero-clothes.mp4') + '?v=3'}
+        poster={mediaUrl('banners/zq-hero-clothes-poster.webp') + '?v=3'}
         position="50% 50%"
         eyebrow={`New Collection · ${year}`}
         title="Made for Your Style"
