@@ -206,6 +206,16 @@ export default function view(d: any) {
             box-shadow: none !important;
             width: var(--sidebar-width) !important;
         }
+        /* The sidebar stays on screen while the page scrolls; a long menu scrolls inside it */
+        .main-sidebar {
+            position: fixed !important; top: 0 !important; bottom: 0 !important; height: 100vh !important;
+            min-height: 0 !important; display: flex !important; flex-direction: column;
+        }
+        .main-sidebar > .brand-link { flex-shrink: 0; }
+        .main-sidebar > .sidebar {
+            flex: 1 1 auto; min-height: 0; height: auto !important;
+            overflow-y: auto !important; overflow-x: hidden; overscroll-behavior: contain;
+        }
 
         .brand-link {
             padding: 0 1.1rem !important; height: var(--navbar-height) !important;
