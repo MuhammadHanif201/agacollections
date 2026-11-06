@@ -16,7 +16,7 @@ interface VariantInfo {
 /**
  * productDetail.blade.php scripts on the server-rendered markup: gallery and lightbox,
  * size chart, quantity, size picker (availability, price, SKU, WhatsApp text), sticky
- * buy bar, copy link, review form, mobile swiper and the Pixel ViewContent event.
+ * buy bar, copy link, mobile swiper and the Pixel ViewContent event.
  */
 export default function ProductPageInteractions({
   productId,
@@ -141,16 +141,7 @@ export default function ProductPageInteractions({
     }));
     on(qty, 'change', () => { if (qty) qty.value = String(Math.max(1, Math.min(99, parseInt(qty.value, 10) || 1))); });
 
-    // ── Reviews: open the form (button, or a link ending in #write-review) ──
-    const revForm = $<HTMLElement>('#pd-rev-form');
-    const openReviewForm = () => {
-      if (!revForm) return;
-      revForm.hidden = false;
-      $('#reviews')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setTimeout(() => { revForm.scrollIntoView({ behavior: 'smooth', block: 'center' }); $<HTMLInputElement>('#review-name')?.focus({ preventScroll: true }); }, 450);
-    };
-    $$('[data-open-review]').forEach((b) => on(b, 'click', (e) => { e.preventDefault(); openReviewForm(); }));
-    if (location.hash === '#write-review') setTimeout(openReviewForm, 300);
+    // Reviews: the "Write a review" popup lives in ReviewModal
 
     // ── Copy link ──
     const copyBtn = $<HTMLButtonElement>('#pd-copy-link');
@@ -187,50 +178,6 @@ export default function ProductPageInteractions({
       sync();
       cleanups.push(() => document.body.classList.remove('pd-sticky-on'));
     }
-
-    // ── Review form submit ──
-    const form = $<HTMLFormElement>('#review-form');
-    on(form, 'submit', async (e) => {
-      e.preventDefault();
-      if (!form) return;
-      const rating = form.querySelector<HTMLInputElement>('input[name="rating"]:checked');
-      const ratingError = $('#rating-error')!;
-      const serverError = $('#review-server-error')!;
-      const submitBtn = $<HTMLButtonElement>('#review-submit-btn')!;
-      ratingError.style.display = 'none';
-      serverError.style.display = 'none';
-      if (!rating) { ratingError.style.display = 'block'; return; }
-      const name = ($<HTMLInputElement>('#review-name')?.value ?? '').trim();
-      const email = ($<HTMLInputElement>('#review-email')?.value ?? '').trim();
-      if (!name || !/^\S+@\S+\.\S+$/.test(email)) {
-        serverError.textContent = 'Please enter your name and a valid email.';
-        serverError.style.display = 'block';
-        return;
-      }
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="ri-loader-4-line"></i> Submitting…';
-      try {
-        const res = await fetch(`/product/${productId}/review`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify({ name, email, rating: rating.value, comment: ($<HTMLTextAreaElement>('#review-comment')?.value ?? '').trim() }),
-        });
-        const data = (await res.json()) as { success?: boolean; message?: string; errors?: Record<string, string[]> };
-        if (res.ok && data.success) {
-          form.style.display = 'none';
-          $('#review-success-msg')!.style.display = 'block';
-        } else {
-          let msg = data.message || 'Something went wrong. Please try again.';
-          if (data.errors) msg = Object.values(data.errors).flat().join(' ');
-          throw new Error(msg);
-        }
-      } catch (err) {
-        serverError.textContent = err instanceof Error && err.message ? err.message : 'Network error. Please try again.';
-        serverError.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i class="ri-send-plane-line"></i> Submit review';
-      }
-    });
 
     // ── Mobile gallery swiper ──
     let mobileSwiper: { destroy: (a?: boolean, b?: boolean) => void } | null = null;

@@ -30,11 +30,18 @@ export function zodErrors(err: ZodError): Record<string, string[]> {
 }
 export const firstErrors = (err: ZodError) => Object.values(zodErrors(err)).map((m) => m[0]);
 
+export const REVIEW_AGE_GROUPS = ['Below 18', '18-34', '35-54', '55+'] as const;
+export const REVIEW_GENDERS = ['Male', 'Female'] as const;
+
 export const reviewSchema = z.object({
   name: requiredString('name', 100),
   email: email('email', 150),
   rating: z.coerce.number({ error: 'The rating field is required.' }).int('The rating field must be an integer.').min(1, 'The rating field must be at least 1.').max(5, 'The rating field must not be greater than 5.'),
-  comment: optionalString('comment', 1000),
+  title: optionalString('title', 150),
+  comment: requiredString('review', 1000, 'Please write your review.').refine((v) => v.length >= 10, 'Your review must be at least 10 characters.'),
+  recommend: z.enum(['yes', 'no'], { error: 'Please tell us if you would recommend this product.' }),
+  age_group: z.enum(REVIEW_AGE_GROUPS).optional().catch(undefined),
+  gender: z.enum(REVIEW_GENDERS).optional().catch(undefined),
 });
 
 // Pakistan mobile: +92 then 3XX (operator) then 7 digits

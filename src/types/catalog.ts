@@ -19,4 +19,5 @@ export interface CardProduct {
   categories: { title: string; slug: string }[];
   variants: CardVariant[];
   first_variant_id: number | null;
+  rating: { avg: number; count: number } | null; // approved reviews only; null when there are none
 }

@@ -276,7 +276,13 @@ export interface ReviewDoc {
   name: string;
   email: string;
   rating: number;
+  title?: string | null;
   comment?: string | null;
+  recommend?: boolean | null;
+  age_group?: string | null;
+  gender?: string | null;
+  images?: string[]; // relative storage paths of the shopper's photos
+  helpful?: number; // "Useful" taps
   status: 'pending' | 'approved' | 'rejected';
   created_at: Date;
   updated_at: Date;
@@ -288,7 +294,13 @@ const ReviewSchema = new Schema<ReviewDoc>(
     name: { type: String, required: true, maxlength: 255 },
     email: { type: String, required: true, maxlength: 255 },
     rating: { type: Number, required: true, min: 1, max: 5 },
+    title: { type: String, maxlength: 150 },
     comment: String,
+    recommend: { type: Boolean, default: null },
+    age_group: String,
+    gender: String,
+    images: { type: [String], default: [] },
+    helpful: { type: Number, default: 0 },
     status: { type: String, enum: ['pending', 'approved', 'rejected'], default: 'pending' },
   },
   ts,

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars, prefer-const */
 import { html, raw, bladeJson } from '@/lib/admin/html';
 import { errors as errorBag, route, session, csrf_field, method_field, count, max, optional, foreach } from '@/lib/admin/php';
+import { mediaUrl } from '@/lib/media';
 
 export default function view(d: any) {
   const errors = errorBag();
@@ -137,9 +138,15 @@ export default function view(d: any) {
                                         `); } return __o; })()}                                        <span class="text-muted small ml-1">(${review?.rating}/5)</span>
                                     </td>
                                     <td style="max-width:300px;">
-                                        <div style="white-space:normal;font-size:.85rem;line-height:1.4;">
-                                            ${review?.comment  ||  '—'}
-                                        </div>
+                                        ${review?.title ? html`<div class="font-weight-bold" style="font-size:.85rem;margin-bottom:2px;">${review.title}</div>` : ''}
+                                        <div style="white-space:pre-line;font-size:.85rem;line-height:1.4;">${review?.comment  ||  '—'}</div>
+                                        ${(review?.recommend != null || review?.age_group || review?.gender) ? html`<div class="text-muted small mt-1">
+                                            ${review?.recommend === true ? html`<span class="text-success"><i class="fas fa-check"></i> Recommends</span>` : review?.recommend === false ? html`<span class="text-danger">Doesn't recommend</span>` : ''}
+                                            ${review?.gender ? html` · ${review.gender}` : ''}${review?.age_group ? html` · Age ${review.age_group}` : ''}
+                                        </div>` : ''}
+                                        ${(review?.images?.length ?? 0) > 0 ? html`<div class="d-flex flex-wrap mt-2" style="gap:4px;">
+                                            ${foreach(review.images, (img: string) => html`<a href="${mediaUrl(img)}" target="_blank" rel="noopener"><img src="${mediaUrl(img)}" alt="" style="width:46px;height:46px;object-fit:cover;border-radius:6px;"></a>`)}
+                                        </div>` : ''}
                                     </td>
                                     <td>
                                         ${(review?.status === 'approved') ? html`                                            <span class="badge badge-success">Approved</span>

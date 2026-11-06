@@ -14,6 +14,7 @@ import { getActivePopup, getCompanySetting, getMenuCategories } from '@/services
 import type { CardProduct } from '@/types/catalog';
 import StoreLink from '@/components/store/StoreLink';
 import OffBadge from '@/components/store/OffBadge';
+import CardRating from '@/components/store/CardRating';
 import RowScroller from '@/components/store/RowScroller';
 
 const NEW_ARRIVAL = 'Home Page - New Arrival';
@@ -152,6 +153,7 @@ export default async function HomePage() {
                     <StoreLink href={`/product/${product.slug}`} className="dc-na-name">
                       {product.name}
                     </StoreLink>
+                    <CardRating rating={product.rating} />
 
                     <div className="dc-na-price-row">
                       PKR
@@ -246,6 +248,7 @@ export default async function HomePage() {
                         <StoreLink href={`/product/${product.slug}`} className="dc-product-name">
                           {product.name}
                         </StoreLink>
+                        <CardRating rating={product.rating} />
                         <div className="dc-product-price">
                           PKR
                           {sp && sp > bp ? (
@@ -354,6 +357,7 @@ export default async function HomePage() {
                           </div>
                           <div className="dc-product-info">
                             <StoreLink href={`/product/${product.slug}`} className="dc-product-name">{product.name}</StoreLink>
+                            <CardRating rating={product.rating} />
                             <div className="dc-product-price">
                               PKR
                               {sp && sp > bp ? (
@@ -423,6 +427,7 @@ export default async function HomePage() {
                           </div>
                         )}
                         <StoreLink href={`/product/${product.slug}`} className="dc-product-name">{product.name}</StoreLink>
+                        <CardRating rating={product.rating} />
                         <div className="dc-product-price">
                           PKR
                           {sp && sp > bp ? (

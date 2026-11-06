@@ -5,6 +5,7 @@ import { numberFormat, ucfirst } from '@/lib/format';
 import type { CardProduct } from '@/types/catalog';
 import { AddToCartButton, WishlistButton } from './StoreButtons';
 import ProductImageSwiper from './ProductImageSwiper';
+import CardRating from './CardRating';
 import OffBadge from './OffBadge';
 import StoreLink from './StoreLink';
 
@@ -60,6 +61,8 @@ export default function ProductCard({ product }: { product: CardProduct }) {
         <StoreLink href={url} className="pc-name" style={{ fontFamily: 'var(--body-font)', fontWeight: 500, fontSize: '0.86rem', color: 'var(--dc-dark)', textDecoration: 'none', lineHeight: 1.45, display: 'block', marginBottom: 10 }}>
           {product.name}
         </StoreLink>
+
+        <CardRating rating={product.rating} />
 
         <div className="pc-price" style={{ fontFamily: 'var(--body-font)', fontSize: '0.88rem', fontWeight: 600, color: 'var(--dc-dark)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
           PKR

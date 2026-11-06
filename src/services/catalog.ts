@@ -2,7 +2,7 @@ import 'server-only';
 import { cache } from 'react';
 import { connectDb } from '@/lib/db';
 import { Category } from '@/models/Category';
-import { Wishlist } from '@/models/content';
+import { Review, Wishlist } from '@/models/content';
 import { Product, type ProductDoc, type ProductVariant } from '@/models/Product';
 import type { CardProduct } from '@/types/catalog';
 
@@ -30,9 +30,20 @@ const categoryCache = cache(async () => {
   return new Map(cats.map((c) => [c._id, c]));
 });
 
+/** Average stars and count of each product's approved reviews */
+async function reviewStats(ids: number[]): Promise<Map<number, { avg: number; count: number }>> {
+  if (!ids.length) return new Map();
+  await connectDb();
+  const rows = await Review.aggregate<{ _id: number; avg: number; count: number }>([
+    { $match: { product_id: { $in: ids }, status: 'approved' } },
+    { $group: { _id: '$product_id', avg: { $avg: '$rating' }, count: { $sum: 1 } } },
+  ]);
+  return new Map(rows.map((r) => [r._id, { avg: Math.round(r.avg * 10) / 10, count: r.count }]));
+}
+
 /** Plain, serialisable data for product cards (also used by client components) */
 export async function toCards(products: ProductDoc[]): Promise<CardProduct[]> {
-  const cats = await categoryCache();
+  const [cats, ratings] = await Promise.all([categoryCache(), reviewStats(products.map((p) => p._id))]);
   return products.map((p) => {
     const fv = firstAvailableVariant(p);
     return {
@@ -56,6 +67,7 @@ export async function toCards(products: ProductDoc[]): Promise<CardProduct[]> {
         sale_price: v.sale_price != null ? Number(v.sale_price) : null,
       })),
       first_variant_id: fv?._id ?? null,
+      rating: ratings.get(p._id) ?? null,
     };
   });
 }

@@ -314,6 +314,9 @@ export async function reviewIndexData(url: URL) {
 }
 
 export const setReviewStatus = (before: any, status: string, who: Who) => updateRow(Review, 'App\\Models\\Review', before, { status }, who);
-export const destroyReview = (before: any, who: Who) => deleteRow(Review, 'App\\Models\\Review', before, who);
+export async function destroyReview(before: any, who: Who) {
+  await Promise.all(((before.images ?? []) as string[]).map((p) => deletePublic(p)));
+  return deleteRow(Review, 'App\\Models\\Review', before, who);
+}
 
 export const headlineModel = (h: any) => wall(carbonize(h), ['starts_at', 'ends_at']);

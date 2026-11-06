@@ -11,6 +11,8 @@ import { buildMetadata, JsonLd, type MetaOptions } from '@/lib/seo';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import ProductCard from '@/components/store/ProductCard';
 import ProductPageInteractions from '@/components/store/ProductPageInteractions';
+import ReviewActions from '@/components/store/ReviewActions';
+import ReviewModal from '@/components/store/ReviewModal';
 import { WishlistToggle } from '@/components/store/StoreButtons';
 import { toCards } from '@/services/catalog';
 import { countProductView, getProductPage } from '@/services/product';
@@ -20,6 +22,13 @@ import StoreLink from '@/components/store/StoreLink';
 type Props = { params: Promise<{ slug: string }> };
 
 const absolute = (u: string) => (/^https?:/.test(u) ? u : env.appUrl + u);
+
+/** "Khadija Sultan" → "Khadija S." (first name and last initial, like most review widgets) */
+const reviewerName = (name: string) => {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  return parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1].charAt(0).toUpperCase()}.` : (parts[0] ?? '');
+};
+const initials = (name: string) => name.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p.charAt(0).toUpperCase()).join('');
 
 async function load(slug: string) {
   const data = await getProductPage(decodeURIComponent(slug));
@@ -210,8 +219,8 @@ export default async function ProductPage({ params }: Props) {
                   ))}
                 </span>
                 {reviewCount > 0
-                  ? <StoreLink href="#reviews">{numberFormat(avgRating, 1)} · {reviewCount} {plural('review', reviewCount)}</StoreLink>
-                  : <StoreLink href="#reviews" data-open-review="">Be the first to review</StoreLink>}
+                  ? <StoreLink href="#reviews">{reviewCount} {plural('Review', reviewCount)}</StoreLink>
+                  : <StoreLink href="#reviews" data-open-review="">Write a review</StoreLink>}
               </div>
 
               <div className="pd-price" id="product-price">
@@ -391,15 +400,40 @@ export default async function ProductPage({ params }: Props) {
 
               <div>
                 {approvedReviews.length ? approvedReviews.map((review) => (
-                  <article className="pd-review" key={review._id}>
-                    <div className="pd-review-top">
-                      <span className="name">{review.name}</span>
-                      <span className="stars" aria-label={`${review.rating} out of 5 stars`}>
-                        {[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= review.rating ? 'ri-star-fill' : 'ri-star-line'}></i>)}
-                      </span>
-                      <span className="date">{formatDate(review.created_at, 'd M Y')}</span>
+                  <article className="zq-rv" id={`review-${review._id}`} key={review._id}>
+                    <div className="zq-rv-who">
+                      <div className="zq-rv-person">
+                        <span className="zq-rv-avatar" aria-hidden="true">{initials(review.name)}</span>
+                        <span className="zq-rv-name">{reviewerName(review.name)}</span>
+                      </div>
+                      {(review.gender || review.age_group) && (
+                        <dl className="zq-rv-meta">
+                          {review.gender && <div><dt>Gender:</dt><dd>{review.gender}</dd></div>}
+                          {review.age_group && <div><dt>Age Group:</dt><dd>{review.age_group}</dd></div>}
+                        </dl>
+                      )}
                     </div>
-                    {review.comment && <p>{review.comment}</p>}
+                    <div className="zq-rv-main">
+                      <div className="zq-rv-top">
+                        <span className="zq-rv-stars" aria-label={`${review.rating} out of 5 stars`}>
+                          {[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= review.rating ? 'ri-star-fill' : 'ri-star-line'}></i>)}
+                        </span>
+                        <span className="zq-rv-date">{formatDate(review.created_at, 'M d, Y')}</span>
+                      </div>
+                      {review.title && <h3 className="zq-rv-title">{review.title}</h3>}
+                      {review.comment && <p className="zq-rv-text">{review.comment}</p>}
+                      {review.recommend && <p className="zq-rv-rec"><i className="ri-check-line"></i> Recommends this product</p>}
+                      <ReviewActions productId={product._id} reviewId={review._id} helpful={review.helpful ?? 0} />
+                    </div>
+                    {(review.images?.length ?? 0) > 0 && (
+                      <div className="zq-rv-photos">
+                        {review.images!.map((img, i) => (
+                          <a key={img} href={mediaUrl(img)} target="_blank" rel="noopener">
+                            <img src={mediaUrl(img)} alt={`Photo ${i + 1} from ${reviewerName(review.name)}`} loading="lazy" width={96} height={96} />
+                          </a>
+                        ))}
+                      </div>
+                    )}
                   </article>
                 )) : (
                   <div className="pd-rev-empty">
@@ -407,42 +441,6 @@ export default async function ProductPage({ params }: Props) {
                     No reviews yet. Bought this piece? Tell other shoppers how it fits.
                   </div>
                 )}
-
-                <div className="pd-rev-form" id="pd-rev-form" hidden>
-                  <div id="review-success-msg" style={{ display: 'none', background: '#f0fdf4', border: '1px solid #bbf7d0', color: '#166534', padding: '14px 18px', fontSize: '.88rem' }}>
-                    <i className="ri-checkbox-circle-line"></i> Thank you! Your review was submitted and will appear after approval.
-                  </div>
-                  <form id="review-form" noValidate>
-                    <div style={{ marginBottom: 18 }}>
-                      <div className="pd-form-label" style={{ marginBottom: 8 }}>Your rating <span style={{ color: '#b42318' }}>*</span></div>
-                      <div className="pd-star-picker" id="star-picker">
-                        {[5, 4, 3, 2, 1].map((s) => (
-                          <Fragment key={s}>
-                            <input type="radio" name="rating" id={`star${s}`} value={s} />
-                            <label htmlFor={`star${s}`} title={`${s} ${plural('star', s)}`}><i className="ri-star-fill"></i></label>
-                          </Fragment>
-                        ))}
-                      </div>
-                      <div id="rating-error" style={{ color: '#b42318', fontSize: '.76rem', marginTop: 6, display: 'none' }}>Please choose a rating.</div>
-                    </div>
-                    <div className="pd-form-row">
-                      <div className="pd-form-field">
-                        <label className="pd-form-label" htmlFor="review-name">Name *</label>
-                        <input type="text" id="review-name" className="pd-form-input" placeholder="Your name" maxLength={100} required autoComplete="name" defaultValue={customer?.full_name ?? ''} />
-                      </div>
-                      <div className="pd-form-field">
-                        <label className="pd-form-label" htmlFor="review-email">Email *</label>
-                        <input type="email" id="review-email" className="pd-form-input" placeholder="you@example.com" maxLength={150} required autoComplete="email" defaultValue={customer?.email ?? ''} />
-                      </div>
-                    </div>
-                    <div className="pd-form-field" style={{ marginBottom: 18 }}>
-                      <label className="pd-form-label" htmlFor="review-comment">Review</label>
-                      <textarea id="review-comment" className="pd-form-textarea" placeholder="How was the fit, fabric and delivery?" maxLength={1000}></textarea>
-                    </div>
-                    <div id="review-server-error" style={{ color: '#b42318', fontSize: '.82rem', marginBottom: 12, display: 'none' }}></div>
-                    <button type="submit" className="pd-submit" id="review-submit-btn"><i className="ri-send-plane-line"></i> Submit review</button>
-                  </form>
-                </div>
               </div>
             </div>
           </div>
@@ -504,6 +502,14 @@ export default async function ProductPage({ params }: Props) {
 
         <div id="rupee-icon-html" style={{ display: 'none' }}>PKR</div>
       </div>
+
+      <ReviewModal
+        productId={product._id}
+        productName={product.name}
+        productImage={imgUrls[0] ?? ''}
+        defaultName={customer?.full_name ?? ''}
+        defaultEmail={customer?.email ?? ''}
+      />
 
       <ProductPageInteractions
         productId={product._id}
