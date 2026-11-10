@@ -307,7 +307,3 @@ div.pd-rating a:hover { color: #0a0a0a; opacity: .75; }
 /* Review popup + list headings use the body sans font, bold (the site's h3/h4 default is the serif heading font) */
 .zq-rm, .zq-rm h3, .zq-rm h4, .zq-rv h3 { font-family: var(--body-font, 'Arimo', sans-serif) !important; }
 .zq-rm .zq-rm-title, .zq-rm-confirm-box h4, .zq-rv .zq-rv-title { font-weight: 700 !important; font-style: normal !important; text-transform: none !important; }
-
-/* Category banner that is a finished design (ZqHero plain): whole image, no veil or text on top */
-.zq-banner { position: relative; background: #e6e6e6; line-height: 0; }
-.zq-banner img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
