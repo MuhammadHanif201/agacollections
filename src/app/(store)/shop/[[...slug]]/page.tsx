@@ -63,6 +63,9 @@ const LINES: Record<string, string> = {
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
+// Banner files that are finished designs with their own headline: shown whole, without the hero text.
+// Keyed by file, so uploading a different banner in the admin brings the normal hero back.
+const PLAIN_BANNERS: Record<string, string> = { 'uploads/categories/zq-t-shirts-streets.webp': 'AGA Collections T-Shirts: Own the Streets. Sizes S to XXL, cash on delivery all over Pakistan.' };
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -156,6 +159,8 @@ export default async function ShopPage(props: Props) {
         image={banner ? mediaUrl(banner) : null}
         imageMobile={hasM ? mediaUrl(bannerM) : null}
         position={(zqSlug && POSITIONS[zqSlug]) || 'center'}
+        plain={Boolean(banner && PLAIN_BANNERS[banner])}
+        plainAlt={banner ? PLAIN_BANNERS[banner] : undefined}
         crumbs={cat
           ? [{ label: 'Home', url: '/' }, { label: 'Shop', url: '/shop' }, { label: catTitle }]
           : [{ label: 'Home', url: '/' }, { label: 'Shop' }]}
