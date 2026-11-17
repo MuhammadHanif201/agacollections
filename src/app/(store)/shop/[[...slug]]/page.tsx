@@ -63,6 +63,11 @@ const LINES: Record<string, string> = {
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
+// Banners swapped in code: the old file stays in storage, the page shows the new one while the category still uses the old.
+// The new ones are finished designs with their own headline, so they are shown whole, without the hero text.
+// Keyed by file, so uploading a different banner in the admin brings the normal hero back.
+const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-oversized.webp' };
+const PLAIN_BANNERS: Record<string, string> = { 'uploads/categories/zq-t-shirts-oversized.webp': 'AGA Collections oversized T-shirts, made for your style. Up to 25% off, cash on delivery across Pakistan.' };
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -112,7 +117,8 @@ export default async function ShopPage(props: Props) {
 
   const catTitle = cat ? strTitle(cat.title) : 'Shop All';
   const zqSlug = cat?.slug ?? null;
-  const banner = cat?.banner ? cat.banner : company?.default_category_banner ?? null;
+  const savedBanner = cat?.banner ? cat.banner : company?.default_category_banner ?? null;
+  const banner = savedBanner ? SWAPPED[savedBanner] ?? savedBanner : null;
   const bannerM = banner ? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
   const hasM = await mediaExists(bannerM);
   const sub = `${total} ${plural('style', total)}` + (zqSlug ? (LINES[zqSlug] ? ' · ' + LINES[zqSlug] : '') : ' across denim, tees, shirts and jerseys.');
@@ -156,6 +162,8 @@ export default async function ShopPage(props: Props) {
         image={banner ? mediaUrl(banner) : null}
         imageMobile={hasM ? mediaUrl(bannerM) : null}
         position={(zqSlug && POSITIONS[zqSlug]) || 'center'}
+        plain={Boolean(banner && PLAIN_BANNERS[banner])}
+        plainAlt={banner ? PLAIN_BANNERS[banner] : undefined}
         crumbs={cat
           ? [{ label: 'Home', url: '/' }, { label: 'Shop', url: '/shop' }, { label: catTitle }]
           : [{ label: 'Home', url: '/' }, { label: 'Shop' }]}

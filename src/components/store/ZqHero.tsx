@@ -18,7 +18,11 @@ export default function ZqHero({
   poster,
   tall = false,
   tone,
+  plain = false,
+  plainAlt,
 }: {
+  plain?: boolean; // show the image as a full banner (it carries its own text), no veil or text on top
+  plainAlt?: string;
   image?: string | null;
   imageMobile?: string | null;
   position?: string;
@@ -34,6 +38,19 @@ export default function ZqHero({
 }) {
   const navy = tone === 'navy';
   const posterSrc = poster ?? image ?? undefined;
+
+  // A designed banner that already carries its own headline: show it whole, with no veil or text on top
+  if (plain && image) {
+    return (
+      <section className="zq-banner" aria-label={title}>
+        <picture>
+          {imageMobile && <source media="(max-width: 767px)" srcSet={imageMobile} />}
+          <img src={image} alt={plainAlt ?? title} fetchPriority="high" decoding="async" />
+        </picture>
+        <h1 className="visually-hidden">{title}</h1>
+      </section>
+    );
+  }
   return (
     <section className={`zq-hero${navy ? ' zq-hero--navy' : ''}${tall ? ' zq-hero--tall' : ''}${video ? ' zq-hero--video' : ''}`} aria-label={title}>
       {image && (
