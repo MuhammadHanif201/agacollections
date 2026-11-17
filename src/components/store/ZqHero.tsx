@@ -42,10 +42,11 @@ export default function ZqHero({
   // A designed banner that already carries its own headline: show it whole, with no veil or text on top
   if (plain && image) {
     return (
-      <section className="zq-banner" aria-label={title}>
-        <picture>
+      // Full width at the banner's own shape; styled inline so a stale cached stylesheet can't shrink it
+      <section className="zq-banner" aria-label={title} style={{ position: 'relative', width: '100%', lineHeight: 0, background: '#0a1420' }}>
+        <picture style={{ display: 'block', width: '100%' }}>
           {imageMobile && <source media="(max-width: 767px)" srcSet={imageMobile} />}
-          <img src={image} alt={plainAlt ?? title} fetchPriority="high" decoding="async" />
+          <img src={image} alt={plainAlt ?? title} fetchPriority="high" decoding="async" style={{ display: 'block', width: '100%', height: 'auto', maxWidth: 'none' }} />
         </picture>
         <h1 className="visually-hidden">{title}</h1>
       </section>

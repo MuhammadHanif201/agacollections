@@ -308,13 +308,3 @@ div.pd-rating a:hover { color: #0a0a0a; opacity: .75; }
 .zq-rm, .zq-rm h3, .zq-rm h4, .zq-rv h3 { font-family: var(--body-font, 'Arimo', sans-serif) !important; }
 .zq-rm .zq-rm-title, .zq-rm-confirm-box h4, .zq-rv .zq-rv-title { font-weight: 700 !important; font-style: normal !important; text-transform: none !important; }
 
-/* Category banner that is a finished design (ZqHero plain): whole image, no veil or text on top.
-   Same height as every other hero on desktop, the spare space follows the banner's own dark-to-blue edges;
-   on phones it runs full width at its own shape so the text in it stays readable. */
-.zq-banner { position: relative; height: var(--zq-hero-h, clamp(380px, 62vh, 600px)); background: linear-gradient(90deg, #090f15 0%, #0a1a2a 50%, #0c3b53 100%); line-height: 0; overflow: hidden; }
-.zq-banner picture { display: block; height: 100%; }
-.zq-banner img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
-@media (max-width: 767px) {
-    .zq-banner { height: auto; }
-    .zq-banner img { height: auto; aspect-ratio: 596 / 336; }
-}
