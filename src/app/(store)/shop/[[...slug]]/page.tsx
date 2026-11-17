@@ -66,19 +66,12 @@ const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 
 // Banners swapped in code: the old file stays in storage, the page shows the new one while the category still uses the old.
 // The new ones are finished designs with their own headline, so they are shown whole, without the hero text.
 // Keyed by file, so uploading a different banner in the admin brings the normal hero back.
-const SWAPPED: Record<string, string> = {
-  'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-oversized.webp',
-  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-oversized.webp',
-};
+const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-oversized.webp' };
 // wide: a desktop version laid out for the hero's wide shape (named here, not looked up, so it works on any host)
 const PLAIN_BANNERS: Record<string, { alt: string; wide?: string }> = {
   'uploads/categories/zq-t-shirts-oversized.webp': {
     alt: 'AGA Collections oversized T-shirts, made for your style. Up to 25% off, cash on delivery across Pakistan.',
     wide: 'uploads/categories/zq-t-shirts-oversized-wide.webp',
-  },
-  'uploads/categories/zq-shirts-oversized.webp': {
-    alt: 'AGA Collections oversized shirts, made for your style. Up to 25% off, cash on delivery across Pakistan.',
-    wide: 'uploads/categories/zq-shirts-oversized-wide.webp',
   },
 };
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
