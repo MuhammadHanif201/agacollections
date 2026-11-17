@@ -42,11 +42,21 @@ export default function ZqHero({
   // A designed banner that already carries its own headline: show it whole, with no veil or text on top
   if (plain && image) {
     return (
-      // Full width at the banner's own shape; styled inline so a stale cached stylesheet can't shrink it
-      <section className="zq-banner" aria-label={title} style={{ position: 'relative', width: '100%', lineHeight: 0, background: '#0a1420' }}>
-        <picture style={{ display: 'block', width: '100%' }}>
+      // Same height as every hero and full width: the whole design fits in the middle, the sides carry on its own
+      // edge colours (flat dark on the left, the blue glow on the right). Phones get the full-width design at its own shape.
+      // Styles ship with the markup so an old cached stylesheet can't shrink it.
+      <section className="zq-banner" aria-label={title}>
+        <style>{`
+          .zq-banner { position: relative; width: 100%; height: var(--zq-hero-h, clamp(380px, 62vh, 600px)); line-height: 0; overflow: hidden;
+            background: linear-gradient(#090f16, #090f16) left / 50% 100% no-repeat,
+              linear-gradient(180deg, #071c29 0%, #072e46 28%, #0a3a53 50%, #082b3f 70%, #061c2b 86%, #081825 100%) right / 50% 100% no-repeat; }
+          .zq-banner picture { display: block; width: 100%; height: 100%; }
+          .zq-banner img { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: center; }
+          @media (max-width: 767px) { .zq-banner { height: auto; } .zq-banner img { height: auto; } }
+        `}</style>
+        <picture>
           {imageMobile && <source media="(max-width: 767px)" srcSet={imageMobile} />}
-          <img src={image} alt={plainAlt ?? title} fetchPriority="high" decoding="async" style={{ display: 'block', width: '100%', height: 'auto', maxWidth: 'none' }} />
+          <img src={image} alt={plainAlt ?? title} fetchPriority="high" decoding="async" />
         </picture>
         <h1 className="visually-hidden">{title}</h1>
       </section>
