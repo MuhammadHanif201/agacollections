@@ -8,6 +8,7 @@ export interface Crumb { label: string; url?: string }
 export default function ZqHero({
   image,
   imageMobile,
+  imageWide,
   position = 'center',
   crumbs = [],
   eyebrow,
@@ -25,6 +26,7 @@ export default function ZqHero({
   plainAlt?: string;
   image?: string | null;
   imageMobile?: string | null;
+  imageWide?: string | null; // plain banners: desktop version laid out for the hero's wide shape
   position?: string;
   crumbs?: Crumb[];
   eyebrow?: string | null;
@@ -42,19 +44,21 @@ export default function ZqHero({
   // A designed banner that already carries its own headline: show it whole, with no veil or text on top
   if (plain && image) {
     return (
-      // Same height as every hero and full width: the whole design fits in the middle, the sides carry on its own
-      // edge colours (flat dark on the left, the blue glow on the right). Phones get the full-width design at its own shape.
-      // Styles ship with the markup so an old cached stylesheet can't shrink it.
-      <section className="zq-banner" aria-label={title}>
+      // Same height as every hero and full width. Desktop shows the wide version (if there is one) filling the hero;
+      // without it the whole design fits in the middle and the sides carry on its edge colours (flat dark left, blue glow right).
+      // Phones get the design full width at its own shape. Styles ship with the markup so an old cached stylesheet can't shrink it.
+      <section className={`zq-banner${imageWide ? ' zq-banner--wide' : ''}`} aria-label={title}>
         <style>{`
           .zq-banner { position: relative; width: 100%; height: var(--zq-hero-h, clamp(380px, 62vh, 600px)); line-height: 0; overflow: hidden;
             background: linear-gradient(#090f16, #090f16) left / 50% 100% no-repeat,
               linear-gradient(180deg, #071c29 0%, #072e46 28%, #0a3a53 50%, #082b3f 70%, #061c2b 86%, #081825 100%) right / 50% 100% no-repeat; }
           .zq-banner picture { display: block; width: 100%; height: 100%; }
           .zq-banner img { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: center; }
+          .zq-banner--wide img { object-fit: cover; }
           @media (max-width: 767px) { .zq-banner { height: auto; } .zq-banner img { height: auto; } }
         `}</style>
         <picture>
+          {imageWide && <source media="(min-width: 768px)" srcSet={imageWide} />}
           {imageMobile && <source media="(max-width: 767px)" srcSet={imageMobile} />}
           <img src={image} alt={plainAlt ?? title} fetchPriority="high" decoding="async" />
         </picture>
