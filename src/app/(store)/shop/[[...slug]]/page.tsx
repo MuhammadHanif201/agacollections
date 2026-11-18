@@ -62,13 +62,13 @@ const LINES: Record<string, string> = {
   'plain-hoodies': 'Heavyweight plain hoodies.',
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
-const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': '100% 40%' }; // T-shirts: the main tee is on the right
+const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
 // Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
 // (T-shirts: built from Unsplash photo iiqg2xbmvk0; Shirts: from Unsplash photo 2yJFGX0tB-U; both free for commercial
 // use, the garment recoloured and hung several times)
 const SWAPPED: Record<string, string> = {
-  // T-shirts: the owner's "AESTHETIC" rail image, widened to the left for the hero
-  'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-aesthetic.webp',
+  // T-shirts: the owner's photo of five tees on a black rack, centred, its plain wall continued on both sides
+  'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-rack.webp',
   // Shirts: the owner's six-shirt gold-rack image, centred with its hangers in view (label text and wall socket painted out)
   'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack-2.webp',
   // jerseys: the owner's four-jersey rail image, centred, its dark wall continued on both sides
@@ -76,7 +76,7 @@ const SWAPPED: Record<string, string> = {
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 const SWAPPED_M: Record<string, string> = {
-  'uploads/categories/zq-t-shirts-aesthetic.webp': 'uploads/categories/zq-t-shirts-aesthetic-m.webp',
+  'uploads/categories/zq-t-shirts-rack.webp': 'uploads/categories/zq-t-shirts-rack-m.webp',
   'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
   'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
 };
