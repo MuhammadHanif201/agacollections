@@ -63,6 +63,10 @@ const LINES: Record<string, string> = {
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
+// Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
+// (T-shirts: Unsplash photo tvG4WvjgsEY, free for commercial use under the Unsplash licence)
+const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-rack.webp' };
+const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b] ?? b : null);
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -92,7 +96,7 @@ async function load(props: Props) {
       : `Shop the full ${brand} collection: baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies. Cash on delivery across Pakistan.`,
     // An empty category is thin content: keep it out of search results
     robots: cat && result.total === 0 ? 'noindex, follow' : null,
-    image: cat?.banner ? absolute(mediaUrl(cat.banner)) : null,
+    image: cat?.banner ? absolute(mediaUrl(swapBanner(cat.banner)!)) : null,
     hasSearch: typeof query.search === 'string' && query.search !== '',
   };
   return { result, query, company, brand, cat, metaTitle, seo, search, meta, slugStr };
@@ -112,7 +116,7 @@ export default async function ShopPage(props: Props) {
 
   const catTitle = cat ? strTitle(cat.title) : 'Shop All';
   const zqSlug = cat?.slug ?? null;
-  const banner = cat?.banner ? cat.banner : company?.default_category_banner ?? null;
+  const banner = swapBanner(cat?.banner ? cat.banner : company?.default_category_banner ?? null);
   const bannerM = banner ? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
   const hasM = await mediaExists(bannerM);
   const sub = `${total} ${plural('style', total)}` + (zqSlug ? (LINES[zqSlug] ? ' · ' + LINES[zqSlug] : '') : ' across denim, tees, shirts and jerseys.');
