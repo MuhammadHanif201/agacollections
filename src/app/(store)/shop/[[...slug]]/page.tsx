@@ -69,8 +69,8 @@ const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 
 const SWAPPED: Record<string, string> = {
   // T-shirts: the owner's "AESTHETIC" rail image, widened to the left for the hero
   'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-aesthetic.webp',
-  // Shirts: the owner's image of six shirts on white hangers (centred, its plain wall continued on both sides)
-  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-centre.webp',
+  // Shirts: the owner's six-shirt gold-rack image, centred with its hangers in view (label text and wall socket painted out)
+  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack.webp',
   // jerseys: made from the T-shirts photo's tee (no club badges, names or sponsors)
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-colours.webp',
   // Shop All (the default banner): a shop wall with sections of tees, shirts, jerseys, hoodies and denim
@@ -79,7 +79,7 @@ const SWAPPED: Record<string, string> = {
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-aesthetic.webp': 'uploads/categories/zq-t-shirts-aesthetic-m.webp',
-  'uploads/categories/zq-shirts-centre.webp': 'uploads/categories/zq-shirts-centre-m.webp',
+  'uploads/categories/zq-shirts-rack.webp': 'uploads/categories/zq-shirts-rack-m.webp',
   'uploads/categories/zq-jerseys-colours.webp': 'uploads/categories/zq-jerseys-colours-m.webp',
   'banners/zq-shop-wall.webp': 'banners/zq-shop-wall-m.webp',
 };
