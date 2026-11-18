@@ -70,17 +70,17 @@ const SWAPPED: Record<string, string> = {
   // T-shirts: the owner's "AESTHETIC" rail image, widened to the left for the hero
   'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-aesthetic.webp',
   // Shirts: the owner's six-shirt gold-rack image, centred with its hangers in view (label text and wall socket painted out)
-  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack.webp',
+  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack-2.webp',
   // jerseys: the owner's four-jersey rail image, centred, its dark wall continued on both sides
-  'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail.webp',
+  'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail-2.webp',
   // Shop All (the default banner): a shop wall with sections of tees, shirts, jerseys, hoodies and denim
   'banners/zq-shop.jpg': 'banners/zq-shop-wall.webp',
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-aesthetic.webp': 'uploads/categories/zq-t-shirts-aesthetic-m.webp',
-  'uploads/categories/zq-shirts-rack.webp': 'uploads/categories/zq-shirts-rack-m.webp',
-  'uploads/categories/zq-jerseys-rail.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
+  'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
+  'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
   'banners/zq-shop-wall.webp': 'banners/zq-shop-wall-m.webp',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
