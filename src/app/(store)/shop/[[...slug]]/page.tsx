@@ -69,11 +69,14 @@ const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 
 const SWAPPED: Record<string, string> = {
   'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-colours.webp',
   'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-colours.webp',
+  // jerseys: made from the T-shirts photo's tee (no club badges, names or sponsors)
+  'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-colours.webp',
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-colours.webp': 'uploads/categories/zq-t-shirts-colours-m.webp',
   'uploads/categories/zq-shirts-colours.webp': 'uploads/categories/zq-shirts-colours-m.webp',
+  'uploads/categories/zq-jerseys-colours.webp': 'uploads/categories/zq-jerseys-colours-m.webp',
 };
 const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b] ?? b : null);
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
