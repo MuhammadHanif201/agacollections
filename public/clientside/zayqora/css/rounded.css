@@ -307,4 +307,3 @@ div.pd-rating a:hover { color: #0a0a0a; opacity: .75; }
 /* Review popup + list headings use the body sans font, bold (the site's h3/h4 default is the serif heading font) */
 .zq-rm, .zq-rm h3, .zq-rm h4, .zq-rv h3 { font-family: var(--body-font, 'Arimo', sans-serif) !important; }
 .zq-rm .zq-rm-title, .zq-rm-confirm-box h4, .zq-rv .zq-rv-title { font-weight: 700 !important; font-style: normal !important; text-transform: none !important; }
-

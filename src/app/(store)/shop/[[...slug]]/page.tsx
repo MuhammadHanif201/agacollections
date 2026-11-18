@@ -63,17 +63,6 @@ const LINES: Record<string, string> = {
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
-// Banners swapped in code: the old file stays in storage, the page shows the new one while the category still uses the old.
-// The new ones are finished designs with their own headline, so they are shown whole, without the hero text.
-// Keyed by file, so uploading a different banner in the admin brings the normal hero back.
-const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-oversized.webp' };
-// wide: a desktop version laid out for the hero's wide shape (named here, not looked up, so it works on any host)
-const PLAIN_BANNERS: Record<string, { alt: string; wide?: string }> = {
-  'uploads/categories/zq-t-shirts-oversized.webp': {
-    alt: 'AGA Collections oversized T-shirts, made for your style. Up to 25% off, cash on delivery across Pakistan.',
-    wide: 'uploads/categories/zq-t-shirts-oversized-wide.webp',
-  },
-};
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -123,11 +112,9 @@ export default async function ShopPage(props: Props) {
 
   const catTitle = cat ? strTitle(cat.title) : 'Shop All';
   const zqSlug = cat?.slug ?? null;
-  const savedBanner = cat?.banner ? cat.banner : company?.default_category_banner ?? null;
-  const banner = savedBanner ? SWAPPED[savedBanner] ?? savedBanner : null;
+  const banner = cat?.banner ? cat.banner : company?.default_category_banner ?? null;
   const bannerM = banner ? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
   const hasM = await mediaExists(bannerM);
-  const plainBanner = banner ? PLAIN_BANNERS[banner] : undefined;
   const sub = `${total} ${plural('style', total)}` + (zqSlug ? (LINES[zqSlug] ? ' · ' + LINES[zqSlug] : '') : ' across denim, tees, shirts and jerseys.');
   // PHP reads size[]=M as size, so the [] form counts too
   const hasFilters = FILTER_KEYS.some((k) => query[k] !== undefined || query[`${k}[]`] !== undefined);
@@ -168,10 +155,7 @@ export default async function ShopPage(props: Props) {
       <ZqHero
         image={banner ? mediaUrl(banner) : null}
         imageMobile={hasM ? mediaUrl(bannerM) : null}
-        imageWide={plainBanner?.wide ? mediaUrl(plainBanner.wide) : null}
         position={(zqSlug && POSITIONS[zqSlug]) || 'center'}
-        plain={Boolean(plainBanner)}
-        plainAlt={plainBanner?.alt}
         crumbs={cat
           ? [{ label: 'Home', url: '/' }, { label: 'Shop', url: '/shop' }, { label: catTitle }]
           : [{ label: 'Home', url: '/' }, { label: 'Shop' }]}
