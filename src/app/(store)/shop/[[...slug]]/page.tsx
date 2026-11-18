@@ -62,14 +62,15 @@ const LINES: Record<string, string> = {
   'plain-hoodies': 'Heavyweight plain hoodies.',
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
-const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': '100% 40%' }; // T-shirts: the main tee is on the right
+const POSITIONS: Record<string, string> = { 'button-down-shirts': '100% 35%', 'zipper-hoodies': 'center 30%', 't-shirts': '100% 40%' }; // T-shirts: the main tee is on the right
 // Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
 // (T-shirts: built from Unsplash photo iiqg2xbmvk0; Shirts: from Unsplash photo 2yJFGX0tB-U; both free for commercial
 // use, the garment recoloured and hung several times)
 const SWAPPED: Record<string, string> = {
   // T-shirts: the owner's "AESTHETIC" rail image, widened to the left for the hero
   'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-aesthetic.webp',
-  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-colours-7.webp',
+  // Shirts: the owner's linen-shirts rail image (shirts on the right, its grey wall continued on the left)
+  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-linen.webp',
   // jerseys: made from the T-shirts photo's tee (no club badges, names or sponsors)
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-colours.webp',
   // Shop All (the default banner): a shop wall with sections of tees, shirts, jerseys, hoodies and denim
@@ -78,7 +79,7 @@ const SWAPPED: Record<string, string> = {
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-aesthetic.webp': 'uploads/categories/zq-t-shirts-aesthetic-m.webp',
-  'uploads/categories/zq-shirts-colours-7.webp': 'uploads/categories/zq-shirts-colours-7-m.webp',
+  'uploads/categories/zq-shirts-linen.webp': 'uploads/categories/zq-shirts-linen-m.webp',
   'uploads/categories/zq-jerseys-colours.webp': 'uploads/categories/zq-jerseys-colours-m.webp',
   'banners/zq-shop-wall.webp': 'banners/zq-shop-wall-m.webp',
 };
