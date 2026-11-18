@@ -64,8 +64,8 @@ const LINES: Record<string, string> = {
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
 // Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
-// (T-shirts: Unsplash photo tvG4WvjgsEY, free for commercial use under the Unsplash licence)
-const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-rack.webp' };
+// (T-shirts: Unsplash photo iiqg2xbmvk0, free for commercial use under the Unsplash licence; wall widened for the hero)
+const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-black.webp' };
 const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b] ?? b : null);
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
