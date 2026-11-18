@@ -66,7 +66,9 @@ const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 
 // Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
 // (T-shirts: Unsplash photo iiqg2xbmvk0, free for commercial use under the Unsplash licence; wall widened for the hero)
 const SWAPPED: Record<string, string> = { 'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-black.webp' };
-const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b] ?? b : null);
+// their phone versions, named here (not looked up on disk, which misses files on the host)
+const SWAPPED_M: Record<string, string> = { 'uploads/categories/zq-t-shirts-black.webp': 'uploads/categories/zq-t-shirts-black-m.webp' };
+const swapBanner =(b: string | null | undefined) => (b ? SWAPPED[b] ?? b : null);
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -117,8 +119,8 @@ export default async function ShopPage(props: Props) {
   const catTitle = cat ? strTitle(cat.title) : 'Shop All';
   const zqSlug = cat?.slug ?? null;
   const banner = swapBanner(cat?.banner ? cat.banner : company?.default_category_banner ?? null);
-  const bannerM = banner ? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
-  const hasM = await mediaExists(bannerM);
+  const bannerM = banner ? SWAPPED_M[banner] ?? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
+  const hasM = Boolean(banner && SWAPPED_M[banner]) || (await mediaExists(bannerM));
   const sub = `${total} ${plural('style', total)}` + (zqSlug ? (LINES[zqSlug] ? ' · ' + LINES[zqSlug] : '') : ' across denim, tees, shirts and jerseys.');
   // PHP reads size[]=M as size, so the [] form counts too
   const hasFilters = FILTER_KEYS.some((k) => query[k] !== undefined || query[`${k}[]`] !== undefined);
