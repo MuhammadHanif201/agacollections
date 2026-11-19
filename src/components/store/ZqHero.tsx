@@ -16,6 +16,8 @@ export default function ZqHero({
   cta,
   video,
   poster,
+  videoMobile,
+  posterMobile,
   tall = false,
   tone,
 }: {
@@ -29,6 +31,8 @@ export default function ZqHero({
   cta?: { label: string; url: string } | null;
   video?: string | null;
   poster?: string | null;
+  videoMobile?: string | null;
+  posterMobile?: string | null;
   tall?: boolean;
   tone?: 'navy';
 }) {
@@ -42,7 +46,7 @@ export default function ZqHero({
           <img className="zq-hero-img" src={image} alt="" fetchPriority="high" decoding="async" style={{ objectPosition: position }} />
         </picture>
       )}
-      {video && <HeroVideo src={video} poster={posterSrc} />}
+      {video && <HeroVideo src={video} poster={posterSrc} srcMobile={videoMobile ?? undefined} posterMobile={posterMobile ?? undefined} />}
       <div className="zq-hero-veil" aria-hidden="true"></div>
 
       <div className="zq-hero-inner">
