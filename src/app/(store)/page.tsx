@@ -86,10 +86,11 @@ export default async function HomePage() {
 
       {/* Shared AGA Collections hero: same height and style as the shop, category and policies banners */}
       <ZqHero
-        image={mediaUrl('banners/zq-hero-poster.webp') + '?v=14'}
+        image={mediaUrl('banners/zq-hero-desktop-poster.webp') + '?v=1'}
         imageMobile={mediaUrl('banners/zq-hero-hoodies-m-poster.webp') + '?v=1'}
-        video={mediaUrl('banners/zq-hero-clothes.mp4') + '?v=3'}
-        poster={mediaUrl('banners/zq-hero-clothes-poster.webp') + '?v=3'}
+        // desktop: the owner's wide clothing-rail video (cut before the brand cards and end logo, no sound)
+        video={mediaUrl('banners/zq-hero-desktop.mp4') + '?v=1'}
+        poster={mediaUrl('banners/zq-hero-desktop-poster.webp') + '?v=1'}
         // phones: the owner's tall hoodies video (label close-up cut out, no sound); desktop keeps the wide video
         videoMobile={mediaUrl('banners/zq-hero-hoodies-m.mp4') + '?v=1'}
         posterMobile={mediaUrl('banners/zq-hero-hoodies-m-poster.webp') + '?v=1'}
