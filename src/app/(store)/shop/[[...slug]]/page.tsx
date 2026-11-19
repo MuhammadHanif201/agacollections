@@ -62,7 +62,7 @@ const LINES: Record<string, string> = {
   'plain-hoodies': 'Heavyweight plain hoodies.',
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
-const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
+const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': '100% 30%', 't-shirts': 'center 40%' };
 // Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
 // (T-shirts: built from Unsplash photo iiqg2xbmvk0; Shirts: from Unsplash photo 2yJFGX0tB-U; both free for commercial
 // use, the garment recoloured and hung several times)
@@ -75,6 +75,8 @@ const SWAPPED: Record<string, string> = {
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail-2.webp',
   // Baggy jeans: the owner's three-jeans rail image, centred, its wall continued on both sides
   'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-rail.webp',
+  // Zipper hoodies: the owner's hoodie-rail image on the right, its plain wall continued on the left (neck label text painted out)
+  'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-rail.webp',
   // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
   'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
 };
@@ -84,6 +86,7 @@ const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
   'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
   'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
+  'uploads/categories/zq-zip-hoodies-rail.webp': 'uploads/categories/zq-zip-hoodies-rail-m.webp',
   'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
