@@ -31,3 +31,5 @@
     .zq-review { scroll-snap-align:start; }
 }
 @media (min-width:600px) and (max-width:991px) { .zq-reviews-track { grid-auto-columns:minmax(46%, 1fr); } }
+/* phones: the "Find your product" button sits centred under the text */
+@media (max-width:767px) { .zq-reviews-cta { justify-content:center; } .zq-reviews-cta p { flex-basis:100%; } .zq-reviews-btn { margin:0 auto; } }
