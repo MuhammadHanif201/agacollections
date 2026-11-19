@@ -43,6 +43,10 @@ async function countRows() {
   ]);
 }
 
+/** Category names shown on the store in place of the saved ones (by slug) */
+export const CATEGORY_TITLES: Record<string, string> = { 'button-down-shirts': 'Button Down Shirts' };
+export const categoryTitle = (c: { slug?: string | null; title: string }) => CATEGORY_TITLES[c.slug ?? ''] ?? c.title;
+
 /** Active categories that have at least one active product, in the admin's order. */
 export const getMenuCategories = shared<MenuCategory[]>('menu', async () => {
   const [cats, rows] = await Promise.all([
@@ -51,7 +55,7 @@ export const getMenuCategories = shared<MenuCategory[]>('menu', async () => {
   ]);
   const counts = new Map(rows.map((r) => [r._id, r.n]));
   return cats
-    .map((c) => ({ ...c, products_count: counts.get(c._id) ?? 0 }))
+    .map((c) => ({ ...c, title: categoryTitle(c), products_count: counts.get(c._id) ?? 0 }))
     .filter((c) => c.products_count > 0);
 });
 

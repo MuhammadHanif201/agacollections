@@ -13,7 +13,7 @@ import SortSelect from '@/components/store/SortSelect';
 import ZqHero from '@/components/store/ZqHero';
 import { toCards } from '@/services/catalog';
 import { mediaExists } from '@/services/media';
-import { getCompanySetting, getMenuCategories } from '@/services/settings';
+import { categoryTitle, getCompanySetting, getMenuCategories } from '@/services/settings';
 import { shopQuery } from '@/services/shop';
 import StoreLink from '@/components/store/StoreLink';
 
@@ -105,7 +105,7 @@ async function load(props: Props) {
   const company = await getCompanySetting();
   const brand = company?.name ?? 'AGA Collections';
   const cat = result.selectedCategory;
-  const metaTitle = cat ? strTitle(cat.title) : null;
+  const metaTitle = cat ? strTitle(categoryTitle(cat)) : null;
   const seo = cat ? catSeo(brand)[cat.slug ?? ''] ?? null : null;
   const search = typeof query.search === 'string' && query.search !== '' ? query.search : null;
   const meta: MetaOptions = {
@@ -135,7 +135,7 @@ export default async function ShopPage(props: Props) {
   const cards = await toCards(products);
   const menuCategories = await getMenuCategories();
 
-  const catTitle = cat ? strTitle(cat.title) : 'Shop All';
+  const catTitle = cat ? strTitle(categoryTitle(cat)) : 'Shop All';
   const zqSlug = cat?.slug ?? null;
   const banner = swapBanner(cat?.banner ? cat.banner : company?.default_category_banner ?? null);
   const bannerM = banner ? SWAPPED_M[banner] ?? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
@@ -164,7 +164,7 @@ export default async function ShopPage(props: Props) {
       {mainCategories.filter((c) => c.title.toUpperCase() !== 'HOME PAGE - NEW ARRIVAL').map((c) => (
         <li key={c._id}>
           <StoreLink href={`/shop/${c.slug ?? ''}`} className={c._id === cat?._id ? 'is-active' : ''}>
-            {c.title}
+            {categoryTitle(c)}
             <span className="dc-sf-count">{c.products_count ?? 0}</span>
           </StoreLink>
         </li>
@@ -211,7 +211,7 @@ export default async function ShopPage(props: Props) {
               <div className="dc-shop-count">
                 {cat && (
                   <>
-                    <strong>{cat.title}</strong>{' '}
+                    <strong>{categoryTitle(cat)}</strong>{' '}
                     <span style={{ margin: '0 6px', opacity: 0.4 }}>—</span>{' '}
                   </>
                 )}
