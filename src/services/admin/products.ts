@@ -8,6 +8,7 @@ import { deletePublic, storeImage, storePublic } from '@/lib/admin/storage';
 import { validate, type Errors } from '@/lib/admin/validate';
 import { fileExtension } from '@/lib/admin/validate';
 import { connectDb } from '@/lib/db';
+import { notifyIndexNow } from '@/lib/indexnow';
 import { Category } from '@/models/Category';
 import { nextId } from '@/models/Counter';
 import { Order } from '@/models/Order';
@@ -262,6 +263,7 @@ export async function storeProduct(input: FormInput, req: Request, adminId: numb
     const sync = laravelDirty({ quantity: typedQty }, { quantity: doc.quantity }, ['quantity']);
     if (variants.length && sync.changed) rows.push({ event: 'updated', type: T, id, old: sync.old, new: sync.new });
     for (const a of rows) await recordAudit({ ...a, userId: adminId, req });
+    await notifyIndexNow([`/product/${slug}`, '/shop']); // a new product: tell Bing and others now
     return { ok: true as const };
   } catch (e) {
     for (const p of created) await deletePublic(p);
@@ -393,6 +395,8 @@ export async function updateProduct(id: number, input: FormInput, req: Request, 
     for (const a of post) await recordAudit({ ...a, userId: adminId, req });
     const sync = laravelDirty({ quantity: typedQty }, { quantity: set.quantity }, ['quantity']);
     if (variants.length && sync.changed) await recordAudit({ event: 'updated', type: T, id, old: sync.old, new: sync.new, userId: adminId, req });
+    // an edited product (and its old address, if the slug changed): tell Bing and others now
+    await notifyIndexNow([`/product/${set.slug}`, before && before.slug !== set.slug ? `/product/${before.slug}` : '', '/shop']);
     return { ok: true as const };
   } catch (e) {
     for (const p of created) await deletePublic(p);
@@ -415,6 +419,7 @@ export async function destroyProduct(id: number, req: Request, adminId: number) 
     margin: dbDecimal(p.margin), profit: dbDecimal(p.profit), sku: p.sku ?? null, quantity: p.quantity ?? null, type: p.type ?? null, tags: phpJson(p.tags ?? []),
     status: p.status, views: p.views ?? 0, sort_order: p.sort_order ?? 0, is_best_seller: dbBool(p.is_best_seller), is_featured: dbBool(p.is_featured),
   } });
+  await notifyIndexNow([`/product/${p.slug}`, '/shop']); // a removed product: search engines drop it sooner
   return { ok: true as const };
 }
 
