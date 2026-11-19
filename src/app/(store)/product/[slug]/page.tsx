@@ -18,7 +18,6 @@ import { toCards } from '@/services/catalog';
 import { countProductView, getProductPage } from '@/services/product';
 import { getCompanySetting } from '@/services/settings';
 import StoreLink from '@/components/store/StoreLink';
-import { PRODUCT_COPY } from '@/lib/productCopy';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -57,7 +56,7 @@ async function load(slug: string) {
   const inStock = hasVariants ? product.variants.reduce((s, v) => s + Number(v.quantity ?? 0), 0) > 0 : Number(product.quantity ?? 0) > 0;
 
   // Description: the first paragraph is the lead shown beside the price
-  const descHtml = (PRODUCT_COPY[product.slug] ?? product.description ?? '').trim(); // written copy (lib/productCopy) wins
+  const descHtml = (product.description ?? '').trim();
   const descText = plainText(descHtml);
   let leadText: string | null = null;
   let detailsHtml = descHtml;
