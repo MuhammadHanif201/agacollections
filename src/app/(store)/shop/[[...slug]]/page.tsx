@@ -279,7 +279,7 @@ export default async function ShopPage(props: Props) {
             {page === 1 && !search && total > 0 && (
               <section className="dc-shop-guide" aria-labelledby="dc-shop-guide-title">
                 <h2 id="dc-shop-guide-title">
-                  {cat ? 'About our ' + (metaTitle ?? '').toLowerCase() : 'Streetwear from Lahore, delivered across Pakistan'}
+                  {cat ? 'About our ' + (metaTitle ?? '').toLowerCase() : 'Streetwear from Karachi, delivered across Pakistan'}
                 </h2>
                 <p>
                   {`${cat && seo?.intro

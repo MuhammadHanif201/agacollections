@@ -27,7 +27,7 @@ export default async function ContactPage() {
   const company = await getCompanySetting();
   const raw = company?.emails;
   const contactEmail = raw && !Array.isArray(raw) ? raw.contact ?? raw.default ?? null : null;
-  const address = company?.address ?? 'Gulberg 2, Lahore, Pakistan';
+  const address = company?.address ?? 'Gulberg 2, Karachi, Pakistan';
 
   const info = (
     <div className="ct-info">
@@ -130,11 +130,11 @@ export default async function ContactPage() {
               <div className="ct-map-bar-left">
                 <div className="ct-map-ping"></div>
                 <div>
-                  <div className="ct-map-city">Lahore, Pakistan</div>
+                  <div className="ct-map-city">Karachi, Pakistan</div>
                   <div className="ct-map-coords">31°31′N &nbsp;·&nbsp; 74°21′E</div>
                 </div>
               </div>
-              <StoreLink href="https://maps.google.com/?q=Gulberg+2,+Lahore,+Pakistan" target="_blank" rel="noopener noreferrer" className="ct-map-dir">
+              <StoreLink href="https://maps.google.com/?q=Gulberg+2,+Karachi,+Pakistan" target="_blank" rel="noopener noreferrer" className="ct-map-dir">
                 <i className="ri-navigation-line"></i> Get Directions
               </StoreLink>
             </div>
@@ -142,10 +142,10 @@ export default async function ContactPage() {
         </div>
 
         <div className="ct-map-wrap">
-          <iframe src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1sGulberg+2,+Lahore,+Pakistan!6i13" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+          <iframe src="https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1sGulberg+2,+Karachi,+Pakistan!6i13" allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
           <div className="ct-map-card">
             <div className="ct-map-card-tag">Our Location</div>
-            <div className="ct-map-card-city">Lahore</div>
+            <div className="ct-map-card-city">Karachi</div>
             <p className="ct-map-card-addr">{address}</p>
           </div>
         </div>

@@ -14,7 +14,7 @@ export async function generateMetadata() {
   const brand = s?.name ?? 'AGA Collections';
   return buildMetadata({
     page: 'about',
-    metaDesc: `The story behind ${brand}, a Lahore streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
+    metaDesc: `The story behind ${brand}, a Karachi streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
   });
 }
 
@@ -74,8 +74,8 @@ export default async function AboutPage() {
             <div className="ab-trust-item">
               <i className="ri-map-pin-2-line"></i>
               <div>
-                <strong>Based in Lahore</strong>
-                <span>Gulberg, Lahore, Pakistan</span>
+                <strong>Based in Karachi</strong>
+                <span>Gulberg, Karachi, Pakistan</span>
               </div>
             </div>
             <div className="ab-trust-sep"></div>
@@ -111,7 +111,7 @@ export default async function AboutPage() {
               <div className="ab-story-badge">
                 <div className="ab-story-badge-inner">
                   <span>Based in</span>
-                  <strong>Lahore</strong>
+                  <strong>Karachi</strong>
                   <span>Pakistan</span>
                 </div>
               </div>

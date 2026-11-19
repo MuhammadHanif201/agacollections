@@ -162,7 +162,7 @@ export function customerOrderHtml(order: OrderMailData, ctx: OrderMailContext): 
         <td align="center" style="background:${navy};padding:38px 24px 34px;">
             <a href="${e(site)}" style="text-decoration:none;"><img src="${e(site)}/clientside/company_logo/monogram-aga.png" width="70" height="40" alt="" style="display:block;margin:0 auto 14px;width:70px;height:auto;border:0;"></a>
             <a href="${e(site)}" style="font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;letter-spacing:8px;color:#ffffff;text-decoration:none;padding-left:8px;">${e(brand.toUpperCase())}</a>
-            <div style="margin-top:10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#9d98bd;">Streetwear &nbsp;·&nbsp; Lahore</div>
+            <div style="margin-top:10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:#9d98bd;">Streetwear &nbsp;·&nbsp; Karachi</div>
         </td>
     </tr>
 

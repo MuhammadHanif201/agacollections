@@ -179,7 +179,7 @@ export default function Footer({
 
               <div className="dc-footer__ci">
                 <i className="ri-map-pin-2-line dc-footer__ci-icon"></i>
-                <span className="dc-footer__ci-text">{company?.address || 'Gulberg 2, Lahore, Pakistan'}</span>
+                <span className="dc-footer__ci-text">{company?.address || 'Gulberg 2, Karachi, Pakistan'}</span>
               </div>
 
               {emails.length > 0 ? emails.map((email) => (
