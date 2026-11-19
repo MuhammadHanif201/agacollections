@@ -32,8 +32,13 @@ function shared<T>(key: string, load: () => Promise<T>): () => Promise<T> {
   return cache(async () => revive(await stored()));
 }
 
-export const getCompanySetting = shared<CompanySettingDoc | null>('company', async () =>
-  CompanySetting.findOne().sort({ _id: 1 }).lean());
+// The store is in Karachi: an address still saved as Lahore is shown as Karachi (footer, contact page, Google's address data)
+export const fixCity = (t: string | null | undefined) => (t ? t.replace(/Lahore/g, 'Karachi').replace(/lahore/g, 'karachi') : t);
+export const getCompanySetting = shared<CompanySettingDoc | null>('company-karachi', async () => {
+  const c = await CompanySetting.findOne().sort({ _id: 1 }).lean();
+  if (c && typeof c.address === 'string') c.address = fixCity(c.address) as string;
+  return c;
+});
 
 async function countRows() {
   return Product.aggregate<{ _id: number; n: number }>([

@@ -6,7 +6,7 @@ import { PageStyles } from '@/components/store/LegacyStyles';
 import ZqHero from '@/components/store/ZqHero';
 import { AboutSection } from '@/models/content';
 import { nextId } from '@/models/Counter';
-import { getCompanySetting } from '@/services/settings';
+import { fixCity, getCompanySetting } from '@/services/settings';
 import StoreLink from '@/components/store/StoreLink';
 
 export async function generateMetadata() {
@@ -34,8 +34,8 @@ export default async function AboutPage() {
   const heroTitle = about.title ?? 'Made for Your Style';
   const brandSub = about.brand_subtitle ?? 'Our Story';
   const brandTitle = about.brand_title ?? 'AGA Collections';
-  const brandBody1 = about.brand_body1 ?? '';
-  const brandBody2 = about.brand_body2 ?? '';
+  const brandBody1 = fixCity(about.brand_body1) ?? '';
+  const brandBody2 = fixCity(about.brand_body2) ?? '';
   const brandCta = about.brand_cta ?? 'Shop the Collection';
   const stats = [
     [about.brand_stat1_value ?? 'COD', about.brand_stat1_label ?? 'Cash on Delivery'],
