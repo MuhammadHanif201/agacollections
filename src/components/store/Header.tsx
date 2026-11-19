@@ -2,6 +2,7 @@
 // same markup as clientside/zayqora/layout/header.blade.php.
 import { connectDb } from '@/lib/db';
 import { mediaUrl } from '@/lib/media';
+import { swapBanner } from '@/lib/banners';
 import { numberFormat, plural, strTitle, waLink } from '@/lib/format';
 import { Product } from '@/models/Product';
 import type { CompanySettingDoc } from '@/models/content';
@@ -222,7 +223,7 @@ export default async function Header({
 
         {feat && (
           <StoreLink href={`/shop/${feat.slug ?? ''}`} className="zqd-feature">
-            <img src={mediaUrl(feat.banner)} alt="" loading="lazy" />
+            <img src={mediaUrl(swapBanner(feat.banner))} alt="" loading="lazy" />
             <span className="zqd-feature-txt">
               <small>The edit</small>
               <strong>{strTitle(feat.title)}</strong>

@@ -16,6 +16,7 @@ import { mediaExists } from '@/services/media';
 import { categoryTitle, getCompanySetting, getMenuCategories } from '@/services/settings';
 import { shopQuery } from '@/services/shop';
 import StoreLink from '@/components/store/StoreLink';
+import { SWAPPED_M, swapBanner } from '@/lib/banners';
 
 type Props = { params: Promise<{ slug?: string[] }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -63,34 +64,6 @@ const LINES: Record<string, string> = {
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
-// Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
-// (T-shirts: built from Unsplash photo iiqg2xbmvk0; Shirts: from Unsplash photo 2yJFGX0tB-U; both free for commercial
-// use, the garment recoloured and hung several times)
-const SWAPPED: Record<string, string> = {
-  // T-shirts: the owner's photo of five tees on a black rack, centred, its plain wall continued on both sides
-  'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-rack.webp',
-  // Shirts: the owner's six-shirt gold-rack image, centred with its hangers in view (label text and wall socket painted out)
-  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack-2.webp',
-  // jerseys: the owner's four-jersey rail image, centred, its dark wall continued on both sides
-  'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail-2.webp',
-  // Baggy jeans: the owner's three-jeans rail image, centred, its wall continued on both sides
-  'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-rail.webp',
-  // Zipper hoodies: the owner's hoodie-rail image, centred, its plain wall continued on both sides (neck label text painted out)
-  'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-rail-2.webp',
-  // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
-  'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
-};
-// their phone versions, named here (not looked up on disk, which misses files on the host)
-const SWAPPED_M: Record<string, string> = {
-  'uploads/categories/zq-t-shirts-rack.webp': 'uploads/categories/zq-t-shirts-rack-m.webp',
-  'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
-  'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
-  'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
-  'uploads/categories/zq-zip-hoodies-rail-2.webp': 'uploads/categories/zq-zip-hoodies-rail-m.webp',
-  'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
-};
-// saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
-const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b.replace(/^\/+/, '').replace(/^storage\//, '')] ?? b : null);
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
