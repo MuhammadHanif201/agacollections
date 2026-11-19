@@ -64,6 +64,27 @@ const LINES: Record<string, string> = {
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
 const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
+// Questions shoppers (and AI search) ask, answered from the store's own policies (Policies page: COD only,
+// TCS/Leopards/BlueEx, 2–4 / 4–6 working days, 7-day exchange, no cash refunds)
+function shopFaqs(o: { brand: string; what: string; intro: string | null; from: number | null; count: number; whatsapp: string | null }) {
+  const rs = (n: number) => 'Rs. ' + n.toLocaleString('en-PK');
+  const wa = o.whatsapp ? ` on WhatsApp (${o.whatsapp})` : ' on WhatsApp';
+  const f: { q: string; a: string }[] = [
+    {
+      q: `Where can I buy ${o.what} online in Pakistan?`,
+      a: `${o.brand} sells ${o.what} online at agacollections.com${o.count ? ` (${o.count} ${o.count === 1 ? 'style' : 'styles'})` : ''}${o.from ? `, from ${rs(o.from)}` : ''}, with cash on delivery to every city in Pakistan. ${o.intro ?? ''}`.trim(),
+    },
+  ];
+  if (o.from) f.push({ q: `How much do ${o.brand} ${o.what} cost?`, a: `Prices start at ${rs(o.from)}. All prices are in Pakistani rupees and the delivery charge is shown at checkout.` });
+  f.push(
+    { q: 'Is cash on delivery available?', a: `Yes. Every order is cash on delivery: you pay the courier in cash when your parcel arrives, anywhere in Pakistan.` },
+    { q: 'How long does delivery take?', a: '2–4 working days to Karachi, Lahore and Islamabad, and 4–6 working days to other cities. Orders are shipped with TCS, Leopards Courier or BlueEx.' },
+    { q: 'Can I exchange the size or colour?', a: `Yes, within 7 days of delivery, if the item is unused, unwashed and has its tags on. Message us${wa} with your order number and we arrange a pickup. Return shipping is paid by the customer unless the item was defective or wrong. Sale or discounted items cannot be exchanged, and there are no cash refunds (defective or wrong items get a replacement or store credit).` },
+    { q: 'How do I choose my size?', a: `Our fits are oversized and unisex. Message us${wa} with your height and usual size and we will help you pick the right one.` },
+  );
+  return f;
+}
+
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -121,6 +142,8 @@ export default async function ShopPage(props: Props) {
   const hasFilters = FILTER_KEYS.some((k) => query[k] !== undefined || query[`${k}[]`] !== undefined);
   const path = slugStr ? `/shop/${slugStr}` : '/shop';
   const guideCats = menuCategories.filter((c) => c.slug !== (cat?.slug ?? null) && c.title !== 'Home Page - New Arrival');
+  const prices = cards.map((c) => c.sale_price ?? c.price).filter((n) => n > 0);
+  const faqs = shopFaqs({ brand, what: cat ? (metaTitle ?? '').toLowerCase() : 'streetwear', intro: cat ? seo?.intro ?? null : null, from: prices.length ? Math.min(...prices) : null, count: total, whatsapp: company?.whatsapps?.[0] ?? null });
 
   const hiddenInputs: { name: string; value: string }[] = [];
   for (const [k, v] of Object.entries(query)) {
@@ -273,6 +296,33 @@ export default async function ShopPage(props: Props) {
                       </Fragment>
                     ))}
                   </p>
+                )}
+                {faqs.length > 0 && (
+                  <div className="dc-shop-faq">
+                    <style>{`
+                      .dc-shop-faq { margin-top: 28px; }
+                      .dc-shop-faq h2 { font-size: 1.05rem; margin: 0 0 10px; }
+                      .dc-shop-faq details { border-top: 1px solid #e6e5ec; padding: 12px 0; }
+                      .dc-shop-faq details:last-of-type { border-bottom: 1px solid #e6e5ec; }
+                      .dc-shop-faq summary { cursor: pointer; font-weight: 600; color: #161426; list-style: none; }
+                      .dc-shop-faq summary::-webkit-details-marker { display: none; }
+                      .dc-shop-faq summary::after { content: '+'; float: right; color: #8a87a3; }
+                      .dc-shop-faq details[open] summary::after { content: '\\2212'; }
+                      .dc-shop-faq details p { margin: 8px 0 0; color: #45435a; font-size: .9rem; line-height: 1.6; }
+                    `}</style>
+                    <h2>Frequently asked questions</h2>
+                    {faqs.map((f) => (
+                      <details key={f.q}>
+                        <summary>{f.q}</summary>
+                        <p>{f.a}</p>
+                      </details>
+                    ))}
+                    {/* the same questions for Google and AI search */}
+                    <script
+                      type="application/ld+json"
+                      dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }).replace(/</g, '\\u003c') }}
+                    />
+                  </div>
                 )}
               </section>
             )}

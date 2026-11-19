@@ -225,6 +225,16 @@ export async function JsonLd(opts: MetaOptions) {
             transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 8, unitCode: 'DAY' },
           },
         },
+        // the store's Return & Exchange Policy: 7 days, exchange or store credit (no cash refunds), customer pays return shipping
+        hasMerchantReturnPolicy: {
+          '@type': 'MerchantReturnPolicy',
+          applicableCountry: 'PK',
+          returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+          merchantReturnDays: 7,
+          returnMethod: 'https://schema.org/ReturnByMail',
+          returnFees: 'https://schema.org/ReturnShippingFees',
+          refundType: ['https://schema.org/ExchangeRefund', 'https://schema.org/StoreCreditRefund'],
+        },
       },
     };
     if (mp.images?.length) product.image = mp.images;
