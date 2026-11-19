@@ -12,6 +12,9 @@ export const dynamic = 'force-dynamic';
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const limit = (s: string, n: number) => ([...s].length <= n ? s : [...s].slice(0, n).join('').trimEnd());
 const abs = (u: string) => (/^https?:/.test(u) ? u : env.appUrl + u);
+/** sizes as Google expects them: small/s -> S, medium -> M, x-large -> XL; waist sizes (28, 30) stay */
+const SIZE_WORDS: Record<string, string> = { 'extra small': 'XS', 'x-small': 'XS', small: 'S', medium: 'M', large: 'L', 'extra large': 'XL', 'x-large': 'XL', 'xx-large': 'XXL' };
+const normSize = (s: string | null) => (s ? SIZE_WORDS[s.trim().toLowerCase()] ?? s.trim().toUpperCase() : null);
 /** an option value by name, whatever its capitalisation (Size / SIZE / size) */
 const opt = (o: Record<string, string> | undefined, ...names: string[]) => {
   for (const [k, v] of Object.entries(o ?? {})) if (names.includes(k.toLowerCase()) && v) return String(v);
@@ -53,7 +56,7 @@ export async function GET() {
           now: Number(v.price || p.price) || 0,
           was: Number(v.sale_price || p.sale_price) || 0,
           inStock: Number(v.quantity ?? 0) > 0,
-          size: opt(v.option_values, 'size'),
+          size: normSize(opt(v.option_values, 'size')),
           color: opt(v.option_values, 'color', 'colour'),
           image: v.primary_image || primary,
           grouped: true,
