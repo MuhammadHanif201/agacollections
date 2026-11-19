@@ -12,6 +12,7 @@ import ShopInteractions from '@/components/store/ShopInteractions';
 import SortSelect from '@/components/store/SortSelect';
 import ZqHero from '@/components/store/ZqHero';
 import { shownPrice, toCards } from '@/services/catalog';
+import { Product } from '@/models/Product';
 import { mediaExists } from '@/services/media';
 import { categoryTitle, getCompanySetting, getMenuCategories } from '@/services/settings';
 import { shopQuery } from '@/services/shop';
@@ -85,6 +86,25 @@ function shopFaqs(o: { brand: string; what: string; intro: string | null; from: 
   return f;
 }
 
+// Search titles (Google result and browser tab): what people type, plus the starting price and COD.
+// The price is read live from the category's products, so it follows price changes; with no price it is left out.
+const SEARCH_TITLES: Record<string, (from: string) => string> = {
+  jeans: (f) => `Baggy Jeans in Pakistan${f} | Cash on Delivery`,
+  't-shirts': (f) => `Oversized T-Shirts in Pakistan${f} | COD`,
+  'button-down-shirts': (f) => `Button Down Shirts in Pakistan${f} | COD`,
+  'sports-jerseys': (f) => `Sports Jerseys in Pakistan${f} | Cash on Delivery`,
+  'zipper-hoodies': (f) => `Zip Up Hoodies in Pakistan${f} | Cash on Delivery`,
+  hoodies: () => 'Hoodies in Pakistan – Plain, Printed & Zip | Cash on Delivery',
+  'plain-hoodies': (f) => `Plain Hoodies in Pakistan${f} | Cash on Delivery`,
+  'printed-hoodies': (f) => `Printed Hoodies in Pakistan${f} | Cash on Delivery`,
+};
+/** " – From Rs. 2,999": the lowest price shoppers see on the category's active products ('' when none) */
+async function fromPrice(catId: number): Promise<string> {
+  const ps = await Product.find({ status: 'active', category_ids: catId }, { price: 1, variants: 1 }).lean();
+  const n = ps.map((p) => shownPrice(p)).filter((x) => x > 0);
+  return n.length ? ` – From Rs. ${Math.min(...n).toLocaleString('en-PK')}` : '';
+}
+
 // Old category URLs that moved (the T-shirts category was /shop/jersey)
 const MOVED: Record<string, string> = { jersey: 't-shirts' };
 
@@ -105,10 +125,12 @@ async function load(props: Props) {
   const metaTitle = cat ? strTitle(categoryTitle(cat)) : null;
   const seo = cat ? catSeo(brand)[cat.slug ?? ''] ?? null : null;
   const search = typeof query.search === 'string' && query.search !== '' ? query.search : null;
+  const titleFn = cat ? SEARCH_TITLES[cat.slug ?? ''] : undefined;
+  const searchTitle = cat && titleFn ? titleFn(await fromPrice(cat._id)) : null;
   const meta: MetaOptions = {
     page: cat ? 'category' : 'shop',
     metaTitle,
-    seoTitle: cat ? seo?.title ?? `${metaTitle} | ${brand} Pakistan` : `Shop Streetwear Online in Pakistan | ${brand}`,
+    seoTitle: cat ? searchTitle ?? seo?.title ?? `${metaTitle} | ${brand} Pakistan` : `Shop Streetwear Online in Pakistan | ${brand}`,
     metaDesc: cat
       ? seo?.desc ?? `Shop ${metaTitle} at ${brand}. Cash on delivery across Pakistan.`
       : `Shop the full ${brand} collection: baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies. Cash on delivery across Pakistan.`,
