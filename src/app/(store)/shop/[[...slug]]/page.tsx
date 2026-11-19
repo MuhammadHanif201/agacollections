@@ -73,12 +73,18 @@ const SWAPPED: Record<string, string> = {
   'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack-2.webp',
   // jerseys: the owner's four-jersey rail image, centred, its dark wall continued on both sides
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail-2.webp',
+  // Baggy jeans: the owner's three-jeans rail image, centred, its wall continued on both sides
+  'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-rail.webp',
+  // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
+  'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-rack.webp': 'uploads/categories/zq-t-shirts-rack-m.webp',
   'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
   'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
+  'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
+  'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
 const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b.replace(/^\/+/, '').replace(/^storage\//, '')] ?? b : null);
