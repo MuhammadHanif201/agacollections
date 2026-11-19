@@ -79,8 +79,8 @@ export default async function HomePage() {
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-poster.webp') + '?v=14'} media="(min-width: 768px)" fetchPriority="high" />
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-poster-m.webp') + '?v=14'} media="(max-width: 767px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-desktop-poster.webp') + '?v=1'} media="(min-width: 768px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-hoodies-m-poster.webp') + '?v=1'} media="(max-width: 767px)" fetchPriority="high" />
       <JsonLd {...await meta()} />
       <ScrollReveal threshold={0.08} />
 
