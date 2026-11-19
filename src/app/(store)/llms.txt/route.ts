@@ -22,7 +22,8 @@ export async function GET() {
   const rs = (n: number) => 'Rs. ' + Math.round(n).toLocaleString('en-PK');
   const priceOf = (p: { price?: number | null; sale_price?: number | null }) => Number(p.sale_price ?? p.price ?? 0);
   const wa = company?.whatsapps?.[0] ?? null;
-  const email = company?.emails?.[0] ?? null;
+  const emailList = company?.emails ? (Array.isArray(company.emails) ? company.emails : Object.values(company.emails)) : [];
+  const email = emailList.find((e) => typeof e === 'string' && e.includes('@')) ?? null;
 
   const out: string[] = [
     `# ${brand}`,
