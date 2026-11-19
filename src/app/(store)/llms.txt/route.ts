@@ -2,6 +2,7 @@ import { env } from '@/lib/env';
 import { connectDb } from '@/lib/db';
 import { strTitle } from '@/lib/format';
 import { Product } from '@/models/Product';
+import { shownPrice } from '@/services/catalog';
 import { getCompanySetting, getMenuCategories } from '@/services/settings';
 
 export const dynamic = 'force-dynamic';
@@ -15,12 +16,12 @@ export async function GET() {
   const [company, cats, products] = await Promise.all([
     getCompanySetting(),
     getMenuCategories(),
-    Product.find({ status: 'active' }, { name: 1, slug: 1, price: 1, sale_price: 1, category_ids: 1 }).sort({ sort_order: 1, _id: 1 }).lean(),
+    Product.find({ status: 'active' }, { name: 1, slug: 1, price: 1, variants: 1, category_ids: 1 }).sort({ sort_order: 1, _id: 1 }).lean(),
   ]);
   const brand = company?.name ?? 'AGA Collections';
   const base = env.appUrl;
   const rs = (n: number) => 'Rs. ' + Math.round(n).toLocaleString('en-PK');
-  const priceOf = (p: { price?: number | null; sale_price?: number | null }) => Number(p.sale_price ?? p.price ?? 0);
+  const priceOf = (p: Parameters<typeof shownPrice>[0]) => shownPrice(p); // the price on the product cards
   const wa = company?.whatsapps?.[0] ?? null;
   const emailList = company?.emails ? (Array.isArray(company.emails) ? company.emails : Object.values(company.emails)) : [];
   const email = emailList.find((e) => typeof e === 'string' && e.includes('@')) ?? null;

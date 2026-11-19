@@ -11,7 +11,7 @@ import ProductCard from '@/components/store/ProductCard';
 import ShopInteractions from '@/components/store/ShopInteractions';
 import SortSelect from '@/components/store/SortSelect';
 import ZqHero from '@/components/store/ZqHero';
-import { toCards } from '@/services/catalog';
+import { shownPrice, toCards } from '@/services/catalog';
 import { mediaExists } from '@/services/media';
 import { categoryTitle, getCompanySetting, getMenuCategories } from '@/services/settings';
 import { shopQuery } from '@/services/shop';
@@ -47,8 +47,8 @@ function catSeo(brand: string): Record<string, { title: string; desc: string; in
     },
     'zipper-hoodies': {
       title: `Zip Up Hoodies in Pakistan | ${brand}`,
-      desc: `Plain unisex zip-up hoodies in six colours, with custom prints on request. Order online at ${brand} with cash on delivery across Pakistan.`,
-      intro: 'Plain unisex zip-up hoodies in six colours. Custom prints available on request.',
+      desc: `Unisex zip-up hoodies: the soft fleece Essential Zip Hoodie in 11 colours, plus printed zips. Order online at ${brand} with cash on delivery across Pakistan.`,
+      intro: 'Unisex zip-up hoodies: the soft fleece Essential Zip Hoodie in 11 colours, with an oversized fit, full-length zip and front pockets, plus printed zip hoodies.',
     },
   };
 }
@@ -142,7 +142,7 @@ export default async function ShopPage(props: Props) {
   const hasFilters = FILTER_KEYS.some((k) => query[k] !== undefined || query[`${k}[]`] !== undefined);
   const path = slugStr ? `/shop/${slugStr}` : '/shop';
   const guideCats = menuCategories.filter((c) => c.slug !== (cat?.slug ?? null) && c.title !== 'Home Page - New Arrival');
-  const prices = cards.map((c) => c.sale_price ?? c.price).filter((n) => n > 0);
+  const prices = products.map((p) => shownPrice(p)).filter((n) => n > 0); // the price on the product cards
   const faqs = shopFaqs({ brand, what: cat ? (metaTitle ?? '').toLowerCase() : 'streetwear', intro: cat ? seo?.intro ?? null : null, from: prices.length ? Math.min(...prices) : null, count: total, whatsapp: company?.whatsapps?.[0] ?? null });
 
   const hiddenInputs: { name: string; value: string }[] = [];
