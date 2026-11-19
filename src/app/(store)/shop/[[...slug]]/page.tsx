@@ -299,20 +299,24 @@ export default async function ShopPage(props: Props) {
                 )}
                 {faqs.length > 0 && (
                   <div className="dc-shop-faq">
+                    {/* the same cards as the product page's "Product details / Size & fit / Delivery" (pd-acc) */}
                     <style>{`
-                      .dc-shop-faq { margin-top: 28px; }
-                      .dc-shop-faq h2 { font-size: 1.05rem; margin: 0 0 10px; }
-                      .dc-shop-faq details { border-top: 1px solid #e6e5ec; padding: 12px 0; }
-                      .dc-shop-faq details:last-of-type { border-bottom: 1px solid #e6e5ec; }
-                      .dc-shop-faq summary { cursor: pointer; font-weight: 600; color: #161426; list-style: none; }
-                      .dc-shop-faq summary::-webkit-details-marker { display: none; }
-                      .dc-shop-faq summary::after { content: '+'; float: right; color: #8a87a3; }
-                      .dc-shop-faq details[open] summary::after { content: '\\2212'; }
-                      .dc-shop-faq details p { margin: 8px 0 0; color: #45435a; font-size: .9rem; line-height: 1.6; }
+                      .dc-shop-faq { margin-top: 32px; }
+                      .dc-shop-faq h2 { font-size: 1.05rem; margin: 0 0 14px; }
+                      .dc-faq-acc { border: 1px solid #e6e5ec; border-radius: 12px; background: #fff; margin-bottom: 12px; transition: border-color .35s, background-color .35s, box-shadow .35s; }
+                      .dc-faq-acc:hover { border-color: #d9cfc4; }
+                      .dc-faq-acc[open] { border-color: #c97864; background: #fdf9f6; box-shadow: 0 8px 24px -16px rgba(22,20,38,.35); }
+                      .dc-faq-acc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; cursor: pointer; font-size: .74rem; font-weight: 700; letter-spacing: .16em; line-height: 1.6; text-transform: uppercase; color: #161426; border-radius: 12px; transition: color .35s; }
+                      .dc-faq-acc[open] summary { color: #a3563f; }
+                      .dc-faq-acc summary:focus-visible { outline: 2px solid #c97864; outline-offset: 2px; }
+                      .dc-faq-acc summary::-webkit-details-marker { display: none; }
+                      .dc-faq-acc summary::after { content: '+'; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f5f0eb; color: #c97864; font-size: 1.15rem; font-weight: 400; line-height: 1; letter-spacing: 0; transition: transform .5s cubic-bezier(.4,0,.2,1), background-color .35s, color .35s; }
+                      .dc-faq-acc[open] summary::after { transform: rotate(45deg); background: #c97864; color: #fff; }
+                      .dc-faq-acc p { margin: 0; padding: 0 20px 20px; font-size: .88rem; line-height: 1.8; color: #45435a; }
                     `}</style>
                     <h2>Frequently asked questions</h2>
                     {faqs.map((f) => (
-                      <details key={f.q}>
+                      <details className="dc-faq-acc" key={f.q}>
                         <summary>{f.q}</summary>
                         <p>{f.a}</p>
                       </details>
