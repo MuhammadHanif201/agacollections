@@ -454,6 +454,5 @@
 .dc-back-top { transition: opacity .25s, visibility .25s, background .2s, transform .2s, box-shadow .2s !important; }
 /* Floating buttons a little smaller on phones so they cover less of the page */
 @media (max-width: 767px) {
-    .whatsapp-float { width: 40px !important; height: 40px !important; font-size: 1.2rem !important; }
     .dc-back-top { width: 34px !important; height: 34px !important; font-size: .85rem !important; }
 }
