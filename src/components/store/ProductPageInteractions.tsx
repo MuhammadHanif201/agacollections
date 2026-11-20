@@ -258,7 +258,8 @@ export default function ProductPageInteractions({
             const o = optionsOf(el);
             return Object.keys(test).every((k) => String(o[k] ?? '').toLowerCase() === String(test[k]).toLowerCase());
           });
-          b.disabled = !has;
+          // sold-out sizes stay clickable (they show an "out of stock" note), so no disabled attribute
+          b.setAttribute('aria-disabled', String(!has));
           b.classList.toggle('disabled', !has);
           if (!has && b.classList.contains('btn-primary')) { b.classList.remove('btn-primary'); delete selected[group]; }
         });
@@ -268,6 +269,11 @@ export default function ProductPageInteractions({
     on(scope, 'click', (e) => {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>('.option-btn');
       if (!b || !scope?.contains(b)) return;
+      if (b.classList.contains('disabled')) {
+        const label = String(b.dataset.optionValue ?? '').toUpperCase();
+        void getSwal().then((Swal) => Swal.fire({ icon: 'info', title: `Size ${label} is out of stock`, timer: 2000, showConfirmButton: false, toast: true, position: 'top-end' }));
+        return;
+      }
       const name = String(b.dataset.optionName).toLowerCase();
       scope.querySelectorAll<HTMLElement>(`[data-option-group="${name}"] .option-btn`).forEach((x) => { x.classList.remove('btn-primary'); x.setAttribute('aria-pressed', 'false'); });
       b.classList.add('btn-primary');
@@ -284,7 +290,7 @@ export default function ProductPageInteractions({
     if (variantEls.length) {
       refreshAvailability();
       groups.forEach((groupEl) => {
-        const open = groupEl.querySelectorAll<HTMLButtonElement>('.option-btn:not(:disabled)');
+        const open = groupEl.querySelectorAll<HTMLButtonElement>('.option-btn:not(.disabled)');
         if (open.length === 1) {
           selected[String(groupEl.dataset.optionGroup).toLowerCase()] = open[0].dataset.optionValue ?? '';
           open[0].classList.add('btn-primary');

@@ -269,7 +269,7 @@ export default async function ProductPage({ params }: Props) {
                             data-option-name={optionName.toLowerCase()}
                             data-option-value={value}
                             aria-label={`${strTitle(optionName)} ${value.toUpperCase()}${disabled ? ' (sold out)' : ''}`}
-                            disabled={disabled}
+                            aria-disabled={disabled}
                           >
                             {value.toUpperCase()}
                           </button>
