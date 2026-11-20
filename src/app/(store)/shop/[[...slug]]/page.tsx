@@ -324,6 +324,7 @@ export default async function ShopPage(props: Props) {
                     {/* the same cards as the product page's "Product details / Size & fit / Delivery" (pd-acc) */}
                     <style>{`
                       .dc-shop-faq { margin-top: 32px; }
+                      @media (max-width: 767px) { .dc-shop-faq { padding: 0 6px; } } /* line up with the search bar's left/right edges */
                       .dc-shop-faq h2 { font-size: 1.05rem; margin: 0 0 14px; }
                       .dc-faq-acc { border: 1px solid #e6e5ec; border-radius: 12px; background: #fff; margin-bottom: 12px; transition: border-color .35s, background-color .35s, box-shadow .35s; }
                       .dc-faq-acc:hover { border-color: #d9cfc4; }
