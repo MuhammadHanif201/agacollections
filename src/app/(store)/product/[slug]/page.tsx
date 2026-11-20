@@ -123,7 +123,8 @@ export default async function ProductPage({ params }: Props) {
   const chartFor = (t: string) =>
     /hood/i.test(t) ? '/images/size-charts/hoodies.webp'
     : /jean|denim/i.test(t) ? (company?.size_chart_image ? mediaUrl(company.size_chart_image) : null)
-    : /\bt-?shirts?\b|\btees?\b/i.test(t) ? '/images/size-charts/t-shirts.webp'
+    // shirts and jerseys use the tee chart for now (owner's choice until they have their own measurements)
+    : /\bt-?shirts?\b|\btees?\b|shirt|jersey/i.test(t) ? '/images/size-charts/t-shirts.webp'
     : undefined;
   const sizeChartSrc = chartFor(product.name) ?? chartFor(d.categories.map((c) => `${c.slug ?? ''} ${c.title}`).join(' ')) ?? null;
   const hasSizeChart = Boolean(sizeChartSrc);
