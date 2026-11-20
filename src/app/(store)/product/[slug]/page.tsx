@@ -118,9 +118,14 @@ export default async function ProductPage({ params }: Props) {
     .map((s) => String(s).trim().toUpperCase()))];
   const freeShipOn = Boolean(company?.free_shipping_enabled);
   const freeShipMin = Number(company?.free_shipping_threshold ?? 0);
-  // the uploaded size chart is the baggy jeans chart (waist 26-40), so show it on jeans only, not on hoodies, tees or shirts
-  const isJeans = /jean|denim/i.test([product.name, ...d.categories.map((c) => `${c.slug ?? ''} ${c.title}`)].join(' '));
-  const hasSizeChart = Boolean(company?.size_chart_image) && isJeans;
+  // Size chart per category: the admin-uploaded chart is the baggy jeans one (waist 26-40); hoodies and zip hoodies have their own.
+  const catText = [product.name, ...d.categories.map((c) => `${c.slug ?? ''} ${c.title}`)].join(' ');
+  const sizeChartSrc = /hood/i.test(catText)
+    ? '/images/size-charts/hoodies.webp'
+    : /jean|denim/i.test(catText) && company?.size_chart_image
+      ? mediaUrl(company.size_chart_image)
+      : null;
+  const hasSizeChart = Boolean(sizeChartSrc);
 
   // Option groups, with sizes that are sold out in every variant disabled
   const optionGroups: Record<string, string[]> = {};
@@ -496,7 +501,7 @@ export default async function ProductPage({ params }: Props) {
             <div className="pd-sc-inner">
               <button type="button" className="pd-sc-close" aria-label="Close size guide"><i className="ri-close-line"></i></button>
               <h3>Size guide</h3>
-              <img src={mediaUrl(company!.size_chart_image)} alt={`${brandName} size chart`} loading="lazy" />
+              <img src={sizeChartSrc!} alt={`${brandName} size chart`} loading="lazy" />
               <p>Measurements are approximate. Between two sizes? Choose the larger one.</p>
             </div>
           </div>
