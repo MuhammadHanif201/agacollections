@@ -1,7 +1,7 @@
 // AGA Collections — Product Card (Zilbil-style). Same markup as partials/product-card.blade.php.
 import { Fragment } from 'react';
 import { mediaUrl } from '@/lib/media';
-import { numberFormat, ucfirst } from '@/lib/format';
+import { numberFormat } from '@/lib/format';
 import type { CardProduct } from '@/types/catalog';
 import { AddToCartButton, WishlistButton } from './StoreButtons';
 import ProductImageSwiper from './ProductImageSwiper';
@@ -15,17 +15,6 @@ export default function ProductCard({ product }: { product: CardProduct }) {
 
   const basePrice = hasVariants ? (fv?.price || product.price) : product.price;
   const salePrice = hasVariants ? (fv?.sale_price || product.sale_price) : product.sale_price;
-
-  // Sizes still in stock, when some are sold out
-  const inStock = product.variants.filter((v) => v.quantity > 0);
-  const allInStock = hasVariants && inStock.length === product.variants.length;
-  const available: Record<string, string[]> = {};
-  for (const v of inStock) {
-    for (const [k, val] of Object.entries(v.option_values)) {
-      (available[k] ??= []).push(String(val).toUpperCase());
-    }
-  }
-  for (const k of Object.keys(available)) available[k] = [...new Set(available[k].filter(Boolean))];
 
   const isOutOfStock = !hasVariants ? product.quantity <= 0 : product.variants.every((v) => v.quantity <= 0);
   const url = `/product/${product.slug}`;
@@ -76,14 +65,6 @@ export default function ProductCard({ product }: { product: CardProduct }) {
             <span>{numberFormat(basePrice ?? 0)}</span>
           )}
         </div>
-
-        {hasVariants && !allInStock && Object.keys(available).length > 0 && (
-          <div className="pc-stock" style={{ fontSize: '0.7rem', color: '#555', marginBottom: 10 }}>
-            {Object.entries(available).map(([key, values]) => (
-              <Fragment key={key}>{ucfirst(key)}: {values.join(', ')}<br /></Fragment>
-            ))}
-          </div>
-        )}
 
         {isOutOfStock ? (
           <span className="pc-cta" style={{ display: 'block', width: '100%', padding: '10px 0', background: '#ebebeb', border: '1.5px solid #e2e2e2', color: '#bbb', fontFamily: 'var(--body-font)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', textAlign: 'center', marginTop: 'auto', cursor: 'not-allowed' }}>
