@@ -308,7 +308,7 @@
         }
 
         /* ══ Mobile search pill ══ */
-        .dc-mobile-search { display: none; padding: 0 0.75rem 10px; }
+        .dc-mobile-search { display: none; padding: 10px 0.75rem 10px; }
         @media (max-width: 767px) { .dc-mobile-search { display: block; } }
         .dc-mobile-search-pill {
             display: flex;
