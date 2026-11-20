@@ -118,7 +118,9 @@ export default async function ProductPage({ params }: Props) {
     .map((s) => String(s).trim().toUpperCase()))];
   const freeShipOn = Boolean(company?.free_shipping_enabled);
   const freeShipMin = Number(company?.free_shipping_threshold ?? 0);
-  const hasSizeChart = Boolean(company?.size_chart_image);
+  // the uploaded size chart is the baggy jeans chart (waist 26-40), so show it on jeans only, not on hoodies, tees or shirts
+  const isJeans = /jean|denim/i.test([product.name, ...d.categories.map((c) => `${c.slug ?? ''} ${c.title}`)].join(' '));
+  const hasSizeChart = Boolean(company?.size_chart_image) && isJeans;
 
   // Option groups, with sizes that are sold out in every variant disabled
   const optionGroups: Record<string, string[]> = {};
