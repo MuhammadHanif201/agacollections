@@ -236,8 +236,8 @@
 .dc-product-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--dc-border);
+    gap: 16px;
+    background: transparent;
     align-items: stretch;
 }
 .dc-product-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
@@ -483,7 +483,7 @@
     .dc-product-grid,
     .dc-product-grid.cols-2,
     .dc-product-grid.cols-3,
-    .dc-product-grid.cols-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 1px !important; }
+    .dc-product-grid.cols-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
     .dc-shop-toolbar { gap: 8px; padding: 12px 0; margin-bottom: 14px; }
     .dc-grid-btns { display: none !important; }
     .dc-shop-main { padding: 0 10px 70px; }
