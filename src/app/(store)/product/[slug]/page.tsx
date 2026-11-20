@@ -122,7 +122,8 @@ export default async function ProductPage({ params }: Props) {
   // The admin-uploaded chart is the baggy jeans one (waist 26-40); hoodies/zip hoodies and tees have their own.
   const chartFor = (t: string) =>
     /hood/i.test(t) ? '/images/size-charts/hoodies.webp'
-    : /jean|denim/i.test(t) ? (company?.size_chart_image ? mediaUrl(company.size_chart_image) : null)
+    // jeans: the admin-uploaded chart cropped to the sizes sold, 26-38 (owner's request)
+    : /jean|denim/i.test(t) ? '/images/size-charts/jeans.webp'
     // shirts and jerseys use the tee chart for now (owner's choice until they have their own measurements)
     : /\bt-?shirts?\b|\btees?\b|shirt|jersey/i.test(t) ? '/images/size-charts/t-shirts.webp'
     : undefined;

@@ -783,11 +783,24 @@ $(document).ready(function () {
         if (bad || !names.length) return;
 
         const combos = (arrs, pre = []) => !arrs.length ? [pre] : arrs[0].flatMap(v => combos(arrs.slice(1), [...pre, v]));
+        // Sizes already on the product keep their row as it is (stock, price, SKU, image); only new sizes get a fresh row
+        // with stock 0, and sizes no longer listed are dropped. Before, every row was rebuilt and all stock reset to 0.
+        const norm = (o) => JSON.stringify(Object.entries(o || {}).map(([k, v]) => [String(k).trim().toLowerCase(), String(v).trim().toLowerCase()]).sort((a, b) => (a[0] < b[0] ? -1 : 1)));
+        const keep = {};
+        let nextIdx = 0;
+        $('#variant-table tbody tr.variant-row').each(function () {
+            const $ov = $(this).find('input[name$="[option_values]"]');
+            const m = ($ov.attr('name') || '').match(/^variants\\[(\\d+)\\]/);
+            if (m) nextIdx = Math.max(nextIdx, Number(m[1]) + 1);
+            try { keep[norm(JSON.parse($ov.val() || '{}'))] = $(this).detach(); } catch (e) {}
+        });
         const $tbody = $('#variant-table tbody').empty();
 
-        combos(values).forEach((combo, i) => {
+        combos(values).forEach((combo) => {
             const opt = Object.fromEntries(combo.map((v, idx) => [names[idx], v]));
             const key = JSON.stringify(opt);
+            if (keep[norm(opt)]) { $tbody.append(keep[norm(opt)]); return; }
+            const i = nextIdx++;
             const sku = generateSKU(combo);
             $tbody.append(\`
                 <tr class="variant-row">
@@ -807,11 +820,12 @@ $(document).ready(function () {
                     <td><input type="text" name="variants[\${i}][sku]" class="pf-input" value="\${sku}"></td>
                     <td><input type="number" name="variants[\${i}][price]" class="pf-input" step="0.01" value="\${fixprice > 0 ? fixprice.toFixed(2) : ''}"></td>
                     <td><input type="number" name="variants[\${i}][quantity]" class="pf-input variant-qty" value="0" min="0"></td>
-                    <td style="text-align:center;"><input type="radio" name="default_variant" value="\${i}" \${i===0?'checked':''} style="accent-color:#111111;width:15px;height:15px;"></td>
+                    <td style="text-align:center;"><input type="radio" name="default_variant" value="\${i}" style="accent-color:#111111;width:15px;height:15px;"></td>
                     <td><button type="button" class="btn-remove-var remove-variant-btn"><i class="fas fa-times"></i></button></td>
                 </tr>
             \`);
         });
+        if (!$tbody.find('input[name="default_variant"]:checked').length) $tbody.find('input[name="default_variant"]').first().prop('checked', true);
         updateTotalInventory();
     };
 
