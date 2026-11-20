@@ -316,6 +316,14 @@ export async function updateProduct(id: number, input: FormInput, req: Request, 
         post.push(imageAudit('created', id, images[images.length - 1]));
       }
     }
+    // "Main" ticked under an extra photo: it becomes the first photo and the old first photo moves into its place
+    const makeMain = parseInt(String(str(input, 'make_primary_id') ?? ''), 10);
+    const chosen = Number.isInteger(makeMain) ? images.findIndex((i) => i._id === makeMain && !i.is_primary) : -1;
+    if (chosen >= 0) {
+      const oldMain = images.findIndex((i) => i.is_primary);
+      images = images.map((i, k) => ({ ...i, is_primary: k === chosen }));
+      if (oldMain >= 0) [images[oldMain], images[chosen]] = [images[chosen], images[oldMain]];
+    }
     const options = await buildOptions(input, true, { opt: () => nextId('product_options'), val: () => nextId('product_option_values') });
     post.push(...optionAudits(id, options));
 

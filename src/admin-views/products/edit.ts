@@ -275,8 +275,12 @@ export default function view(d: any) {
                                                 <input type="checkbox" name="remove_additional_ids[]" value="${img?.id}" style="display:none;" onchange="if(this.checked){this.parentElement.style.background='#DC2626';this.closest('.existing-img-wrap').style.opacity='.4';}else{this.parentElement.style.background='#A3A3A3';this.closest('.existing-img-wrap').style.opacity='1';}">
                                                 <i class="fas fa-times"></i>
                                             </label>
+                                            <label style="display:flex;align-items:center;justify-content:center;gap:4px;margin-top:4px;font-size:.68rem;color:#525252;cursor:pointer;" title="Show this photo first on the shop">
+                                                <input type="radio" name="make_primary_id" value="${img?.id}" style="accent-color:#111111;margin:0;"> Main
+                                            </label>
                                         </div>
                                         `)}                                    </div>
+                                    <div style="font-size:.7rem;color:#737373;margin-top:4px;">Tick "Main" under a photo and save to show it first on the shop.</div>
                                     ` : ''}                                </div>
                             </div>
                         </div>
