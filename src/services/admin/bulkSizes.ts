@@ -16,6 +16,8 @@ export const SIZE_SETS = {
   hoodies: { label: 'Hoodies', sizes: ['S', 'M', 'L', 'XL'], match: /hood/i },
 } as const;
 export type SizeSetKey = keyof typeof SIZE_SETS;
+/** products with their own size run, left out of the bulk tool (Balloon Baggy is sold in 22, 24, 26) */
+const KEEP_OWN_SIZES = ['balloon-baggy-washed-jeans'];
 
 // size words as stored on some products (Small, X-Large) compare as S, XL
 const SIZE_WORDS: Record<string, string> = { 'extra small': 'XS', 'x-small': 'XS', small: 'S', medium: 'M', large: 'L', 'extra large': 'XL', 'x-large': 'XL', 'xx-large': 'XXL', 'extra extra large': 'XXL' };
@@ -35,6 +37,7 @@ async function familyProducts(key: SizeSetKey) {
   const all = await Product.find().sort({ _id: 1 }).lean();
   // by product name first (a product can sit in extra categories), then by category
   return all.filter((p) => {
+    if (KEEP_OWN_SIZES.includes(p.slug)) return false;
     const byName = Object.values(SIZE_SETS).find((s) => s.match.test(p.name));
     if (byName) return byName === set;
     return p.category_ids.some((id) => catIds.has(id));
