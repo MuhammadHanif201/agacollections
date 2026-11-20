@@ -687,9 +687,13 @@ $(document).ready(function () {
         $('#preview-price').text('PKR ' + price.toFixed(2));
         // size rows that still had the old main price (or none) follow the new one; sizes given their own price are left alone
         if (price > 0) {
-            $('input[name^="variants["][name$="[price]"]').each(function () {
+            const $sizes = $('input[name^="variants["][name$="[price]"]');
+            // all sizes share one price (the usual case): they all follow the main price, even if it differed from it before
+            const vals = [...new Set($sizes.map(function () { return parseFloat($(this).val()) || 0; }).get().filter((v) => v > 0))];
+            const allSame = vals.length <= 1;
+            $sizes.each(function () {
                 const v = parseFloat($(this).val());
-                if (!v || Math.abs(v - fixprice) < 0.005) $(this).val(price.toFixed(2));
+                if (allSame || !v || Math.abs(v - fixprice) < 0.005) $(this).val(price.toFixed(2));
             });
             fixprice = price; // only while a real price is typed, so clearing the box mid-edit doesn't break the link
         }
