@@ -144,6 +144,17 @@ export default async function ProductPage({ params }: Props) {
       if (Number(variant.quantity ?? 0) > 0) (available[optKey] ??= new Set()).add(valKey);
     }
   }
+  // sizes in size order whatever order they were saved in: 22, 24, 26 ... and XS, S, M, L, XL
+  const LETTER_ORDER = ['XXS', 'XS', 'S', 'SMALL', 'M', 'MEDIUM', 'L', 'LARGE', 'XL', 'X-LARGE', 'XXL', 'XX-LARGE', 'XXXL', '3XL'];
+  const sizeRank = (v: string) => {
+    const t = v.trim().toUpperCase();
+    if (/^\d+(\.\d+)?$/.test(t)) return Number(t);
+    const i = LETTER_ORDER.indexOf(t);
+    return i >= 0 ? 1000 + i : Number.POSITIVE_INFINITY;
+  };
+  for (const [opt, vals] of Object.entries(optionGroups)) {
+    if (opt.toLowerCase() === 'size') vals.sort((a, b) => (sizeRank(a) - sizeRank(b)) || 0);
+  }
   const isDisabled = (opt: string, val: string) => !available[opt.toLowerCase()]?.has(val);
 
   const starCounts: Record<number, number> = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
