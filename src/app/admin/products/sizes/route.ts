@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 // GET shows what will change; nothing is saved until "Apply" is pressed.
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const setKey = (v: unknown): SizeSetKey => (v === 'hoodies' ? 'hoodies' : 'jeans');
+const setKey = (v: unknown): SizeSetKey => (v === 'hoodies' || v === 'balloon' ? v : 'jeans');
 
 function page(key: SizeSetKey, rows: SizePlanRow[], done: boolean) {
   const set = SIZE_SETS[key];

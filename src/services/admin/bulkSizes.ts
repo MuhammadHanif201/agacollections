@@ -14,9 +14,11 @@ import { Product, type ProductVariant } from '@/models/Product';
 export const SIZE_SETS = {
   jeans: { label: 'Jeans', sizes: ['26', '28', '30', '32', '34', '36', '38'], match: /jean|denim/i },
   hoodies: { label: 'Hoodies', sizes: ['S', 'M', 'L', 'XL'], match: /hood/i },
+  // one product with its own run (owner's request): 22 and 24 as well as 26-38
+  balloon: { label: 'Balloon Baggy', sizes: ['22', '24', '26', '28', '30', '32', '34', '36', '38'], match: /^balloon-baggy-washed-jeans$/, slugOnly: true },
 } as const;
 export type SizeSetKey = keyof typeof SIZE_SETS;
-/** products with their own size run, left out of the bulk tool (Balloon Baggy is sold in 22, 24, 26) */
+/** products with their own size run, left out of the jeans/hoodies sets (Balloon Baggy has its own tab) */
 const KEEP_OWN_SIZES = ['balloon-baggy-washed-jeans'];
 
 // size words as stored on some products (Small, X-Large) compare as S, XL
@@ -36,9 +38,10 @@ async function familyProducts(key: SizeSetKey) {
   const catIds = new Set(cats.filter((c) => set.match.test(`${c.title} ${(c as { slug?: string }).slug ?? ''}`)).map((c) => c._id));
   const all = await Product.find().sort({ _id: 1 }).lean();
   // by product name first (a product can sit in extra categories), then by category
+  if ('slugOnly' in set) return all.filter((p) => set.match.test(p.slug));
   return all.filter((p) => {
     if (KEEP_OWN_SIZES.includes(p.slug)) return false;
-    const byName = Object.values(SIZE_SETS).find((s) => s.match.test(p.name));
+    const byName = Object.values(SIZE_SETS).find((s) => !('slugOnly' in s) && s.match.test(p.name));
     if (byName) return byName === set;
     return p.category_ids.some((id) => catIds.has(id));
   });
