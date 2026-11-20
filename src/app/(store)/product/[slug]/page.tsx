@@ -118,13 +118,14 @@ export default async function ProductPage({ params }: Props) {
     .map((s) => String(s).trim().toUpperCase()))];
   const freeShipOn = Boolean(company?.free_shipping_enabled);
   const freeShipMin = Number(company?.free_shipping_threshold ?? 0);
-  // Size chart per category: the admin-uploaded chart is the baggy jeans one (waist 26-40); hoodies and zip hoodies have their own.
-  const catText = [product.name, ...d.categories.map((c) => `${c.slug ?? ''} ${c.title}`)].join(' ');
-  const sizeChartSrc = /hood/i.test(catText)
-    ? '/images/size-charts/hoodies.webp'
-    : /jean|denim/i.test(catText) && company?.size_chart_image
-      ? mediaUrl(company.size_chart_image)
-      : null;
+  // Size chart per category, decided by the product name first, then its categories (a product can sit in extra categories).
+  // The admin-uploaded chart is the baggy jeans one (waist 26-40); hoodies/zip hoodies and tees have their own.
+  const chartFor = (t: string) =>
+    /hood/i.test(t) ? '/images/size-charts/hoodies.webp'
+    : /jean|denim/i.test(t) ? (company?.size_chart_image ? mediaUrl(company.size_chart_image) : null)
+    : /\bt-?shirts?\b|\btees?\b/i.test(t) ? '/images/size-charts/t-shirts.webp'
+    : undefined;
+  const sizeChartSrc = chartFor(product.name) ?? chartFor(d.categories.map((c) => `${c.slug ?? ''} ${c.title}`).join(' ')) ?? null;
   const hasSizeChart = Boolean(sizeChartSrc);
 
   // Option groups, with sizes that are sold out in every variant disabled
