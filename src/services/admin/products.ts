@@ -346,6 +346,8 @@ export async function updateProduct(id: number, input: FormInput, req: Request, 
         }
         const data = {
           option_values: decoded, sku: v?.sku || null, price: v?.price ? Number(v.price) : null, quantity: Number(v?.quantity ?? 0),
+          // the form has one Compare-at price for the whole product, so sizes follow it (an old per-size value would hide edits)
+          sale_price: null,
           cost, margin, profit, is_default: String(str(input, 'default_variant') ?? '') === String(index), primary_image: img,
         };
         const typedRow = variantTyped(v, decoded, str(input, 'cost'), margin, profit, data.is_default, img, true);

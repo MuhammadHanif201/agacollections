@@ -685,7 +685,14 @@ $(document).ready(function () {
         $('.profit').val(profit.toFixed(2));
         $('.margin').val(margin.toFixed(2));
         $('#preview-price').text('PKR ' + price.toFixed(2));
-        fixprice = price;
+        // size rows that still had the old main price (or none) follow the new one; sizes given their own price are left alone
+        if (price > 0) {
+            $('input[name^="variants["][name$="[price]"]').each(function () {
+                const v = parseFloat($(this).val());
+                if (!v || Math.abs(v - fixprice) < 0.005) $(this).val(price.toFixed(2));
+            });
+            fixprice = price; // only while a real price is typed, so clearing the box mid-edit doesn't break the link
+        }
     }
     $('.price, .cost').on('input', calcMargin);
 
