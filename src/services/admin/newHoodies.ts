@@ -58,6 +58,12 @@ export async function placeAfterOriginals() {
   }
 }
 
+/** Home page "New In" puts Featured products first: feature all the new colours so every one shows */
+export async function featureNewHoodies() {
+  await connectDb();
+  await Product.updateMany({ slug: { $in: NEW_HOODIES.map((h) => slugFor(h.file)) } }, { $set: { is_featured: true } }, { timestamps: false });
+}
+
 export async function createNewHoodies(origin: string, stock: number, req: Request, adminId: number) {
   const { template, rows } = await newHoodiePlan();
   if (!template) return { rows, error: `The template product (${TEMPLATE_SLUG}) was not found.` };

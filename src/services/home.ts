@@ -22,8 +22,10 @@ export async function homeData() {
   ]);
   const picked = mixByCategory(featured, 16);
   const pickedIds = new Set(picked.map((p) => p._id));
-  picked.push(...mixByCategory(newest.filter((p) => !pickedIds.has(p._id)), 16 - picked.length));
-  const latestProducts = sortStable(picked, (a, b) => a.sort_order - b.sort_order);
+  const rest = mixByCategory(newest.filter((p) => !pickedIds.has(p._id)), 16 - picked.length);
+  // Featured stay at the front; each group in the curated order
+  const bySort = (a: ProductDoc, b: ProductDoc) => a.sort_order - b.sort_order;
+  const latestProducts = [...sortStable(picked, bySort), ...sortStable(rest, bySort)];
 
   // Most Loved: admin-marked, else most viewed with stock
   let bestSellers = await Product.find({ ...active, is_best_seller: true }).sort({ sort_order: 1, _id: 1 }).limit(8).lean();

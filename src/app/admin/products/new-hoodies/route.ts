@@ -1,5 +1,5 @@
 import { adminAction, adminPage } from '@/lib/admin/http';
-import { createNewHoodies, newHoodiePlan, placeAfterOriginals, NEW_HOODIE_COMPARE, NEW_HOODIE_PRICE, NEW_HOODIE_SIZES, TEMPLATE_SLUG, type NewHoodieRow } from '@/services/admin/newHoodies';
+import { createNewHoodies, featureNewHoodies, newHoodiePlan, placeAfterOriginals, NEW_HOODIE_COMPARE, NEW_HOODIE_PRICE, NEW_HOODIE_SIZES, TEMPLATE_SLUG, type NewHoodieRow } from '@/services/admin/newHoodies';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,7 +29,9 @@ function page(rows: NewHoodieRow[], description: string | null, done: boolean, e
 <button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Create ${todo.length} hoodie(s)</button></form>`
         : `<p>All of these hoodies are already on the site.</p>
 <form method="POST"><input type="hidden" name="do" value="order"><p style="margin:0 0 8px">Shop order: Dusty Lavender 1st, Black 2nd, then the new colours (in the order below).</p>
-<button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Fix order</button></form>`;
+<button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Fix order</button></form>
+<form method="POST" style="margin-top:18px"><input type="hidden" name="do" value="feature"><p style="margin:0 0 8px">Home page: show all the new colours at the start of "New In" (marks them Featured; untick Featured on a product to take it off).</p>
+<button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Show on home page</button></form>`;
   return new Response(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>New hoodies | Admin</title>
 <style>body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:24px;background:#f6f6f6;color:#111}main{max-width:900px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}td,th{border-bottom:1px solid #eee;padding:9px 8px;text-align:left;vertical-align:middle}a{color:#111}</style></head>
 <body><main><p><a href="/admin/products">&larr; Products</a></p><h2>New 450 GSM oversized hoodies</h2>
@@ -41,9 +43,9 @@ function page(rows: NewHoodieRow[], description: string | null, done: boolean, e
 }
 
 /** the page again, with a "done" note above the button */
-async function orderDone(res: Response) {
+async function withNote(res: Response, note: string) {
   const html = (await res.text()).replace('<div style="margin-top:16px">',
-    '<div style="margin-top:16px"><p style="padding:12px 16px;background:#dcfce7;border-radius:8px">Order fixed. Dusty Lavender and Black are 1st and 2nd; the new colours follow from 3rd.</p>');
+    `<div style="margin-top:16px"><p style="padding:12px 16px;background:#dcfce7;border-radius:8px">${note}</p>`);
   return new Response(html, { headers: res.headers });
 }
 
@@ -57,7 +59,12 @@ export const POST = adminAction({
     if (input.do === 'order') {
       await placeAfterOriginals();
       const { template, rows } = await newHoodiePlan();
-      return orderDone(page(rows, template?.description ?? null, false, null));
+      return withNote(page(rows, template?.description ?? null, false, null), 'Order fixed. Dusty Lavender and Black are 1st and 2nd; the new colours follow from 3rd.');
+    }
+    if (input.do === 'feature') {
+      await featureNewHoodies();
+      const { template, rows } = await newHoodiePlan();
+      return withNote(page(rows, template?.description ?? null, false, null), 'Done. All the new colours now show first in "New In" on the home page.');
     }
     const stock = Math.max(0, Math.min(999, Math.floor(Number(input.stock) || 0)));
     const { rows, error } = await createNewHoodies(url.origin, stock, req, admin._id);
