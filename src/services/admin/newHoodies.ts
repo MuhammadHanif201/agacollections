@@ -8,14 +8,14 @@ import { Product, type ProductDoc, type ProductVariant } from '@/models/Product'
 
 /**
  * One-off batch (owner's request, Nov 2026): the 450 GSM oversized pullover hoodie in the
- * zip-hoodie colours, at PKR 3,499 with 4,499 crossed out. Each colour is its own product,
+ * zip-hoodie colours, at PKR 3,999 with 4,999 crossed out (was 3,499 / 4,499 at launch). Each colour is its own product,
  * like the existing "450 GSM Essential Oversized Hoodie - Black". Description, categories,
  * type, tags and cost are copied from that product; photos ship in public/images/new-hoodies.
  * Colours that already exist (same slug) are left alone, so pressing the button twice is safe.
  */
 export const TEMPLATE_SLUG = '450-gsm-essential-oversized-hoodie-black';
-export const NEW_HOODIE_PRICE = 3499;
-export const NEW_HOODIE_COMPARE = 4499;
+export const NEW_HOODIE_PRICE = 3999;
+export const NEW_HOODIE_COMPARE = 4999;
 export const NEW_HOODIE_SIZES = ['S', 'M', 'L', 'XL'];
 export const NEW_HOODIES = [
   { color: 'Sky Blue', file: 'sky-blue' },
@@ -62,6 +62,23 @@ export async function placeAfterOriginals() {
 export async function featureNewHoodies() {
   await connectDb();
   await Product.updateMany({ slug: { $in: NEW_HOODIES.map((h) => slugFor(h.file)) } }, { $set: { is_featured: true } }, { timestamps: false });
+}
+
+/** Owner changed the price after launch: put every new colour (and each of its sizes) on the current price */
+export async function priceNewHoodies() {
+  await connectDb();
+  const products = await Product.find({ slug: { $in: NEW_HOODIES.map((h) => slugFor(h.file)) } }).lean();
+  for (const p of products) {
+    const cost = Number(p.cost) || 0;
+    const profit = cost > 0 ? NEW_HOODIE_PRICE - cost : 0;
+    const margin = cost > 0 ? Math.round(((NEW_HOODIE_PRICE - cost) / NEW_HOODIE_PRICE) * 10000) / 100 : 0;
+    await Product.updateOne({ _id: p._id }, { $set: {
+      price: NEW_HOODIE_PRICE, sale_price: NEW_HOODIE_COMPARE, profit, margin, updated_at: new Date(),
+      variants: p.variants.map((v) => ({ ...v, price: NEW_HOODIE_PRICE, sale_price: null, profit, margin })),
+    } });
+  }
+  if (products.length) await notifyIndexNow([...products.map((p) => `/product/${p.slug}`), '/shop']);
+  return products.length;
 }
 
 export async function createNewHoodies(origin: string, stock: number, req: Request, adminId: number) {

@@ -1,5 +1,5 @@
 import { adminAction, adminPage } from '@/lib/admin/http';
-import { createNewHoodies, featureNewHoodies, newHoodiePlan, placeAfterOriginals, NEW_HOODIE_COMPARE, NEW_HOODIE_PRICE, NEW_HOODIE_SIZES, TEMPLATE_SLUG, type NewHoodieRow } from '@/services/admin/newHoodies';
+import { createNewHoodies, featureNewHoodies, priceNewHoodies, newHoodiePlan, placeAfterOriginals, NEW_HOODIE_COMPARE, NEW_HOODIE_PRICE, NEW_HOODIE_SIZES, TEMPLATE_SLUG, type NewHoodieRow } from '@/services/admin/newHoodies';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,6 +28,8 @@ function page(rows: NewHoodieRow[], description: string | null, done: boolean, e
 <input type="number" name="stock" min="0" max="999" required style="width:90px;padding:8px;margin-left:8px;font-size:15px"></label>
 <button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Create ${todo.length} hoodie(s)</button></form>`
         : `<p>All of these hoodies are already on the site.</p>
+<form method="POST" style="margin-bottom:18px" onsubmit="return confirm('Set all the new colours to PKR ${NEW_HOODIE_PRICE.toLocaleString('en-US')} (crossed-out ${NEW_HOODIE_COMPARE.toLocaleString('en-US')})?')"><input type="hidden" name="do" value="price"><p style="margin:0 0 8px">Price: put every new colour and size on <b>PKR ${NEW_HOODIE_PRICE.toLocaleString('en-US')}</b>, crossed-out <b>PKR ${NEW_HOODIE_COMPARE.toLocaleString('en-US')}</b>.</p>
+<button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Set price</button></form>
 <form method="POST"><input type="hidden" name="do" value="order"><p style="margin:0 0 8px">Shop order: Dusty Lavender 1st, Black 2nd, then the new colours (in the order below).</p>
 <button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Fix order</button></form>
 <form method="POST" style="margin-top:18px"><input type="hidden" name="do" value="feature"><p style="margin:0 0 8px">Home page: show all the new colours at the start of "New In" (marks them Featured; untick Featured on a product to take it off).</p>
@@ -60,6 +62,11 @@ export const POST = adminAction({
       await placeAfterOriginals();
       const { template, rows } = await newHoodiePlan();
       return withNote(page(rows, template?.description ?? null, false, null), 'Order fixed. Dusty Lavender and Black are 1st and 2nd; the new colours follow from 3rd.');
+    }
+    if (input.do === 'price') {
+      const n = await priceNewHoodies();
+      const { template, rows } = await newHoodiePlan();
+      return withNote(page(rows, template?.description ?? null, false, null), `Done. ${n} hoodie(s) now PKR ${NEW_HOODIE_PRICE.toLocaleString('en-US')}, crossed-out PKR ${NEW_HOODIE_COMPARE.toLocaleString('en-US')}.`);
     }
     if (input.do === 'feature') {
       await featureNewHoodies();
