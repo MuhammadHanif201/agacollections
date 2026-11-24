@@ -28,7 +28,7 @@ function page(rows: NewHoodieRow[], description: string | null, done: boolean, e
 <input type="number" name="stock" min="0" max="999" required style="width:90px;padding:8px;margin-left:8px;font-size:15px"></label>
 <button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Create ${todo.length} hoodie(s)</button></form>`
         : `<p>All of these hoodies are already on the site.</p>
-<form method="POST"><input type="hidden" name="do" value="order"><p style="margin:0 0 8px">Shop order: Dusty Lavender 1st, Black 2nd, then these 8 (in the order below).</p>
+<form method="POST"><input type="hidden" name="do" value="order"><p style="margin:0 0 8px">Shop order: Dusty Lavender 1st, Black 2nd, then the new colours (in the order below).</p>
 <button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Fix order</button></form>`;
   return new Response(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>New hoodies | Admin</title>
 <style>body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:24px;background:#f6f6f6;color:#111}main{max-width:900px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}td,th{border-bottom:1px solid #eee;padding:9px 8px;text-align:left;vertical-align:middle}a{color:#111}</style></head>
