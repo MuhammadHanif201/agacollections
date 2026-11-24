@@ -42,6 +42,23 @@ export async function newHoodiePlan() {
   return { template, rows };
 }
 
+/** the two hoodies that were on the page first (owner: they stay 1st and 2nd) */
+const ORIGINAL_SLUGS = ['450-gsm-essential-oversized-hoodie-dusty-lavender', TEMPLATE_SLUG];
+
+/**
+ * Lists sort by sort_order, then newest first, so new products (sort_order 0) jump to the top.
+ * Give the new colours a sort_order just after the two original hoodies (fractions, so nothing
+ * else in the shop moves), in the order of NEW_HOODIES.
+ */
+export async function placeAfterOriginals() {
+  await connectDb();
+  const originals = await Product.find({ slug: { $in: ORIGINAL_SLUGS } }).select('sort_order').lean();
+  const base = Math.max(0, ...originals.map((p) => Number(p.sort_order) || 0));
+  for (const [i, h] of NEW_HOODIES.entries()) {
+    await Product.updateOne({ slug: slugFor(h.file) }, { $set: { sort_order: base + (i + 1) / 100 } }, { timestamps: false });
+  }
+}
+
 export async function createNewHoodies(origin: string, stock: number, req: Request, adminId: number) {
   const { template, rows } = await newHoodiePlan();
   if (!template) return { rows, error: `The template product (${TEMPLATE_SLUG}) was not found.` };
@@ -93,6 +110,6 @@ export async function createNewHoodies(origin: string, stock: number, req: Reque
       row.error = (e as Error).message;
     }
   }
-  if (created.length) await notifyIndexNow([...created, '/shop']);
+  if (created.length) { await placeAfterOriginals(); await notifyIndexNow([...created, '/shop']); }
   return { rows, error: null };
 }

@@ -1,5 +1,5 @@
 import { adminAction, adminPage } from '@/lib/admin/http';
-import { createNewHoodies, newHoodiePlan, NEW_HOODIE_COMPARE, NEW_HOODIE_PRICE, NEW_HOODIE_SIZES, TEMPLATE_SLUG, type NewHoodieRow } from '@/services/admin/newHoodies';
+import { createNewHoodies, newHoodiePlan, placeAfterOriginals, NEW_HOODIE_COMPARE, NEW_HOODIE_PRICE, NEW_HOODIE_SIZES, TEMPLATE_SLUG, type NewHoodieRow } from '@/services/admin/newHoodies';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,7 +27,9 @@ function page(rows: NewHoodieRow[], description: string | null, done: boolean, e
 <label style="display:block;margin:0 0 12px">Stock for <b>each size</b> (${NEW_HOODIE_SIZES.join(', ')}) of each colour:
 <input type="number" name="stock" min="0" max="999" required style="width:90px;padding:8px;margin-left:8px;font-size:15px"></label>
 <button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Create ${todo.length} hoodie(s)</button></form>`
-        : '<p>All of these hoodies are already on the site.</p>';
+        : `<p>All of these hoodies are already on the site.</p>
+<form method="POST"><input type="hidden" name="do" value="order"><p style="margin:0 0 8px">Shop order: Dusty Lavender 1st, Black 2nd, then these 8 (in the order below).</p>
+<button style="padding:12px 22px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;cursor:pointer">Fix order</button></form>`;
   return new Response(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>New hoodies | Admin</title>
 <style>body{font-family:Arial,Helvetica,sans-serif;margin:0;padding:24px;background:#f6f6f6;color:#111}main{max-width:900px;margin:0 auto;background:#fff;padding:24px;border-radius:12px}table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}td,th{border-bottom:1px solid #eee;padding:9px 8px;text-align:left;vertical-align:middle}a{color:#111}</style></head>
 <body><main><p><a href="/admin/products">&larr; Products</a></p><h2>New 450 GSM oversized hoodies</h2>
@@ -38,6 +40,13 @@ function page(rows: NewHoodieRow[], description: string | null, done: boolean, e
     { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 }
 
+/** the page again, with a "done" note above the button */
+async function orderDone(res: Response) {
+  const html = (await res.text()).replace('<div style="margin-top:16px">',
+    '<div style="margin-top:16px"><p style="padding:12px 16px;background:#dcfce7;border-radius:8px">Order fixed. Dusty Lavender and Black are 1st and 2nd; the new colours follow from 3rd.</p>');
+  return new Response(html, { headers: res.headers });
+}
+
 export const GET = adminPage(async () => {
   const { template, rows } = await newHoodiePlan();
   return page(rows, template?.description ?? null, false, template ? null : `The template product (${TEMPLATE_SLUG}) was not found.`);
@@ -45,6 +54,11 @@ export const GET = adminPage(async () => {
 
 export const POST = adminAction({
   POST: async ({ input, req, admin, url }) => {
+    if (input.do === 'order') {
+      await placeAfterOriginals();
+      const { template, rows } = await newHoodiePlan();
+      return orderDone(page(rows, template?.description ?? null, false, null));
+    }
     const stock = Math.max(0, Math.min(999, Math.floor(Number(input.stock) || 0)));
     const { rows, error } = await createNewHoodies(url.origin, stock, req, admin._id);
     const { template } = await newHoodiePlan();
