@@ -21,7 +21,6 @@ export const NEW_HOODIES = [
   { color: 'Sky Blue', file: 'sky-blue' },
   { color: 'Light Grey', file: 'light-grey' },
   { color: 'Purple', file: 'purple' },
-  { color: 'Charcoal Grey', file: 'charcoal-grey' },
   { color: 'Off-White', file: 'off-white' },
   { color: 'Forest Green', file: 'forest-green' },
   { color: 'Chocolate Brown', file: 'chocolate-brown' },

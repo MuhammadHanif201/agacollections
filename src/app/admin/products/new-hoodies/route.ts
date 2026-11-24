@@ -3,7 +3,7 @@ import { createNewHoodies, newHoodiePlan, placeAfterOriginals, NEW_HOODIE_COMPAR
 
 export const dynamic = 'force-dynamic';
 
-// Admin tool: add the 450 GSM oversized hoodie in 8 colours (PKR 3,499, was 4,499) in one go.
+// Admin tool: add the 450 GSM oversized hoodie in 7 colours (PKR 3,499, was 4,499) in one go.
 // GET shows exactly what will be created; nothing is saved until "Create" is pressed.
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
