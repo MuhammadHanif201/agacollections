@@ -15,6 +15,9 @@ export const SWAPPED: Record<string, string> = {
   // Plain hoodies: four model photos like the Zip Hoodies banner (black on a man, the purple couple, sky blue on a man,
   // forest green on a woman), from the store's own plain hoodie photos
   'uploads/categories/zq-plain-hoodies.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
+  // Printed hoodies: four model photos like the Zip and Plain Hoodies banners (Pressure, OCS Art of Forms from the back,
+  // Violet Metal, Red Web), from the store's own printed hoodie photos
+  'uploads/categories/zq-printed-hoodies.jpg': 'uploads/categories/zq-printed-hoodies-grid.jpg',
   // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
   'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
 };
@@ -26,6 +29,7 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
   'uploads/categories/zq-zip-hoodies-grid-3.jpg': 'uploads/categories/zq-zip-hoodies-grid-3-m.jpg',
   'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
+  'uploads/categories/zq-printed-hoodies-grid.jpg': 'uploads/categories/zq-printed-hoodies-grid-m.jpg',
   'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
