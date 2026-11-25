@@ -64,7 +64,7 @@ const LINES: Record<string, string> = {
   'plain-hoodies': 'Heavyweight plain hoodies.',
   'printed-hoodies': 'Bold graphic print hoodies.',
 };
-const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 'zipper-hoodies': 'center 30%', 't-shirts': 'center 40%' };
+const POSITIONS: Record<string, string> = { 'button-down-shirts': 'center 35%', 't-shirts': 'center 40%' };
 // Questions shoppers (and AI search) ask, answered from the store's own policies (Policies page: COD only,
 // TCS/Leopards/BlueEx, 2–4 / 4–6 working days, 7-day exchange, no cash refunds)
 function shopFaqs(o: { brand: string; what: string; intro: string | null; from: number | null; count: number; whatsapp: string | null }) {
