@@ -33,7 +33,7 @@ export default function ProductCard({ product }: { product: CardProduct }) {
         ))}
       </ProductImageSwiper>
 
-      <div className="pc-info" style={{ padding: '12px 14px 14px', display: 'flex', flexDirection: 'column', flexGrow: 1, borderTop: '1px solid var(--dc-border)' }}>
+      <div className="pc-info" style={{ padding: '12px 14px 14px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
         {product.categories.length > 0 && (
           <div className="pc-category" style={{ fontFamily: 'var(--body-font)', fontSize: '0.65rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--dc-muted)', marginBottom: 5 }}>
             {product.categories.map((cat, i) =>
