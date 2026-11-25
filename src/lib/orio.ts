@@ -10,7 +10,7 @@ import { Product } from '@/models/Product';
  * Settings (Vercel → Environment Variables):
  *   ORIO_API_KEY               required; the API key from the Developer Center (never in code)
  *   ORIO_ACNO / ORIO_USER_ID   account number and user id (default: the store's account)
- *   ORIO_PLATFORM_ID / ORIO_CUSTOMER_PLATFORM_ID   optional; otherwise read from Orio
+ *   ORIO_PLATFORM_ID / ORIO_CUSTOMER_PLATFORM_ID   optional; default 7 / 7011 (the AGA Collections custom platform)
  *   ORIO_AUTO_SEND=1           send every new order automatically (off until a test order looks right)
  */
 const BASE = 'https://apis.orio.digital/api';
@@ -19,8 +19,9 @@ export const orioConfig = () => ({
   key: process.env.ORIO_API_KEY?.trim() || '',
   acno: process.env.ORIO_ACNO?.trim() || 'OR-06390',
   userId: Number(process.env.ORIO_USER_ID?.trim() || 6584),
-  platformId: Number(process.env.ORIO_PLATFORM_ID) || null,
-  customerPlatformId: Number(process.env.ORIO_CUSTOMER_PLATFORM_ID) || null,
+  // the "AGA Collections" custom platform (Integrations → Platforms); Orio's platform list has no names
+  platformId: Number(process.env.ORIO_PLATFORM_ID) || 7,
+  customerPlatformId: Number(process.env.ORIO_CUSTOMER_PLATFORM_ID) || 7011,
   autoSend: process.env.ORIO_AUTO_SEND?.trim() === '1',
 });
 export const orioConfigured = () => Boolean(orioConfig().key);
