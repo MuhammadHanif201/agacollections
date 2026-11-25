@@ -160,6 +160,14 @@ export async function orioStorePlatform() {
 
 /* ---------- sending an order ---------- */
 
+/** couriers want the local form: +92 300 1234567 / 923001234567 → 03001234567 */
+export function localPhone(raw: string | null | undefined) {
+  const d = String(raw ?? '').replace(/\D/g, '');
+  if (d.startsWith('92') && d.length === 12) return '0' + d.slice(2);
+  if (d.startsWith('3') && d.length === 10) return '0' + d;
+  return d;
+}
+
 /**
  * One Orio order for one site order. Each piece is its own line (quantity 1), so the amount is
  * clear whether Orio reads it per piece or per line; a coupon discount is spread over the
@@ -192,7 +200,7 @@ export async function orioPayload(order: OrderDoc, cityId: number, platform: { p
       consignee_name: order.shipping_name ?? '',
       consignee_address: [order.shipping_address, order.shipping_villa].filter(Boolean).join(', '),
       consignee_email: order.shipping_email ?? '',
-      consignee_contact: String(order.shipping_phone ?? '').replace(/[^\d+]/g, ''),
+      consignee_contact: localPhone(order.shipping_phone),
       destination_city_id: cityId,
       order_ref: `AGA-${order._id}`,
       ...(platform.platformId ? { platform_id: platform.platformId } : {}),
