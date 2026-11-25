@@ -24,13 +24,10 @@
     align-self: start;
     max-height: calc(100vh - 70px);
     overflow-y: auto;
-    /* thin custom scrollbar */
-    scrollbar-width: thin;
-    scrollbar-color: var(--dc-border) transparent;
+    /* still scrolls when taller than the screen, but no scrollbar next to the border line */
+    scrollbar-width: none;
 }
-.dc-shop-sidebar::-webkit-scrollbar { width: 4px; }
-.dc-shop-sidebar::-webkit-scrollbar-track { background: transparent; }
-.dc-shop-sidebar::-webkit-scrollbar-thumb { background: var(--dc-border); border-radius: 2px; }
+.dc-shop-sidebar::-webkit-scrollbar { display: none; }
 
 .dc-sf-head {
     display: flex;
