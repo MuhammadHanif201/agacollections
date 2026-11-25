@@ -9,9 +9,9 @@ export const SWAPPED: Record<string, string> = {
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail-2.webp',
   // Baggy jeans: the owner's three-jeans rail image, centred, its wall continued on both sides
   'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-rail.webp',
-  // Zipper hoodies: four tiles like the Plain Hoodies banner (flat black zip, model front, the couple, model back),
+  // Zipper hoodies: four tiles like the Plain Hoodies banner (black zip on a man, the couple, maroon zip, chocolate brown zip on a woman),
   // made from the store's own zip hoodie photos
-  'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-grid-2.jpg',
+  'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-grid-3.jpg',
   // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
   'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
 };
@@ -21,7 +21,7 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
   'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
   'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
-  'uploads/categories/zq-zip-hoodies-grid-2.jpg': 'uploads/categories/zq-zip-hoodies-grid-2-m.jpg',
+  'uploads/categories/zq-zip-hoodies-grid-3.jpg': 'uploads/categories/zq-zip-hoodies-grid-3-m.jpg',
   'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
