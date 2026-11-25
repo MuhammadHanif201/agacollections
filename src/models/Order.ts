@@ -37,6 +37,10 @@ export interface OrderDoc {
   shipping_villa?: string | null;
   order_notes?: string | null;
   status: OrderStatus;
+  /** Orio (courier/order management): the order id Orio gave back, when it was sent, the last error */
+  orio_order_id?: string | null;
+  orio_sent_at?: Date | null;
+  orio_error?: string | null;
   items: OrderItem[];
   created_at: Date;
   updated_at: Date;
@@ -79,6 +83,9 @@ const OrderSchema = new Schema<OrderDoc>(
     shipping_villa: String,
     order_notes: String,
     status: { type: String, enum: ORDER_STATUSES, default: 'pending' },
+    orio_order_id: String,
+    orio_sent_at: Date,
+    orio_error: String,
     items: { type: [OrderItemSchema], default: [] },
   },
   { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }, versionKey: false },

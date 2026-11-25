@@ -1,10 +1,12 @@
 import 'server-only';
 import { recordAudit } from '@/lib/admin/audit';
 import mongoose from 'mongoose';
+import { after } from 'next/server';
 import { connectDb } from '@/lib/db';
 import { env } from '@/lib/env';
 import { sendMail } from '@/lib/mail';
 import { mediaUrl } from '@/lib/media';
+import { orioConfig, sendOrderToOrio } from '@/lib/orio';
 import { numberFormat } from '@/lib/format';
 import { adminOrderHtml, customerOrderHtml, customerOrderText, type OrderMailData } from '@/emails/templates';
 import { Affiliate, AffiliateCommission, type AffiliateDoc } from '@/models/Affiliate';
@@ -241,6 +243,17 @@ export async function placeOrder(
   // Confirmation emails (failures are logged, the order stands)
   const order = await Order.findById(orderId).lean();
   if (order) await sendOrderEmails(order, customer, setting);
+
+  // Orio (courier booking): send the new order once the customer has their page (when switched on)
+  if (orioConfig().autoSend) {
+    const id = orderId;
+    after(async () => {
+      try {
+        const r = await sendOrderToOrio(id);
+        if (!r.ok) console.warn(`Orio: order #${id} not sent: ${r.message}`);
+      } catch (e) { console.warn(`Orio: order #${id} failed: ${(e as Error).message}`); }
+    });
+  }
 
   return { ok: true, orderId };
 }
