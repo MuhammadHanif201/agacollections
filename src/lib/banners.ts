@@ -12,6 +12,9 @@ export const SWAPPED: Record<string, string> = {
   // Zipper hoodies: four tiles like the Plain Hoodies banner (black zip on a man, the couple, maroon zip, chocolate brown zip on a woman),
   // made from the store's own zip hoodie photos
   'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-grid-3.jpg',
+  // Plain hoodies: four model photos like the Zip Hoodies banner (black on a man, the purple couple, sky blue on a man,
+  // forest green on a woman), from the store's own plain hoodie photos
+  'uploads/categories/zq-plain-hoodies.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
   // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
   'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
 };
@@ -22,6 +25,7 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
   'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
   'uploads/categories/zq-zip-hoodies-grid-3.jpg': 'uploads/categories/zq-zip-hoodies-grid-3-m.jpg',
+  'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
   'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
