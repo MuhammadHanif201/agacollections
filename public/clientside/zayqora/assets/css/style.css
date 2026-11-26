@@ -48,9 +48,6 @@
 ==================================
 
 */
-@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Italianno&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
 @keyframes square {
   0% {
     transform: translateY(-100px);

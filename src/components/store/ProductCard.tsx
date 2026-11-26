@@ -1,6 +1,6 @@
 // AGA Collections — Product Card (Zilbil-style). Same markup as partials/product-card.blade.php.
 import { Fragment } from 'react';
-import { mediaUrl } from '@/lib/media';
+import { thumbUrl } from '@/lib/media';
 import { numberFormat } from '@/lib/format';
 import type { CardProduct } from '@/types/catalog';
 import { AddToCartButton, WishlistButton } from './StoreButtons';
@@ -27,7 +27,7 @@ export default function ProductCard({ product }: { product: CardProduct }) {
         {product.images.map((img, i) => (
           <div className="swiper-slide" key={i}>
             <StoreLink href={url} title={product.name}>
-              <img src={mediaUrl(img)} alt={product.name} loading="lazy" className="w-100 h-100 object-fit-cover" />
+              <img src={thumbUrl(img)} alt={product.name} loading="lazy" className="w-100 h-100 object-fit-cover" />
             </StoreLink>
           </div>
         ))}

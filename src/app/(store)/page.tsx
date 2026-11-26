@@ -1,6 +1,6 @@
 // clientside/zayqora/index.blade.php
 import { Fragment } from 'react';
-import { mediaUrl } from '@/lib/media';
+import { mediaUrl, thumbUrl } from '@/lib/media';
 import { numberFormat, plural, strLimit, strTitle, formatDate } from '@/lib/format';
 import { buildMetadata, JsonLd } from '@/lib/seo';
 import { PageStyles } from '@/components/store/LegacyStyles';
@@ -51,7 +51,8 @@ const COLOR_MAP: Record<string, string> = {
   'black/gold': '#1a1a00', 'navy/white': '#1B2A4A', 'grey/red': '#6b6b6b',
 };
 
-const img = (p: CardProduct) => (p.primary_image ? mediaUrl(p.primary_image) : '/images/placeholder.png');
+// cards show the 600px version of the photo (see lib/media thumbUrl)
+const img = (p: CardProduct) => (p.primary_image ? thumbUrl(p.primary_image) : '/images/placeholder.png');
 const inStockVariant = (p: CardProduct) => p.variants.find((v) => v.quantity > 0) ?? null;
 const isOos = (p: CardProduct) => (p.variants.length ? p.variants.every((v) => v.quantity <= 0) : p.quantity <= 0);
 
@@ -77,7 +78,8 @@ export default async function HomePage() {
   return (
     <>
       <PageStyles
-        pushed={['/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', 'clientside__zayqora__partials__home-reviews.1']}
+        // Arimo 500/600 were an @import inside home.css (fetched only after home.css itself); a link loads them alongside it
+        pushed={['https://fonts.googleapis.com/css2?family=Arimo:wght@500;600&display=swap', '/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', 'clientside__zayqora__partials__home-reviews.1']}
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}

@@ -1,6 +1,6 @@
 /* ─── AGA Collections — Home Page ─── */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,600&family=Work+Sans:wght@400;500;600&family=Arimo:wght@400;500;600;700&display=swap');
+/* Fonts load from the page head (Fraunces and Arimo 400/700 site-wide, Arimo 500/600 on the home page); the old @import here fetched them only after this file, and Work Sans and Fraunces 600 were never used. */
 
 /* Theme variables are defined in global.css — do not duplicate here. */
 

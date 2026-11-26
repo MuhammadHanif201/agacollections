@@ -31,7 +31,9 @@ const BASE = [
   '/clientside/zayqora/assets/css/style.css',
   '/clientside/zayqora/assets/css/responsive.css',
   '/clientside/zayqora/css/global.css',
-  'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Work+Sans:wght@500&family=Arimo:wght@400;700&display=swap',
+  // only the faces the store shows (checked in a browser on every store page): Fraunces for headings, Arimo for text.
+  // Cormorant Garamond (only ever a fallback behind --heading-font) and Work Sans were never used.
+  'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Arimo:wght@400;700&display=swap',
   // remixicon.css was linked a second time here; the query keeps that later position in the cascade
   '/clientside/common_assets/fonts/remixicon.css?again',
   css('clientside__zayqora__layout__header.1'), // #theme-style
@@ -67,7 +69,7 @@ export function LayoutStyles({ productCardRatio }: { productCardRatio?: string }
   );
 }
 
-const href = (n: string) => (n.startsWith('/') ? n : css(n));
+const href = (n: string) => (/^(\/|https:)/.test(n) ? n : css(n));
 
 /**
  * A page's own CSS: `pushed` were @push('styles'), `inline` were <style> in the page

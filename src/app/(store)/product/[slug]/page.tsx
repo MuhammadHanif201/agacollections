@@ -6,7 +6,7 @@ import { getCurrentCustomer } from '@/lib/auth';
 import { env } from '@/lib/env';
 import { formatDate, nameTitle, numberFormat, plural, strTitle } from '@/lib/format';
 import { plainText } from '@/lib/html';
-import { mediaUrl } from '@/lib/media';
+import { mediaUrl, thumbUrl } from '@/lib/media';
 import { buildMetadata, JsonLd, type MetaOptions } from '@/lib/seo';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import ProductCard from '@/components/store/ProductCard';
@@ -45,6 +45,8 @@ async function load(slug: string) {
   const gallery = [...product.images].sort((a, b) => Number(b.is_primary) - Number(a.is_primary));
   let imgUrls = gallery.map((i) => mediaUrl(i.image_path));
   if (!imgUrls.length) imgUrls = ['/images/placeholder.png'];
+  // small versions for the thumbnail strip and the sticky bar (the main image and lightbox keep the full photos)
+  const thumbs = gallery.length ? gallery.map((i) => thumbUrl(i.image_path)) : imgUrls;
 
   // Pricing: price = what the customer pays, sale_price = old (higher) price
   const hasVariants = product.variants.length > 0;
@@ -135,7 +137,7 @@ async function load(slug: string) {
       category_url: catPrimary ? `${env.appUrl}/shop/${catPrimary.slug}` : null,
     },
   };
-  return { ...data, company, brandName, catPrimary, catLabel, imgUrls, hasVariants, priceVariant, basePrice, salePrice, hasSale, savePct, inStock, leadText, detailsHtml, pageUrl, meta };
+  return { ...data, company, brandName, catPrimary, catLabel, imgUrls, thumbs, hasVariants, priceVariant, basePrice, salePrice, hasSale, savePct, inStock, leadText, detailsHtml, pageUrl, meta };
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -144,7 +146,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProductPage({ params }: Props) {
   const d = await load((await params).slug);
-  const { product, company, brandName, catPrimary, catLabel, imgUrls, basePrice, salePrice, hasSale, savePct, inStock, leadText, detailsHtml, pageUrl, approvedReviews, reviewCount, avgRating, priceVariant } = d;
+  const { product, company, brandName, catPrimary, catLabel, imgUrls, thumbs, basePrice, salePrice, hasSale, savePct, inStock, leadText, detailsHtml, pageUrl, approvedReviews, reviewCount, avgRating, priceVariant } = d;
   const [customer, related] = await Promise.all([getCurrentCustomer(), toCards(d.related)]);
   await countProductView(product._id);
 
@@ -226,7 +228,7 @@ export default async function ProductPage({ params }: Props) {
                   <div className="pd-thumbs" aria-label="Product images">
                     {imgUrls.map((u, i) => (
                       <button type="button" className={`pd-thumb ${i === 0 ? 'active' : ''}`} data-index={i} aria-label={`Show image ${i + 1} of ${imgCount}`} key={i}>
-                        <img src={u} alt={`${product.name} — image ${i + 1}`} loading="lazy" width={84} height={105} />
+                        <img src={thumbs[i]} alt={`${product.name} — image ${i + 1}`} loading="lazy" width={84} height={105} />
                       </button>
                     ))}
                   </div>
@@ -525,7 +527,7 @@ export default async function ProductPage({ params }: Props) {
         )}
 
         <div className="pd-sticky" id="pd-sticky" aria-hidden="true">
-          <img src={imgUrls[0]} alt="" width={44} height={55} />
+          <img src={thumbs[0]} alt="" width={44} height={55} />
           <div className="pd-sticky-info">
             <div className="pd-sticky-name">{product.name}</div>
             <div className="pd-sticky-price" id="pd-sticky-price">PKR {numberFormat(basePrice)}{hasSale && <s>PKR {numberFormat(salePrice)}</s>}</div>
