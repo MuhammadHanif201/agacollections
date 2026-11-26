@@ -46,6 +46,14 @@ export const ucfirst = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1
 /** Laravel Str::title(Str::lower($s)) — mb_convert_case(MB_CASE_TITLE): a letter after any non-letter (apostrophes excepted) */
 export const strTitle = (s: string) => s.toLowerCase().replace(/(^|[^\p{L}'’])(\p{L})/gu, (_, a: string, b: string) => a + b.toUpperCase());
 
+/** A product name typed in capitals, in title case for search results ("450 GSM ESSENTIAL ZIP HOODIE - OFF-WHITE" →
+ *  "450 GSM Essential Zip Hoodie - Off-White"); short codes like GSM stay capitals, names already in mixed case are left alone */
+const KEEP_CAPS = new Set(['GSM', 'OCS', 'LA', 'NY', 'USA', 'UK', 'FC']);
+const SMALL_WORDS = new Set(['of', 'and', 'the', 'in', 'with', 'for', 'a', 'an', 'on']); // "Art of Forms", except as the first word
+export const nameTitle = (s: string) =>
+  s !== s.toUpperCase() ? s : s.replace(/\p{L}[\p{L}'’]*/gu, (w, at: number) =>
+    KEEP_CAPS.has(w) ? w : at > 0 && SMALL_WORDS.has(w.toLowerCase()) ? w.toLowerCase() : w.charAt(0) + w.slice(1).toLowerCase());
+
 /** Laravel Str::plural for the simple English words used in the views */
 export const plural = (word: string, count: number) => (count === 1 ? word : word + 's');
 

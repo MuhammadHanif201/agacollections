@@ -24,6 +24,8 @@ async function meta() {
   const brand = s?.name ?? 'AGA Collections';
   return {
     page: 'home' as const,
+    // share card (WhatsApp, Facebook): the Zip Hoodies banner on a 1200x630 card, instead of the logo
+    image: '/clientside/share/home.jpg',
     metaDesc: `Baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies from ${brand}, Karachi. Cash on delivery across Pakistan.`,
   };
 }

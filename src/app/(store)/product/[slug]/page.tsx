@@ -4,7 +4,7 @@ import { headers } from 'next/headers';
 import { Fragment } from 'react';
 import { getCurrentCustomer } from '@/lib/auth';
 import { env } from '@/lib/env';
-import { formatDate, numberFormat, plural, strTitle } from '@/lib/format';
+import { formatDate, nameTitle, numberFormat, plural, strTitle } from '@/lib/format';
 import { plainText } from '@/lib/html';
 import { mediaUrl } from '@/lib/media';
 import { buildMetadata, JsonLd, type MetaOptions } from '@/lib/seo';
@@ -69,20 +69,57 @@ async function load(slug: string) {
     }
   }
 
-  // SEO description: never cut mid-word, under ~158 characters
-  let seoDesc = leadText || descText;
-  if (seoDesc && [...seoDesc].length > 158) {
-    const cut = [...seoDesc].slice(0, 155).join('');
-    const sp = cut.lastIndexOf(' ');
-    seoDesc = (sp > 0 ? cut.slice(0, sp) : cut).replace(/[ ,.;:–-]+$/u, '') + '…';
+  // SEO description, so colours of the same hoodie don't all share one: the colour from the name ("... - MAROON") goes into
+  // the first sentence, then the price and cash on delivery ("Plain essential zip-up hoodie in Maroon. Soft fleece ...
+  // Rs 3,299, cash on delivery across Pakistan."). Under ~158 characters, never cut mid-word; the product's description is not changed.
+  const seoName = nameTitle(product.name ?? 'Product');
+  const nameParts = seoName.split(/\s[-–]\s/u);
+  const colour = nameParts.length > 1 ? nameParts[nameParts.length - 1].trim() : null; // "Off-White" keeps its own hyphen
+  let seoLead = (leadText || descText || '').trim();
+  if (seoLead && colour && !seoLead.toLowerCase().includes(colour.toLowerCase())) {
+    seoLead = seoLead.replace(/^([^.!?]+)([.!?])/u, `$1 in ${colour}$2`);
+  } else if (seoLead && !colour && !seoLead.toLowerCase().includes(seoName.toLowerCase())) {
+    // several tees and jeans share one description: lead with the product's name so each page's text is its own
+    seoLead = `${seoName}: ${seoLead}`;
   }
+  const seoTail = basePrice > 0 ? `Rs ${numberFormat(basePrice)}, cash on delivery across Pakistan.` : '';
+  const room = 160 - (seoTail ? seoTail.length + 1 : 0);
+  const len = (s: string) => [...s].length;
+  const cutAtWord = (s: string, max: number) => {
+    const cut = [...s].slice(0, max - 1).join('');
+    const sp = cut.lastIndexOf(' ');
+    return (sp > 0 ? cut.slice(0, sp) : cut).replace(/[ ,.;:–-]+$/u, '') + '…';
+  };
+  if (len(seoLead) > room) {
+    // whole sentences while they fit; when that leaves much space, part of the next sentence, cut at a word
+    const sentences = seoLead.match(/[^.!?]+[.!?]+/gu) ?? [];
+    let kept = '';
+    let i = 0;
+    for (; i < sentences.length && len(kept + sentences[i]) <= room; i++) kept += sentences[i];
+    kept = kept.trim();
+    // a sentence that doesn't fit ends at its first comma, with a full stop ("Soft fleece with an oversized unisex fit."),
+    // the first so a list ("comfort, performance, and ...") isn't left half-way
+    const commaCut = (s: string, max: number) => {
+      const comma = [...s].slice(0, max).join('').indexOf(',', 15);
+      return comma >= 15 ? `${s.slice(0, comma)}.` : null;
+    };
+    const next = (sentences[i] ?? seoLead).trim();
+    if (!kept) seoLead = commaCut(next, room) ?? cutAtWord(seoLead, room);
+    else if (i < sentences.length && room - len(kept) > 25) {
+      const budget = room - len(kept) - 1;
+      const part = commaCut(next, budget) ?? (budget > 40 ? cutAtWord(next, budget) : null);
+      seoLead = part ? `${kept} ${part}` : kept;
+    } else seoLead = kept;
+  }
+  const seoDesc = seoLead ? (seoTail ? `${seoLead} ${seoTail}` : seoLead) : '';
   const h = await headers();
   const pageUrl = env.appUrl + (h.get('x-zq-path') ?? `/product/${product.slug}`);
 
   const meta: MetaOptions = {
     page: 'product',
-    metaTitle: product.name ?? 'Product',
-    metaDesc: seoDesc || `Buy ${product.name} online at ${brandName}. Cash on delivery across Pakistan.`,
+    // names typed in capitals read as title case in Google ("Essential Zip Hoodie - Maroon"); the page itself still shows the name as typed
+    metaTitle: seoName,
+    metaDesc: seoDesc || `Buy ${seoName} online at ${brandName}. Cash on delivery across Pakistan.`,
     image: absolute(imgUrls[0]),
     type: 'product',
     metaProduct: {

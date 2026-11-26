@@ -14,6 +14,8 @@ export async function generateMetadata() {
   const brand = s?.name ?? 'AGA Collections';
   return buildMetadata({
     page: 'about',
+    // share card: the About page's own hero photo at 1200x630, instead of the logo
+    image: '/clientside/share/about.jpg',
     metaDesc: `The story behind ${brand}, a Karachi streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
   });
 }
@@ -54,8 +56,9 @@ export default async function AboutPage() {
         image={img1}
         position="center 12%"
         crumbs={[{ label: 'Home', url: '/' }, { label: 'Our Story' }]}
-        eyebrow="AGA Collections — Pakistan"
-        title={heroTitle}
+        // the page heading (H1) says what the page is; the admin's hero title ("Made for Your Style") is the line above it
+        eyebrow={heroTitle}
+        title="About AGA Collections"
         subtitle="Baggy denim, oversized tees and relaxed shirts, crafted with care and delivered to your door."
         cta={{ label: 'Shop the Collection', url: '/shop' }}
       />

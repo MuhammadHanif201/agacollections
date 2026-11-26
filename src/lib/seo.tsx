@@ -54,7 +54,7 @@ async function base(opts: MetaOptions) {
   const productTitle = t ? ([...t].length <= 28 ? `${t} – Buy Online in Pakistan | ${brand}` : `${t} | ${brand} Pakistan`) : `Product | ${brand}`;
   const maps: Record<MetaPage, { title: string; desc: string; robots: string }> = {
     default: { title: `${brand} | Streetwear Clothing in Pakistan`, desc: `Shop ${RANGE} at ${brand}. Cash on delivery across Pakistan.`, robots: 'index, follow' },
-    home: { title: `${brand} | Baggy Jeans, Oversized Tees & Streetwear in Pakistan`, desc: `Shop ${RANGE} at ${brand}, a streetwear label from Karachi. Cash on delivery across Pakistan.`, robots: 'index, follow' },
+    home: { title: `${brand} | Hoodies, Baggy Jeans & Streetwear in Pakistan`, desc: `Shop ${RANGE} at ${brand}, a streetwear label from Karachi. Cash on delivery across Pakistan.`, robots: 'index, follow' },
     shop: { title: `Shop All Streetwear | ${brand} Pakistan`, desc: `Browse the full ${brand} collection: ${RANGE}. Cash on delivery across Pakistan.`, robots: 'index, follow' },
     category: { title: `${t ?? 'Collection'} | ${brand} Pakistan`, desc: `Shop ${t ?? 'our collection'} at ${brand}. Cash on delivery across Pakistan.`, robots: 'index, follow' },
     product: { title: productTitle, desc: `Buy ${t ?? 'this item'} online at ${brand}. Cash on delivery across Pakistan.`, robots: 'index, follow' },
