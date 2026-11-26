@@ -3,15 +3,28 @@
             #dcHeader.dc-overlay ~ main { margin-top: 0; }
 
             /* ── AGA Collections homepage refinements ─────────────────────────────
-               White + navy (#161426) theme, centred section headers,
+               White + navy (#161426) theme, editorial section headers,
                equal product cards, outlined buttons. Visual only. */
-            .dc-section-hd { flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 20px; }
-            .dc-section-hd-left { flex: none; display: flex; flex-direction: column; align-items: center; }
-            .dc-section-subtitle { justify-content: center; }
-            .dc-section-subtitle::after { content: ''; display: block; width: 24px; height: 1px; background: currentColor; flex-shrink: 0; }
-            @media (max-width: 575px) { .dc-section-subtitle::after { display: none; } }
-            .zq-hd-meta { margin: 14px 0 0; font-size: .62rem !important; letter-spacing: .32em; text-transform: uppercase; color: var(--dc-muted); }
-            .dc-na .dc-section-hd { margin-bottom: 52px; }
+            /* Section headers: editorial split, label + title on the left, count and link on the right,
+               one hairline below. Tighter than the old centred stack, which left a tall empty band. */
+            .dc-section-hd { flex-direction: row; align-items: flex-end; justify-content: space-between; text-align: left; gap: 24px;
+                margin-bottom: 32px; padding-bottom: 18px; border-bottom: 1px solid var(--dc-border); }
+            .dc-section-hd-left { flex: 1; min-width: 0; }
+            .dc-section-hd-right { display: flex; align-items: center; gap: 28px; flex-shrink: 0; }
+            .dc-section-subtitle { justify-content: flex-start; margin-bottom: .5rem; }
+            .dc-section .dc-section-title, .dc-na .dc-section-title { font-size: clamp(1.9rem, 3vw, 2.7rem); line-height: 1; }
+            .zq-hd-meta { margin: 0; font-size: .62rem !important; letter-spacing: .28em; text-transform: uppercase; color: var(--dc-muted); white-space: nowrap; }
+            .dc-section-hd .dc-view-all { padding-bottom: 3px; }
+            /* less air above and below each section */
+            .dc-na-container { padding-top: 56px; padding-bottom: 56px; }
+            .dc-section { padding: 72px 0; }
+            .dc-cats .dc-section-hd { border-bottom-color: rgba(255,255,255,.18); }
+            @media (max-width: 767px) {
+                .dc-section-hd { flex-direction: row; align-items: flex-end; margin-bottom: 22px; padding-bottom: 14px; gap: 16px; }
+                .dc-section-hd-right { gap: 16px; }
+                .dc-na-container { padding-top: 40px; padding-bottom: 40px; }
+                .dc-section { padding: 48px 0; }
+            }
             .dc-na + .dc-section { border-top: 1px solid var(--dc-border); }
 
             /* product buttons: outlined navy, filled on hover */

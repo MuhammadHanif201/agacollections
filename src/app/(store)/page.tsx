@@ -108,11 +108,13 @@ export default async function HomePage() {
             <div className="dc-section-hd-left">
               <p className="dc-section-subtitle">Just landed &nbsp;·&nbsp; Season {year}</p>
               <h2 className="dc-section-title">New In</h2>
-              <p className="zq-hd-meta">{latest.length} new pieces</p>
             </div>
-            <StoreLink href="/shop" className="dc-view-all d-none d-md-flex">
-              Shop All <i className="ri-arrow-right-line"></i>
-            </StoreLink>
+            <div className="dc-section-hd-right">
+              <span className="zq-hd-meta">{latest.length} new pieces</span>
+              <StoreLink href="/shop" className="dc-view-all d-none d-md-flex">
+                Shop All <i className="ri-arrow-right-line"></i>
+              </StoreLink>
+            </div>
           </div>
 
           <div className="dc-na-grid">
