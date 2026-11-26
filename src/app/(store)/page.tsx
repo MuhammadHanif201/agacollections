@@ -495,7 +495,7 @@ export default async function HomePage() {
                       <span className="date">{formatDate(r.created_at, 'M Y')}</span>
                     </div>
                     {/* the customer's words exactly as written; the large quote mark is decoration */}
-                    <span className="mark" aria-hidden="true">“</span>
+                    <span className="zq-qmark" aria-hidden="true">“</span>
                     {r.comment && r.comment.trim() !== '' ? (
                       <p className="quote">{strLimit(r.comment, 180)}</p>
                     ) : (

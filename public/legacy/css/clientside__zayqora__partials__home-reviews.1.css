@@ -18,11 +18,11 @@
 .zq-review-top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 .zq-review .stars { color:#a3563f; font-size:.8rem; letter-spacing:2px; }
 .zq-reviews .zq-review .date { color:#8a8798; font-size:.62rem !important; letter-spacing:.2em; text-transform:uppercase; }
-.zq-review .mark { display:block; height:36px; margin:22px 0 6px; font-size:4.4rem; line-height:.9; color:#a3563f; opacity:.4; }
+.zq-review .zq-qmark { display:block; height:40px; margin:20px 0 4px; padding:0; background:none; font-size:4.8rem; line-height:.9; color:#a3563f; opacity:.4; }
 .zq-review .quote { font-size:1.28rem; font-weight:300; line-height:1.5; letter-spacing:-.005em; color:#161426; margin:0 0 26px; flex:1; overflow-wrap:anywhere; }
 .zq-review .quote--muted { color:#6e6c80; font-size:1.05rem; }
-/* Site-wide rule forces Arimo on p/span with !important; the quote, its mark, the score and the initials use the serif */
-.zq-reviews .zq-review .quote, .zq-reviews .zq-review .mark, .zq-reviews .zq-reviews-score .num, .zq-reviews .zq-review .avatar { font-family:var(--heading-font,'Cormorant Garamond',Georgia,serif) !important; }
+/* Site-wide rule forces Arimo on p/span with !important; the quote, its quote mark (not .mark: Bootstrap highlights that class), the score and the initials use the serif */
+.zq-reviews .zq-review .quote, .zq-reviews .zq-review .zq-qmark, .zq-reviews .zq-reviews-score .num, .zq-reviews .zq-review .avatar { font-family:var(--heading-font,'Cormorant Garamond',Georgia,serif) !important; }
 
 .zq-review .who { display:flex; align-items:center; gap:12px; padding-top:20px; border-top:1px solid #eeeae3; }
 .zq-review .avatar { width:38px; height:38px; border-radius:50%; border:1px solid #161426; color:#161426; display:inline-flex; align-items:center; justify-content:center; font-size:1.05rem; flex-shrink:0; }
@@ -52,7 +52,7 @@
     .zq-reviews-hd { margin-bottom:24px; padding-bottom:18px; gap:18px; }
     .zq-reviews-score .num { font-size:2.8rem; }
     .zq-review { padding:24px 22px 20px; }
-    .zq-review .mark { font-size:3.6rem; height:30px; margin-top:18px; }
+    .zq-review .zq-qmark { font-size:3.8rem; height:32px; margin-top:16px; }
     .zq-review .quote { font-size:1.15rem; margin-bottom:22px; }
     .zq-reviews-cta { margin-top:32px; }
 }
