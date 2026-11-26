@@ -57,16 +57,27 @@ async function load(slug: string) {
   const savePct = hasSale ? Math.round(100 - (basePrice / salePrice) * 100) : 0;
   const inStock = hasVariants ? product.variants.reduce((s, v) => s + Number(v.quantity ?? 0), 0) > 0 : Number(product.quantity ?? 0) > 0;
 
-  // Description: the first paragraph is the lead shown beside the price
+  // Description: the first paragraph is the lead (it also feeds the search description below)
   const descHtml = (product.description ?? '').trim();
   const descText = plainText(descHtml);
   let leadText: string | null = null;
-  let detailsHtml = descHtml;
   const lead = descHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
   if (lead) {
     const rest = descHtml.replace(/<p[^>]*>[\s\S]*?<\/p>/i, '').trim();
+    if (rest.replace(/<[^>]*>/g, '').trim() !== '') leadText = plainText(lead[1]);
+  }
+  // What the page shows, from the product's own description only (nothing is written for it). The closing
+  // "Cash on delivery across Pakistan." line is left out of the details card, since the Delivery & payment card says it;
+  // when that line was all that followed the lead (hoodies, zip hoodies, the newer tees), the details card shows the
+  // lead itself instead of only the COD line, and the lead is not repeated beside the price.
+  const descShown = descHtml.replace(/<p[^>]*>\s*Cash on delivery across Pakistan\.?\s*<\/p>/gi, '').trim();
+  let shownLead: string | null = null;
+  let detailsHtml = descShown;
+  const shownFirst = descShown.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+  if (shownFirst) {
+    const rest = descShown.replace(/<p[^>]*>[\s\S]*?<\/p>/i, '').trim();
     if (rest.replace(/<[^>]*>/g, '').trim() !== '') {
-      leadText = plainText(lead[1]);
+      shownLead = plainText(shownFirst[1]);
       detailsHtml = rest;
     }
   }
@@ -137,7 +148,7 @@ async function load(slug: string) {
       category_url: catPrimary ? `${env.appUrl}/shop/${catPrimary.slug}` : null,
     },
   };
-  return { ...data, company, brandName, catPrimary, catLabel, imgUrls, thumbs, hasVariants, priceVariant, basePrice, salePrice, hasSale, savePct, inStock, leadText, detailsHtml, pageUrl, meta };
+  return { ...data, company, brandName, catPrimary, catLabel, imgUrls, thumbs, hasVariants, priceVariant, basePrice, salePrice, hasSale, savePct, inStock, shownLead, detailsHtml, pageUrl, meta };
 }
 
 export async function generateMetadata({ params }: Props) {
@@ -146,7 +157,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function ProductPage({ params }: Props) {
   const d = await load((await params).slug);
-  const { product, company, brandName, catPrimary, catLabel, imgUrls, thumbs, basePrice, salePrice, hasSale, savePct, inStock, leadText, detailsHtml, pageUrl, approvedReviews, reviewCount, avgRating, priceVariant } = d;
+  const { product, company, brandName, catPrimary, catLabel, imgUrls, thumbs, basePrice, salePrice, hasSale, savePct, inStock, shownLead, detailsHtml, pageUrl, approvedReviews, reviewCount, avgRating, priceVariant } = d;
   const [customer, related] = await Promise.all([getCurrentCustomer(), toCards(d.related)]);
   await countProductView(product._id);
 
@@ -294,7 +305,7 @@ export default async function ProductPage({ params }: Props) {
               </div>
               <p className="pd-price-note">Price includes all taxes. Delivery charges are shown at checkout.</p>
 
-              {leadText && <p className="pd-lead">{leadText}</p>}
+              {shownLead && <p className="pd-lead">{shownLead}</p>}
 
               <div id="pd-options">
                 {Object.entries(optionGroups).map(([optionName, values]) => (
