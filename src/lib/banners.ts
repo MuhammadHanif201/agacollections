@@ -15,6 +15,9 @@ export const SWAPPED: Record<string, string> = {
   // Plain hoodies: four model photos like the Zip Hoodies banner (black on a man, the purple couple, sky blue on a man,
   // forest green on a woman), from the store's own plain hoodie photos
   'uploads/categories/zq-plain-hoodies.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
+  // Hoodies (the parent category, both saved records): the same banner as Plain Hoodies
+  'uploads/categories/hoodies-banner-1791446873.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
+  'uploads/categories/hoodies-banner-1792048088.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
   // Printed hoodies: four model photos like the Zip and Plain Hoodies banners (Pressure, OCS Art of Forms from the back,
   // Violet Metal, Red Web), from the store's own printed hoodie photos
   'uploads/categories/zq-printed-hoodies.jpg': 'uploads/categories/zq-printed-hoodies-grid.jpg',
