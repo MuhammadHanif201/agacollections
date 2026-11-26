@@ -1,6 +1,5 @@
 // clientside/zayqora/shop.blade.php (all products and /shop/{category})
 import { notFound, permanentRedirect } from 'next/navigation';
-import { Fragment } from 'react';
 import { env } from '@/lib/env';
 import { mediaUrl } from '@/lib/media';
 import { plural, strTitle } from '@/lib/format';
@@ -299,49 +298,77 @@ export default async function ShopPage(props: Props) {
             </div>
 
             {page === 1 && !search && total > 0 && (
-              <section className="dc-shop-guide" aria-labelledby="dc-shop-guide-title">
-                <h2 id="dc-shop-guide-title">
-                  {cat ? 'About our ' + (metaTitle ?? '').toLowerCase() : 'Streetwear from Karachi, delivered across Pakistan'}
-                </h2>
-                <p>
-                  {`${cat && seo?.intro
-                    ? seo.intro
-                    : `${brand} makes everyday streetwear: unisex baggy jeans, oversized down shoulder tees, relaxed button-down shirts, sports jerseys and zip-up hoodies.`} Every order is cash on delivery, shipped with TCS, Leopards or BlueEx in 2–4 working days to Karachi, Lahore and Islamabad.`}
-                </p>
-                {guideCats.length > 0 && (
-                  <p className="dc-shop-guide-links">
-                    Browse:{' '}
-                    {guideCats.map((gc, i) => (
-                      <Fragment key={gc._id}>
-                        <StoreLink href={`/shop/${gc.slug ?? ''}`}>{strTitle(gc.title)}</StoreLink>
-                        {i < guideCats.length - 1 && <span aria-hidden="true"> · </span>}
-                        {' '}
-                      </Fragment>
-                    ))}
+              <section className="dc-guide" aria-labelledby="dc-shop-guide-title">
+                {/* editorial block: story + promises + more categories on the left, the questions on the right */}
+                <style>{`
+                  .dc-guide { margin: 64px 0 0; padding: 56px; background: #f7f4ef; border-radius: 4px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; text-align: left; }
+                  .dc-guide-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--body-font); font-size: .66rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: #a3563f; margin: 0 0 18px; }
+                  .dc-guide-eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+                  .dc-guide h2 { font-family: var(--heading-font) !important; font-style: normal !important; font-weight: 400 !important; font-size: clamp(1.6rem, 2.4vw, 2.15rem) !important; line-height: 1.15 !important; letter-spacing: -.01em; color: #161426 !important; margin: 0 0 18px !important; text-transform: none !important; }
+                  .dc-guide-intro > p { font-size: .92rem; line-height: 1.85; color: #55536a; margin: 0 0 30px; }
+                  .dc-guide-perks { list-style: none; margin: 0 0 34px; padding: 22px 0 0; border-top: 1px solid #e4ddd3; display: grid; gap: 18px; }
+                  .dc-guide-perks li { display: flex; align-items: flex-start; gap: 14px; }
+                  .dc-guide-perks i { flex: 0 0 38px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #e0d6ca; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; color: #a3563f; }
+                  .dc-guide-perks strong { display: block; font-size: .84rem; font-weight: 600; color: #161426; line-height: 1.4; }
+                  .dc-guide-perks span { display: block; font-size: .78rem; color: #77758a; line-height: 1.5; margin-top: 2px; }
+                  .dc-guide-label { font-size: .66rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: #77758a; margin: 0 0 12px; }
+                  .dc-guide-cats { display: flex; flex-wrap: wrap; gap: 8px; }
+                  .dc-guide-cats a { display: inline-block; padding: 8px 16px; border: 1px solid #d9d0c4; border-radius: 999px; background: #fff; font-size: .74rem; font-weight: 500; letter-spacing: .04em; color: #161426; text-decoration: none; transition: background-color .3s, color .3s, border-color .3s; }
+                  .dc-guide-cats a:hover { background: #161426; border-color: #161426; color: #fff; }
+                  .dc-guide-faq h2 { font-size: clamp(1.35rem, 2vw, 1.7rem) !important; margin-bottom: 8px !important; }
+                  .dc-faq-acc { border-bottom: 1px solid #e4ddd3; }
+                  .dc-faq-acc summary { list-style: none; display: grid; grid-template-columns: 34px 1fr 20px; align-items: baseline; gap: 10px; padding: 22px 0; cursor: pointer; font-size: .95rem; font-weight: 500; line-height: 1.5; color: #161426; transition: color .3s; }
+                  .dc-faq-acc summary::-webkit-details-marker { display: none; }
+                  .dc-faq-acc summary:hover, .dc-faq-acc[open] summary { color: #a3563f; }
+                  .dc-faq-acc summary:focus-visible { outline: 2px solid #c97864; outline-offset: 4px; }
+                  .dc-faq-num { font-family: var(--heading-font); font-size: .8rem; font-style: italic; color: #a3563f; }
+                  .dc-faq-acc summary::after { content: ''; justify-self: end; width: 12px; height: 12px; align-self: center;
+                    background: linear-gradient(currentColor, currentColor) center / 12px 1px no-repeat, linear-gradient(currentColor, currentColor) center / 1px 12px no-repeat;
+                    transition: transform .45s cubic-bezier(.4,0,.2,1); }
+                  .dc-faq-acc[open] summary::after { transform: rotate(45deg); }
+                  .dc-faq-acc p { margin: 0; padding: 0 30px 24px 44px; font-size: .88rem; line-height: 1.85; color: #55536a; }
+                  @media (max-width: 991px) {
+                    .dc-guide { grid-template-columns: 1fr; gap: 44px; padding: 40px 28px; }
+                  }
+                  @media (max-width: 575px) {
+                    .dc-guide { margin-top: 44px; padding: 34px 20px; border-radius: 0; }
+                    .dc-faq-acc summary { grid-template-columns: 28px 1fr 16px; font-size: .9rem; padding: 18px 0; }
+                    .dc-faq-acc p { padding: 0 8px 20px 38px; }
+                  }
+                `}</style>
+                <div className="dc-guide-intro">
+                  <p className="dc-guide-eyebrow">{brand}</p>
+                  <h2 id="dc-shop-guide-title">
+                    {cat ? 'About our ' + (metaTitle ?? '').toLowerCase() : 'Streetwear from Karachi, delivered across Pakistan'}
+                  </h2>
+                  <p>
+                    {cat && seo?.intro
+                      ? seo.intro
+                      : `${brand} makes everyday streetwear: unisex baggy jeans, oversized down shoulder tees, relaxed button-down shirts, sports jerseys and zip-up hoodies.`}
                   </p>
-                )}
+                  <ul className="dc-guide-perks">
+                    <li><i className="ri-hand-coin-line" aria-hidden="true"></i><div><strong>Cash on delivery</strong><span>Every order, pay when it reaches you</span></div></li>
+                    <li><i className="ri-truck-line" aria-hidden="true"></i><div><strong>2–4 working days</strong><span>To Karachi, Lahore and Islamabad</span></div></li>
+                    <li><i className="ri-box-3-line" aria-hidden="true"></i><div><strong>Shipped with TCS, Leopards or BlueEx</strong><span>Delivered across Pakistan</span></div></li>
+                  </ul>
+                  {guideCats.length > 0 && (
+                    <nav aria-label="More categories">
+                      <p className="dc-guide-label">Keep exploring</p>
+                      <div className="dc-guide-cats">
+                        {guideCats.map((gc) => (
+                          <StoreLink key={gc._id} href={`/shop/${gc.slug ?? ''}`}>{strTitle(gc.title)}</StoreLink>
+                        ))}
+                      </div>
+                    </nav>
+                  )}
+                </div>
                 {faqs.length > 0 && (
-                  <div className="dc-shop-faq">
-                    {/* the same cards as the product page's "Product details / Size & fit / Delivery" (pd-acc) */}
-                    <style>{`
-                      .dc-shop-faq { margin-top: 32px; }
-                      @media (max-width: 767px) { .dc-shop-faq { padding: 0 6px; } } /* line up with the search bar's left/right edges */
-                      .dc-shop-faq h2 { font-size: 1.05rem; margin: 0 0 14px; }
-                      .dc-faq-acc { border: 1px solid #e6e5ec; border-radius: 12px; background: #fff; margin-bottom: 12px; transition: border-color .35s, background-color .35s, box-shadow .35s; }
-                      .dc-faq-acc:hover { border-color: #d9cfc4; }
-                      .dc-faq-acc[open] { border-color: #c97864; background: #fdf9f6; box-shadow: 0 8px 24px -16px rgba(22,20,38,.35); }
-                      .dc-faq-acc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 20px; cursor: pointer; font-size: .95rem; font-weight: 600; letter-spacing: 0; line-height: 1.5; text-align: left; color: #161426; border-radius: 12px; transition: color .35s; }
-                      .dc-faq-acc[open] summary { color: #a3563f; }
-                      .dc-faq-acc summary:focus-visible { outline: 2px solid #c97864; outline-offset: 2px; }
-                      .dc-faq-acc summary::-webkit-details-marker { display: none; }
-                      .dc-faq-acc summary::after { content: '+'; flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f5f0eb; color: #c97864; font-size: 1.15rem; font-weight: 400; line-height: 1; letter-spacing: 0; transition: transform .5s cubic-bezier(.4,0,.2,1), background-color .35s, color .35s; }
-                      .dc-faq-acc[open] summary::after { transform: rotate(45deg); background: #c97864; color: #fff; }
-                      .dc-faq-acc p { margin: 0; padding: 0 20px 20px; text-align: left; font-size: .88rem; line-height: 1.8; color: #45435a; }
-                    `}</style>
+                  <div className="dc-guide-faq">
+                    <p className="dc-guide-eyebrow">Good to know</p>
                     <h2>Frequently asked questions</h2>
-                    {faqs.map((f) => (
+                    {faqs.map((f, i) => (
                       <details className="dc-faq-acc" key={f.q}>
-                        <summary>{f.q}</summary>
+                        <summary><span className="dc-faq-num">{String(i + 1).padStart(2, '0')}</span><span>{f.q}</span></summary>
                         <p>{f.a}</p>
                       </details>
                     ))}
