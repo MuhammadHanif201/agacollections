@@ -97,7 +97,7 @@ export default async function HomePage() {
         position="50% 50%"
         eyebrow={`New Collection · ${year}`}
         title="Made for Your Style"
-        subtitle="Baggy denim, oversized tees and relaxed shirts for everyday wear."
+        subtitle="Baggy denim, oversized tees, hoodies and relaxed shirts for everyday wear."
         cta={{ label: 'Shop Now', url: '/shop' }}
       />
 
