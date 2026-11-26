@@ -25,7 +25,7 @@ async function meta() {
   return {
     page: 'home' as const,
     // share card (WhatsApp, Facebook): the home banner on a 1200x630 card, instead of the logo
-    image: '/clientside/share/home-3.jpg',
+    image: '/clientside/share/home-4.jpg',
     metaDesc: `Baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies from ${brand}, Karachi. Cash on delivery across Pakistan.`,
   };
 }
@@ -83,8 +83,8 @@ export default async function HomePage() {
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-2.jpg')} media="(min-width: 768px)" fetchPriority="high" />
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-2-m.jpg')} media="(max-width: 767px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-3.jpg')} media="(min-width: 768px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-3-m.jpg')} media="(max-width: 767px)" fetchPriority="high" />
       <JsonLd {...await meta()} />
       <ScrollReveal threshold={0.08} />
 
@@ -92,8 +92,8 @@ export default async function HomePage() {
       <ZqHero
         // a photo banner like the Shop All one (the video was removed): five looks in black, white and light denim,
         // the white button-down couple wider in the middle; phones get the couple on top and two looks below
-        image={mediaUrl('banners/zq-home-grid-2.jpg')}
-        imageMobile={mediaUrl('banners/zq-home-grid-2-m.jpg')}
+        image={mediaUrl('banners/zq-home-grid-3.jpg')}
+        imageMobile={mediaUrl('banners/zq-home-grid-3-m.jpg')}
         position="50% 50%"
         eyebrow={`New Collection · ${year}`}
         title="Made for Your Style"
