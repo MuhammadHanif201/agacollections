@@ -79,7 +79,7 @@ export default async function HomePage() {
     <>
       <PageStyles
         // Arimo 500/600 were an @import inside home.css (fetched only after home.css itself); a link loads them alongside it
-        pushed={['https://fonts.googleapis.com/css2?family=Arimo:wght@500;600&display=swap', '/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', 'clientside__zayqora__partials__home-reviews.1']}
+        pushed={['https://fonts.googleapis.com/css2?family=Arimo:wght@500;600&display=swap', '/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', '/legacy/css/clientside__zayqora__partials__home-reviews.1.css?v=3']}
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
@@ -483,11 +483,13 @@ export default async function HomePage() {
           </div>
 
           {reviews.show.length > 0 && (
+            // one sideways row (arrows on wider screens), so any number of reviews keeps the section the same height
             <div className="zq-reviews-track">
+              <RowScroller>
               {reviews.show.map((r) => {
                 const primary = r.product.images.find((i) => i.is_primary);
                 return (
-                  <article className="zq-review" key={r._id}>
+                  <article className="zq-rs-item zq-review" key={r._id}>
                     <div className="zq-review-top">
                       <div className="stars" aria-label={`${r.rating} out of 5 stars`}>
                         {[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= r.rating ? 'ri-star-fill' : 'ri-star-line'} aria-hidden="true"></i>)}
@@ -514,6 +516,7 @@ export default async function HomePage() {
                   </article>
                 );
               })}
+              </RowScroller>
             </div>
           )}
 

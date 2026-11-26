@@ -70,14 +70,14 @@ export async function homeReviews() {
   const all = reviews.filter((r) => byId.has(r.product_id));
   const count = all.length;
   const avg = count ? Math.round((all.reduce((s, r) => s + r.rating, 0) / count) * 10) / 10 : 0;
-  // Written reviews first, newest first; show up to six
+  // Written reviews first, newest first; up to 30 in the home page row (it scrolls sideways, so more does not make it taller)
   const show = [...all]
     .sort((a, b) => {
       const fa = a.comment && a.comment.trim() !== '' ? 1 : 0;
       const fb = b.comment && b.comment.trim() !== '' ? 1 : 0;
       return fb - fa || +b.created_at - +a.created_at;
     })
-    .slice(0, 6)
+    .slice(0, 30)
     .map((r) => ({ ...r, product: byId.get(r.product_id)! }));
   return { count, avg, show };
 }
