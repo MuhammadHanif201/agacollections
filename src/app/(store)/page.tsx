@@ -24,8 +24,8 @@ async function meta() {
   const brand = s?.name ?? 'AGA Collections';
   return {
     page: 'home' as const,
-    // share card (WhatsApp, Facebook): the Zip Hoodies banner on a 1200x630 card, instead of the logo
-    image: '/clientside/share/home.jpg',
+    // share card (WhatsApp, Facebook): the home banner on a 1200x630 card, instead of the logo
+    image: '/clientside/share/home-2.jpg',
     metaDesc: `Baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies from ${brand}, Karachi. Cash on delivery across Pakistan.`,
   };
 }
@@ -83,27 +83,22 @@ export default async function HomePage() {
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-desktop-poster.webp') + '?v=1'} media="(min-width: 768px)" fetchPriority="high" />
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-hero-hoodies-m-poster.webp') + '?v=1'} media="(max-width: 767px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid.jpg')} media="(min-width: 768px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-m.jpg')} media="(max-width: 767px)" fetchPriority="high" />
       <JsonLd {...await meta()} />
       <ScrollReveal threshold={0.08} />
 
       {/* Shared AGA Collections hero: same height and style as the shop, category and policies banners */}
       <ZqHero
-        image={mediaUrl('banners/zq-hero-desktop-poster.webp') + '?v=1'}
-        imageMobile={mediaUrl('banners/zq-hero-hoodies-m-poster.webp') + '?v=1'}
-        // desktop: the owner's wide clothing-rail video (cut before the brand cards and end logo, no sound)
-        video={mediaUrl('banners/zq-hero-desktop.mp4') + '?v=1'}
-        poster={mediaUrl('banners/zq-hero-desktop-poster.webp') + '?v=1'}
-        // phones: the owner's tall hoodies video (label close-up cut out, no sound); desktop keeps the wide video
-        videoMobile={mediaUrl('banners/zq-hero-hoodies-m.mp4') + '?v=1'}
-        posterMobile={mediaUrl('banners/zq-hero-hoodies-m-poster.webp') + '?v=1'}
+        // a photo banner like the Shop All one (the video was removed): five looks in black, white and light denim,
+        // the white button-down couple wider in the middle; phones get the couple on top and two looks below
+        image={mediaUrl('banners/zq-home-grid.jpg')}
+        imageMobile={mediaUrl('banners/zq-home-grid-m.jpg')}
         position="50% 50%"
         eyebrow={`New Collection · ${year}`}
         title="Made for Your Style"
         subtitle="Baggy denim, oversized tees and relaxed shirts for everyday wear."
         cta={{ label: 'Shop Now', url: '/shop' }}
-        tone="navy"
       />
 
       {/* ═══ NEW ARRIVALS ═══ */}
