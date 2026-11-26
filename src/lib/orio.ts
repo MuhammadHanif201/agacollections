@@ -202,7 +202,7 @@ export async function orioPayload(order: OrderDoc, cityId: number, platform: { p
       consignee_email: order.shipping_email ?? '',
       consignee_contact: localPhone(order.shipping_phone),
       destination_city_id: cityId,
-      order_ref: `AGA-${order._id}`,
+      order_ref: `#AGA-${order._id}`,
       ...(platform.platformId ? { platform_id: platform.platformId } : {}),
       ...(platform.customerPlatformId ? { customer_platform_id: platform.customerPlatformId } : {}),
       payment_method_id: isCod ? 1 : 2, // 1 = cash on delivery (the docs sample); the site only takes COD today
