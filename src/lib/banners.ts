@@ -5,8 +5,8 @@ export const SWAPPED: Record<string, string> = {
   'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-rack.webp',
   // Shirts: the owner's six-shirt gold-rack image, centred with its hangers in view (label text and wall socket painted out)
   'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-rack-2.webp',
-  // jerseys: the owner's four-jersey rail image, centred, its dark wall continued on both sides
-  'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-rail-2.webp',
+  // jerseys: four model photos like the hoodie banners (Barca front, Real Madrid couple, Barca couple, Real Madrid sitting)
+  'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-grid.jpg',
   // Baggy jeans: the owner's three-jeans rail image, centred, its wall continued on both sides
   'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-rail.webp',
   // Zipper hoodies: four tiles like the Plain Hoodies banner (black zip on a man, the couple, maroon zip, chocolate brown zip on a woman),
@@ -28,7 +28,7 @@ export const SWAPPED: Record<string, string> = {
 export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-rack.webp': 'uploads/categories/zq-t-shirts-rack-m.webp',
   'uploads/categories/zq-shirts-rack-2.webp': 'uploads/categories/zq-shirts-rack-m.webp',
-  'uploads/categories/zq-jerseys-rail-2.webp': 'uploads/categories/zq-jerseys-rail-m.webp',
+  'uploads/categories/zq-jerseys-grid.jpg': 'uploads/categories/zq-jerseys-grid-m.jpg',
   'uploads/categories/zq-jeans-rail.webp': 'uploads/categories/zq-jeans-rail-m.webp',
   'uploads/categories/zq-zip-hoodies-grid-3.jpg': 'uploads/categories/zq-zip-hoodies-grid-3-m.jpg',
   'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
