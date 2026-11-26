@@ -10,8 +10,9 @@ export const SWAPPED: Record<string, string> = {
   // Baggy jeans: four full-length model photos like the other banners (8 pocket cargo, the mid blue couple, vintage washed, the ice blue couple)
   'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-grid.jpg',
   // Zipper hoodies: four tiles like the Plain Hoodies banner (black zip on a man, the couple, maroon zip, chocolate brown zip on a woman),
+  // the men in the new model photos so his face matches the product pages
   // made from the store's own zip hoodie photos
-  'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-grid-3.jpg',
+  'uploads/categories/zq-zip-hoodies.jpg': 'uploads/categories/zq-zip-hoodies-grid-4.jpg',
   // Plain hoodies: four model photos like the Zip Hoodies banner (black on a man, the purple couple, sky blue on a man,
   // forest green on a woman), from the store's own plain hoodie photos
   'uploads/categories/zq-plain-hoodies.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
@@ -23,7 +24,7 @@ export const SWAPPED: Record<string, string> = {
   'uploads/categories/zq-printed-hoodies.jpg': 'uploads/categories/zq-printed-hoodies-grid.jpg',
   // Shop All (the default banner): one look per category in black, white and light denim (white lips tee, black zip hoodie,
   // the ice blue couple in white hoodies, white button-down, black plain hoodie), the couple wider in the middle
-  'banners/zq-shop.jpg': 'banners/zq-shop-grid.jpg',
+  'banners/zq-shop.jpg': 'banners/zq-shop-grid-2.jpg',
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 export const SWAPPED_M: Record<string, string> = {
@@ -31,10 +32,10 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-shirts-grid.jpg': 'uploads/categories/zq-shirts-grid-m.jpg',
   'uploads/categories/zq-jerseys-grid.jpg': 'uploads/categories/zq-jerseys-grid-m.jpg',
   'uploads/categories/zq-jeans-grid.jpg': 'uploads/categories/zq-jeans-grid-m.jpg',
-  'uploads/categories/zq-zip-hoodies-grid-3.jpg': 'uploads/categories/zq-zip-hoodies-grid-3-m.jpg',
+  'uploads/categories/zq-zip-hoodies-grid-4.jpg': 'uploads/categories/zq-zip-hoodies-grid-4-m.jpg',
   'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
   'uploads/categories/zq-printed-hoodies-grid.jpg': 'uploads/categories/zq-printed-hoodies-grid-m.jpg',
-  'banners/zq-shop-grid.jpg': 'banners/zq-shop-grid-m.jpg',
+  'banners/zq-shop-grid-2.jpg': 'banners/zq-shop-grid-2-m.jpg',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
 export const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b.replace(/^\/+/, '').replace(/^storage\//, '')] ?? b : null);
