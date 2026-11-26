@@ -4,7 +4,7 @@ export const SWAPPED: Record<string, string> = {
   // T-shirts: four model photos like the other banners (lips, the 318 graffiti couple, new york 90 sitting, the street vibe couple)
   'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-grid-3.jpg',
   // Shirts: four model photos like the hoodie and jersey banners (hot pink, the black couple, yellow, the coffee brown couple)
-  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-grid.jpg',
+  'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-grid-2.jpg',
   // jerseys: four model photos like the hoodie banners (Barca front, Real Madrid couple, Barca couple, Real Madrid sitting)
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-grid.jpg',
   // Baggy jeans: four full-length model photos like the other banners (8 pocket cargo, the mid blue couple, vintage washed, the ice blue couple)
@@ -28,7 +28,7 @@ export const SWAPPED: Record<string, string> = {
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-grid-3.jpg': 'uploads/categories/zq-t-shirts-grid-3-m.jpg',
-  'uploads/categories/zq-shirts-grid.jpg': 'uploads/categories/zq-shirts-grid-m.jpg',
+  'uploads/categories/zq-shirts-grid-2.jpg': 'uploads/categories/zq-shirts-grid-2-m.jpg',
   'uploads/categories/zq-jerseys-grid.jpg': 'uploads/categories/zq-jerseys-grid-m.jpg',
   'uploads/categories/zq-jeans-grid.jpg': 'uploads/categories/zq-jeans-grid-m.jpg',
   'uploads/categories/zq-zip-hoodies-grid-4.jpg': 'uploads/categories/zq-zip-hoodies-grid-4-m.jpg',
