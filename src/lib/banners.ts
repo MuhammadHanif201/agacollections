@@ -8,7 +8,7 @@ export const SWAPPED: Record<string, string> = {
   // jerseys: four model photos like the hoodie banners (Barca front, Real Madrid couple, Barca couple, Real Madrid sitting)
   'uploads/categories/zq-football-jerseys.jpg': 'uploads/categories/zq-jerseys-grid.jpg',
   // Baggy jeans: four full-length model photos like the other banners (8 pocket cargo, the mid blue couple, vintage washed, the ice blue couple)
-  'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-grid-2.jpg',
+  'uploads/categories/zq-jeans.jpg': 'uploads/categories/zq-jeans-grid-3.jpg',
   // Zipper hoodies: four tiles like the Plain Hoodies banner (black zip on a man, the couple, maroon zip, chocolate brown zip on a woman),
   // the men in the new model photos so his face matches the product pages
   // made from the store's own zip hoodie photos
@@ -30,7 +30,7 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-t-shirts-grid-3.jpg': 'uploads/categories/zq-t-shirts-grid-3-m.jpg',
   'uploads/categories/zq-shirts-grid-2.jpg': 'uploads/categories/zq-shirts-grid-2-m.jpg',
   'uploads/categories/zq-jerseys-grid.jpg': 'uploads/categories/zq-jerseys-grid-m.jpg',
-  'uploads/categories/zq-jeans-grid-2.jpg': 'uploads/categories/zq-jeans-grid-2-m.jpg',
+  'uploads/categories/zq-jeans-grid-3.jpg': 'uploads/categories/zq-jeans-grid-3-m.jpg',
   'uploads/categories/zq-zip-hoodies-grid-4.jpg': 'uploads/categories/zq-zip-hoodies-grid-4-m.jpg',
   'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
   'uploads/categories/zq-printed-hoodies-grid-2.jpg': 'uploads/categories/zq-printed-hoodies-grid-2-m.jpg',

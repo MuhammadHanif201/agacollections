@@ -15,7 +15,7 @@ async function meta(): Promise<MetaOptions> {
   return {
     page: 'about',
     // share card: the About page's own hero banner at 1200x630, instead of the logo
-    image: '/clientside/share/about-3.jpg',
+    image: '/clientside/share/about-4.jpg',
     metaDesc: `The story behind ${brand}, a Karachi streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
   };
 }
@@ -61,7 +61,7 @@ export default async function AboutPage() {
       <ZqHero
         // a photo banner like the Home and Shop ones, in warm browns and greens; the admin's two About photos
         // stay in the story section below, where a wide banner would not fit
-        image={mediaUrl('uploads/about/zq-about-grid-2.jpg')}
+        image={mediaUrl('uploads/about/zq-about-grid-3.jpg')}
         imageMobile={mediaUrl('uploads/about/zq-about-grid-m.jpg')}
         position="50% 50%"
         crumbs={[{ label: 'Home', url: '/' }, { label: 'Our Story' }]}
