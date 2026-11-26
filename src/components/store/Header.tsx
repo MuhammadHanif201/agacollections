@@ -1,7 +1,7 @@
 // AGA Collections premium header, side drawer, search overlay and (hidden) mini-cart:
 // same markup as clientside/zayqora/layout/header.blade.php.
 import { connectDb } from '@/lib/db';
-import { mediaUrl } from '@/lib/media';
+import { mediaUrl, thumbUrl } from '@/lib/media';
 import { swapBanner } from '@/lib/banners';
 import { numberFormat, plural, strTitle, waLink } from '@/lib/format';
 import { Product } from '@/models/Product';
@@ -223,7 +223,8 @@ export default async function Header({
 
         {feat && (
           <StoreLink href={`/shop/${feat.slug ?? ''}`} className="zqd-feature">
-            <img src={mediaUrl(swapBanner(feat.banner))} alt="" loading="lazy" />
+            {/* the drawer is in every page's HTML, so its card loads everywhere: the 600px copy, not the 2000px banner */}
+            <img src={thumbUrl(swapBanner(feat.banner))} alt="" loading="lazy" />
             <span className="zqd-feature-txt">
               <small>The edit</small>
               <strong>{strTitle(feat.title)}</strong>
@@ -274,7 +275,7 @@ export default async function Header({
         <div className="container">
           <div className="cart__content">
             <div className="cart-text" id="cart-items-container"><CartSidebarItems cart={cart} /></div>
-            <div className="cart-icon"> <i className="fal fa-times"></i> </div>
+            <div className="cart-icon"> <i className="ri-close-line"></i> </div>
             <div className="cart-bottom">
               <div className="cart-bottom__text" id="cart-subtotal-container">
                 <div className="border-top pt-3">

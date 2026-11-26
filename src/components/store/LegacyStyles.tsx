@@ -17,7 +17,8 @@ export const INLINE_GROUP = 'zq-inline';
 const BASE = [
   // components/common-assets.blade.php
   '/clientside/common_assets/css/magnific-popup.css',
-  '/clientside/common_assets/css/fontawesome-all.min.css',
+  // fontawesome-all.min.css was here: the store's few icons now use Remix Icon (loaded below), which saves
+  // its four font files (about 350KB) on every first visit. The admin panel still loads Font Awesome itself.
   '/clientside/common_assets/css/futura-std-font.css',
   // Bootstrap 5.3.0 from the CDN, served from this site: no extra connection before first paint
   '/clientside/common_assets/css/bootstrap-5.3.0.min.css',

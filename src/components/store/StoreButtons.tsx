@@ -52,7 +52,7 @@ export function WishlistToggle({
       onClick={() => toggleWishlist(productId)}
       style={style}
     >
-      <i className={`${active ? 'fas' : 'fal'} fa-heart`} aria-hidden={iconHidden ? 'true' : undefined}></i>
+      <i className={active ? 'ri-heart-fill' : 'ri-heart-line'} aria-hidden={iconHidden ? 'true' : undefined}></i>
     </button>
   );
 }

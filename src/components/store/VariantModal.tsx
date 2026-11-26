@@ -133,9 +133,9 @@ export default function VariantModal({
                 onMouseOver={() => setHover(true)}
                 onMouseOut={() => setHover(false)}
               >
-                {state === 'ok' && <><i className="fas fa-cart-plus me-2"></i> Add to Cart</>}
-                {state === 'oos' && <><i className="fas fa-ban me-2"></i> Out of Stock</>}
-                {state === 'na' && <><i className="fas fa-ban me-2"></i> Not Available</>}
+                {state === 'ok' && <><i className="ri-shopping-bag-3-line me-2"></i> Add to Cart</>}
+                {state === 'oos' && <><i className="ri-forbid-line me-2"></i> Out of Stock</>}
+                {state === 'na' && <><i className="ri-forbid-line me-2"></i> Not Available</>}
               </button>
             </div>
           </div>

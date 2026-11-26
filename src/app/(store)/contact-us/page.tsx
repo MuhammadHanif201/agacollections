@@ -15,6 +15,8 @@ async function meta(): Promise<MetaOptions> {
   const phone = s?.phones?.[0] ?? null;
   return {
     page: 'contact',
+    // share card: the Contact hero banner at 1200x630, instead of the logo
+    image: '/clientside/share/contact.jpg',
     metaDesc: `Contact ${brand} for order support, sizing help, or any inquiries.` + (phone ? ` Reach us via WhatsApp ${phone} or our contact form.` : " We're here to help — reach us via WhatsApp or our contact form."),
   };
 }
@@ -22,6 +24,14 @@ async function meta(): Promise<MetaOptions> {
 export async function generateMetadata() {
   return buildMetadata(await meta());
 }
+
+// Remix Icon names for the social links (the store no longer loads Font Awesome)
+const SOCIAL_ICON: Record<string, string> = {
+  facebook: 'ri-facebook-fill', instagram: 'ri-instagram-line', tiktok: 'ri-tiktok-fill', youtube: 'ri-youtube-fill',
+  twitter: 'ri-twitter-x-line', x: 'ri-twitter-x-line', linkedin: 'ri-linkedin-fill', pinterest: 'ri-pinterest-fill',
+  snapchat: 'ri-snapchat-fill', whatsapp: 'ri-whatsapp-line', threads: 'ri-threads-line', telegram: 'ri-telegram-fill',
+};
+const socialIcon = (p: string) => SOCIAL_ICON[p] ?? 'ri-links-line';
 
 export default async function ContactPage() {
   const company = await getCompanySetting();
@@ -94,11 +104,11 @@ export default async function ContactPage() {
             const p = link.platform.toLowerCase();
             return env.socialLinksEnabled && isProfileUrl(link.url) ? (
               <StoreLink key={i} href={link.url} target="_blank" rel="noopener noreferrer" className={`ct-social ct-social--${p}`} title={link.platform}>
-                <i className={`fab fa-${p}`}></i>
+                <i className={socialIcon(p)}></i>
               </StoreLink>
             ) : (
               <span key={i} className={`ct-social ct-social--${p}`} role="img" aria-label={link.platform.charAt(0).toUpperCase() + link.platform.slice(1)} style={{ cursor: 'default' }}>
-                <i className={`fab fa-${p}`} aria-hidden="true"></i>
+                <i className={socialIcon(p)} aria-hidden="true"></i>
               </span>
             );
           })}

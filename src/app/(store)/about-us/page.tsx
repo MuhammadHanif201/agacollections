@@ -1,7 +1,7 @@
 // clientside/zayqora/about.blade.php
 import { connectDb } from '@/lib/db';
 import { mediaUrl } from '@/lib/media';
-import { buildMetadata } from '@/lib/seo';
+import { buildMetadata, JsonLd, type MetaOptions } from '@/lib/seo';
 import { PageStyles } from '@/components/store/LegacyStyles';
 import ZqHero from '@/components/store/ZqHero';
 import { AboutSection } from '@/models/content';
@@ -9,15 +9,19 @@ import { nextId } from '@/models/Counter';
 import { fixCity, getCompanySetting } from '@/services/settings';
 import StoreLink from '@/components/store/StoreLink';
 
-export async function generateMetadata() {
+async function meta(): Promise<MetaOptions> {
   const s = await getCompanySetting();
   const brand = s?.name ?? 'AGA Collections';
-  return buildMetadata({
+  return {
     page: 'about',
     // share card: the About page's own hero banner at 1200x630, instead of the logo
     image: '/clientside/share/about-2.jpg',
     metaDesc: `The story behind ${brand}, a Karachi streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
-  });
+  };
+}
+
+export async function generateMetadata() {
+  return buildMetadata(await meta());
 }
 
 /** AboutSection::firstOrCreate([]) */
@@ -51,6 +55,8 @@ export default async function AboutPage() {
   return (
     <>
       <PageStyles pushed={['clientside__zayqora__partials__zq-hero.1', 'clientside__zayqora__about.1']} />
+      {/* the store's Organization / ClothingStore data and breadcrumbs, like the other pages */}
+      <JsonLd {...await meta()} />
 
       <ZqHero
         // a photo banner like the Home and Shop ones, in warm browns and greens; the admin's two About photos

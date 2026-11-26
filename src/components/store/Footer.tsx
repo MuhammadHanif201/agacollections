@@ -57,13 +57,13 @@ export default function Footer({
               <div className="viewcontent">
                 <div className="viewcontent__header">
                   <h2 id="quickViewName"></h2>
-                  <button type="button" className="view_close product-p-close"><i className="fal fa-times-circle"></i></button>
+                  <button type="button" className="view_close product-p-close"><i className="ri-close-circle-line"></i></button>
                 </div>
                 <div className="viewcontent__rating">
-                  <i className="fal fa-star ratingcolor"></i>
-                  <i className="fal fa-star ratingcolor"></i>
-                  <i className="fal fa-star ratingcolor"></i>
-                  <i className="fal fa-star"></i>
+                  <i className="ri-star-fill ratingcolor"></i>
+                  <i className="ri-star-fill ratingcolor"></i>
+                  <i className="ri-star-fill ratingcolor"></i>
+                  <i className="ri-star-line"></i>
                 </div>
                 <div className="viewcontent__price"><h3 id="quickViewPrice"></h3></div>
                 <div className="viewcontent__stock"><h3 id="quickViewStock"></h3></div>
@@ -96,7 +96,7 @@ export default function Footer({
 
       {waNumber && (
         <StoreLink href={waLink(waNumber)} target="_blank" rel="noopener noreferrer" className="whatsapp-float" aria-label="Chat on WhatsApp">
-          <i className="fab fa-whatsapp"></i>
+          <i className="ri-whatsapp-line"></i>
         </StoreLink>
       )}
 
