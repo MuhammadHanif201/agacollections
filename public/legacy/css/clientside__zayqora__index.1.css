@@ -22,6 +22,7 @@
             @media (max-width: 767px) {
                 .dc-section-hd { flex-direction: row; align-items: flex-end; margin-bottom: 22px; padding-bottom: 14px; gap: 16px; }
                 .dc-section-hd-right { gap: 16px; }
+                .dc-section-subtitle { font-size: .58rem; letter-spacing: .22em; white-space: nowrap; }
                 .dc-na-container { padding-top: 40px; padding-bottom: 40px; }
                 .dc-section { padding: 48px 0; }
             }
