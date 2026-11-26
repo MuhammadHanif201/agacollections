@@ -21,8 +21,9 @@ export const SWAPPED: Record<string, string> = {
   // Printed hoodies: four model photos like the Zip and Plain Hoodies banners (Pressure, OCS Art of Forms from the back,
   // Violet Metal, Red Web), from the store's own printed hoodie photos
   'uploads/categories/zq-printed-hoodies.jpg': 'uploads/categories/zq-printed-hoodies-grid.jpg',
-  // Shop All (the default banner): the owner's mannequin image, centred (the bag's cartoon face painted out)
-  'banners/zq-shop.jpg': 'banners/zq-shop-mannequins.webp',
+  // Shop All (the default banner): one look per category in black, white and light denim (white lips tee, black zip hoodie,
+  // the ice blue couple in white hoodies, white button-down, black plain hoodie), the couple wider in the middle
+  'banners/zq-shop.jpg': 'banners/zq-shop-grid.jpg',
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 export const SWAPPED_M: Record<string, string> = {
@@ -33,7 +34,7 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-zip-hoodies-grid-3.jpg': 'uploads/categories/zq-zip-hoodies-grid-3-m.jpg',
   'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
   'uploads/categories/zq-printed-hoodies-grid.jpg': 'uploads/categories/zq-printed-hoodies-grid-m.jpg',
-  'banners/zq-shop-mannequins.webp': 'banners/zq-shop-mannequins-m.webp',
+  'banners/zq-shop-grid.jpg': 'banners/zq-shop-grid-m.jpg',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
 export const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b.replace(/^\/+/, '').replace(/^storage\//, '')] ?? b : null);

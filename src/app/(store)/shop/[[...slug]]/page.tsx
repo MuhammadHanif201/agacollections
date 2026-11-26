@@ -135,8 +135,8 @@ async function load(props: Props) {
       : `Shop the full ${brand} collection: baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies. Cash on delivery across Pakistan.`,
     // An empty category is thin content: keep it out of search results
     robots: cat && result.total === 0 ? 'noindex, follow' : null,
-    // Shop All (and a category without a banner) shares the mannequin banner as a 1200x630 card, instead of the logo
-    image: cat?.banner ? absolute(mediaUrl(swapBanner(cat.banner)!)) : '/clientside/share/shop.jpg',
+    // Shop All (and a category without a banner) shares the Shop All banner as a 1200x630 card, instead of the logo
+    image: cat?.banner ? absolute(mediaUrl(swapBanner(cat.banner)!)) : '/clientside/share/shop-2.jpg',
     hasSearch: typeof query.search === 'string' && query.search !== '',
   };
   return { result, query, company, brand, cat, metaTitle, seo, search, meta, slugStr };
