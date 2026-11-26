@@ -1,8 +1,8 @@
 // Banners replaced in code: the saved (old) file stays in storage and in the database, the new one is shown
 // everywhere a category banner appears (category page hero, page preview image, the side menu's featured card).
 export const SWAPPED: Record<string, string> = {
-  // T-shirts: the owner's photo of five tees on a black rack, centred, its plain wall continued on both sides
-  'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-rack.webp',
+  // T-shirts: four model photos like the other banners (lips, the 318 graffiti couple, breathe, rise)
+  'uploads/categories/zq-t-shirts.jpg': 'uploads/categories/zq-t-shirts-grid.jpg',
   // Shirts: four model photos like the hoodie and jersey banners (hot pink, the black couple, yellow, the coffee brown couple)
   'uploads/categories/zq-shirts.jpg': 'uploads/categories/zq-shirts-grid.jpg',
   // jerseys: four model photos like the hoodie banners (Barca front, Real Madrid couple, Barca couple, Real Madrid sitting)
@@ -26,7 +26,7 @@ export const SWAPPED: Record<string, string> = {
 };
 // their phone versions, named here (not looked up on disk, which misses files on the host)
 export const SWAPPED_M: Record<string, string> = {
-  'uploads/categories/zq-t-shirts-rack.webp': 'uploads/categories/zq-t-shirts-rack-m.webp',
+  'uploads/categories/zq-t-shirts-grid.jpg': 'uploads/categories/zq-t-shirts-grid-m.jpg',
   'uploads/categories/zq-shirts-grid.jpg': 'uploads/categories/zq-shirts-grid-m.jpg',
   'uploads/categories/zq-jerseys-grid.jpg': 'uploads/categories/zq-jerseys-grid-m.jpg',
   'uploads/categories/zq-jeans-grid.jpg': 'uploads/categories/zq-jeans-grid-m.jpg',
