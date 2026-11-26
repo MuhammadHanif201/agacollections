@@ -19,9 +19,8 @@ export const SWAPPED: Record<string, string> = {
   // Hoodies (the parent category, both saved records): the same banner as Plain Hoodies
   'uploads/categories/hoodies-banner-1791446873.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
   'uploads/categories/hoodies-banner-1792048088.jpg': 'uploads/categories/zq-plain-hoodies-grid.jpg',
-  // Printed hoodies: four model photos like the Zip and Plain Hoodies banners (Pressure, OCS Art of Forms from the back,
-  // Violet Metal, Red Web), from the store's own printed hoodie photos
-  'uploads/categories/zq-printed-hoodies.jpg': 'uploads/categories/zq-printed-hoodies-grid.jpg',
+  // Printed hoodies: four new-model photos like the Zip and Plain Hoodies banners (Pressure, Gothic Script "Silent Steppin", Violet Metal, Red Web)
+  'uploads/categories/zq-printed-hoodies.jpg': 'uploads/categories/zq-printed-hoodies-grid-2.jpg',
   // Shop All (the default banner): one look per category in black, white and light denim (white lips tee, black zip hoodie,
   // the ice blue couple in white hoodies, white button-down, black plain hoodie), the couple wider in the middle
   'banners/zq-shop.jpg': 'banners/zq-shop-grid-2.jpg',
@@ -34,7 +33,7 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-jeans-grid.jpg': 'uploads/categories/zq-jeans-grid-m.jpg',
   'uploads/categories/zq-zip-hoodies-grid-4.jpg': 'uploads/categories/zq-zip-hoodies-grid-4-m.jpg',
   'uploads/categories/zq-plain-hoodies-grid.jpg': 'uploads/categories/zq-plain-hoodies-grid-m.jpg',
-  'uploads/categories/zq-printed-hoodies-grid.jpg': 'uploads/categories/zq-printed-hoodies-grid-m.jpg',
+  'uploads/categories/zq-printed-hoodies-grid-2.jpg': 'uploads/categories/zq-printed-hoodies-grid-2-m.jpg',
   'banners/zq-shop-grid-2.jpg': 'banners/zq-shop-grid-2-m.jpg',
 };
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
