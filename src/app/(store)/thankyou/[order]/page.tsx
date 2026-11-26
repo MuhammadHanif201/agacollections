@@ -160,7 +160,7 @@ export default async function ThankYouPage({ params }: { params: Promise<{ order
           </div>
         </div>
       </div>
-      {firePurchase && <PurchasePixel orderId={order._id} value={Number(order.total).toFixed(2)} />}
+      {firePurchase && <PurchasePixel orderId={order._id} value={Number(order.total).toFixed(2)} contentIds={[...new Set(order.items.map((i) => String(i.product_id)))]} numItems={itemCount} />}
     </>
   );
 }

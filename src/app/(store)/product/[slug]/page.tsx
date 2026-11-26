@@ -586,7 +586,8 @@ export default async function ProductPage({ params }: Props) {
         productId={product._id}
         productQuantity={Number(product.quantity ?? 0)}
         images={imgUrls}
-        pixel={{ id: product.sku ?? String(product._id), name: product.name, value: basePrice.toFixed(2) }}
+        // the product number, like AddToCart, InitiateCheckout and Purchase, so Meta can link the four events to one product
+        pixel={{ id: String(product._id), name: product.name, value: basePrice.toFixed(2) }}
       />
     </>
   );
