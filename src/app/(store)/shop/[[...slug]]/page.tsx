@@ -305,7 +305,7 @@ export default async function ShopPage(props: Props) {
                   .dc-guide-eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--body-font); font-size: .66rem; font-weight: 600; letter-spacing: .24em; text-transform: uppercase; color: #a3563f; margin: 0 0 18px; }
                   .dc-guide-eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
                   .dc-guide h2 { font-family: var(--heading-font) !important; font-style: normal !important; font-weight: 400 !important; font-size: clamp(1.6rem, 2.4vw, 2.15rem) !important; line-height: 1.15 !important; letter-spacing: -.01em; color: #161426 !important; margin: 0 0 18px !important; text-transform: none !important; }
-                  .dc-guide-intro > p { font-size: .92rem; line-height: 1.85; color: #55536a; margin: 0 0 30px; }
+                  .dc-guide-lead { font-size: .92rem; line-height: 1.85; color: #55536a; margin: 0 0 30px; }
                   .dc-guide-perks { list-style: none; margin: 0 0 34px; padding: 22px 0 0; border-top: 1px solid #e4ddd3; display: grid; gap: 18px; }
                   .dc-guide-perks li { display: flex; align-items: flex-start; gap: 14px; }
                   .dc-guide-perks i { flex: 0 0 38px; width: 38px; height: 38px; border-radius: 50%; border: 1px solid #e0d6ca; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.05rem; color: #a3563f; }
@@ -341,7 +341,7 @@ export default async function ShopPage(props: Props) {
                   <h2 id="dc-shop-guide-title">
                     {cat ? 'About our ' + (metaTitle ?? '').toLowerCase() : 'Streetwear from Karachi, delivered across Pakistan'}
                   </h2>
-                  <p>
+                  <p className="dc-guide-lead">
                     {cat && seo?.intro
                       ? seo.intro
                       : `${brand} makes everyday streetwear: unisex baggy jeans, oversized down shoulder tees, relaxed button-down shirts, sports jerseys and zip-up hoodies.`}
