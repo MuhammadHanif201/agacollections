@@ -488,21 +488,26 @@ export default async function HomePage() {
                 const primary = r.product.images.find((i) => i.is_primary);
                 return (
                   <article className="zq-review" key={r._id}>
-                    <div className="stars" aria-label={`${r.rating} out of 5 stars`}>
-                      {[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= r.rating ? 'ri-star-fill' : 'ri-star-line'} aria-hidden="true"></i>)}
+                    <div className="zq-review-top">
+                      <div className="stars" aria-label={`${r.rating} out of 5 stars`}>
+                        {[1, 2, 3, 4, 5].map((i) => <i key={i} className={i <= r.rating ? 'ri-star-fill' : 'ri-star-line'} aria-hidden="true"></i>)}
+                      </div>
+                      <span className="date">{formatDate(r.created_at, 'M Y')}</span>
                     </div>
+                    {/* the customer's words exactly as written; the large quote mark is decoration */}
+                    <span className="mark" aria-hidden="true">“</span>
                     {r.comment && r.comment.trim() !== '' ? (
-                      <p className="quote">{`“${strLimit(r.comment, 180)}”`}</p>
+                      <p className="quote">{strLimit(r.comment, 180)}</p>
                     ) : (
                       <p className="quote quote--muted">{`Rated ${r.rating} out of 5.`}</p>
                     )}
                     <div className="who">
                       <span className="avatar" aria-hidden="true">{[...r.name.trim()][0]?.toUpperCase() ?? ''}</span>
                       <span className="name">{strTitle(r.name)}</span>
-                      <span className="date">{formatDate(r.created_at, 'M Y')}</span>
                     </div>
                     <StoreLink className="product" href={`/product/${r.product.slug}#reviews`}>
-                      {primary && <img src={mediaUrl(primary.image_path)} alt="" width={40} height={50} loading="lazy" />}
+                      {/* the 600px version: the full photo was several hundred KB for a 40px box */}
+                      {primary && <img src={thumbUrl(primary.image_path)} alt="" width={40} height={50} loading="lazy" />}
                       <span>{r.product.name}</span>
                       <i className="ri-arrow-right-up-line" aria-hidden="true"></i>
                     </StoreLink>
