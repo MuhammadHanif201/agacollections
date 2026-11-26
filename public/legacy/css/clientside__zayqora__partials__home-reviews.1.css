@@ -14,7 +14,8 @@
 
 /* One sideways row (RowScroller): 4 compact cards on desktop, about 2.5 on tablets, 1 and a peek on phones, arrows at the sides.
    Two-class selectors so these beat the shared .zq-rs rules in rounded.css, which loads after this file. */
-.zq-reviews .zq-rs-track { gap:18px; padding:6px 2px 22px; }
+/* no side padding: scroll-snap would shift the row 2px on load, and that scroll stops Chrome recording the page's LCP */
+.zq-reviews .zq-rs-track { gap:18px; padding:6px 0 22px; }
 .zq-reviews .zq-rs-item { flex:0 0 calc((100% - 54px) / 4); }
 .zq-reviews .zq-rs-btn { top:calc(50% - 8px); }
 @media (min-width:1200px) { .zq-reviews .zq-rs-prev { left:-22px; } .zq-reviews .zq-rs-next { right:-22px; } }

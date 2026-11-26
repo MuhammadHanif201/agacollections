@@ -1,7 +1,7 @@
 // AGA Collections premium header, side drawer, search overlay and (hidden) mini-cart:
 // same markup as clientside/zayqora/layout/header.blade.php.
 import { connectDb } from '@/lib/db';
-import { mediaUrl, thumbUrl } from '@/lib/media';
+import { thumbUrl } from '@/lib/media';
 import { swapBanner } from '@/lib/banners';
 import { numberFormat, plural, strTitle, waLink } from '@/lib/format';
 import { Product } from '@/models/Product';
@@ -142,7 +142,7 @@ export default async function Header({
               <div className="dc-nav-dropdown">
                 {hoodies.map((h) => (
                   <StoreLink href={`/shop/${h.slug}`} key={h.slug}>
-                    {h.image && <img src={mediaUrl(h.image)} alt={h.label} loading="lazy" />}
+                    {h.image && <img src={thumbUrl(h.image, 200)} alt={h.label} loading="lazy" />}
                     {h.label}
                   </StoreLink>
                 ))}
@@ -153,7 +153,7 @@ export default async function Header({
               <div className="dc-nav-dropdown">
                 {cats.map((cat) => (
                   <StoreLink href={`/shop/${cat.slug ?? ''}`} key={cat._id}>
-                    {cat.image && <img src={mediaUrl(cat.image)} alt={cat.title} loading="lazy" />}
+                    {cat.image && <img src={thumbUrl(cat.image, 200)} alt={cat.title} loading="lazy" />}
                     {cat.title}
                   </StoreLink>
                 ))}
@@ -196,7 +196,7 @@ export default async function Header({
               {cats.map((category) => (
                 <StoreLink href={`/shop/${category.slug ?? ''}`} className="zqd-cat" key={category._id}>
                   <span className="zqd-cat-img">
-                    {category.image && <img src={mediaUrl(category.image)} alt="" loading="lazy" width={48} height={60} />}
+                    {category.image && <img src={thumbUrl(category.image, 200)} alt="" loading="lazy" width={48} height={60} />}
                   </span>
                   <span className="zqd-cat-t">{strTitle(category.title)}</span>
                   <span className="zqd-cat-n">{category.products_count} {plural('style', category.products_count)}</span>
@@ -210,7 +210,7 @@ export default async function Header({
               {hoodies.map((h) => (
                 <StoreLink href={`/shop/${h.slug}`} className="zqd-cat" key={h.slug}>
                   <span className="zqd-cat-img">
-                    {h.image && <img src={mediaUrl(h.image)} alt="" loading="lazy" width={48} height={60} />}
+                    {h.image && <img src={thumbUrl(h.image, 200)} alt="" loading="lazy" width={48} height={60} />}
                   </span>
                   <span className="zqd-cat-t">{h.label}</span>
                 </StoreLink>

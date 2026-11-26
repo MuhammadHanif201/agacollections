@@ -35,8 +35,9 @@ const BASE = [
   // only the faces the store shows (checked in a browser on every store page): Fraunces for headings, Arimo for text.
   // Cormorant Garamond (only ever a fallback behind --heading-font) and Work Sans were never used.
   'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Arimo:wght@400;700&display=swap',
-  // remixicon.css was linked a second time here; the query keeps that later position in the cascade
-  '/clientside/common_assets/fonts/remixicon.css?again',
+  // remixicon.css was linked a second time here (that later position in the cascade is kept). The store now loads
+  // remixicon-store.css: only the icons it uses, a 7KB font instead of the full 176KB set
+  '/clientside/common_assets/fonts/remixicon-store.css',
   css('clientside__zayqora__layout__header.1'), // #theme-style
   css('clientside__zayqora__layout__header.2'), // #product-card-style
 ];

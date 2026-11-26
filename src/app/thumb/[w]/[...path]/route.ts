@@ -1,11 +1,11 @@
 import sharp from 'sharp';
 import { mediaUrl } from '@/lib/media';
 
-// Small versions of product photos for product cards and gallery thumbnails: /thumb/600/products/abc.webp is the
+// Small versions of photos for product cards, menus and gallery thumbnails: /thumb/600/products/abc.webp is the
 // photo at /storage/products/abc.webp made 600px wide. Made from the full photo the first time it is asked for,
 // then kept by the CDN for a year (photo file names carry a timestamp, so a replaced photo gets a new name).
 // New uploads need nothing extra. If the full photo can't be read, the browser is sent to it instead.
-const WIDTHS = new Set([600]);
+const WIDTHS = new Set([200, 400, 600]); // see lib/media thumbUrl
 const SAFE = /^[\w./-]+\.(webp|jpe?g|png)$/i;
 
 export async function GET(req: Request, { params }: { params: Promise<{ w: string; path: string[] }> }) {

@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { getSwal, postJson, showLimit } from './client-utils';
 import { useStore } from './StoreProvider';
+import { loadSwiper } from '@/lib/swiper-lite';
 
 interface VariantInfo {
   id: string;
@@ -183,7 +184,7 @@ export default function ProductPageInteractions({
     let mobileSwiper: { destroy: (a?: boolean, b?: boolean) => void } | null = null;
     const msEl = $('.pd-mobile-swiper');
     if (msEl) {
-      import('swiper/bundle').then(({ default: Swiper }) => {
+      loadSwiper().then((Swiper) => {
         mobileSwiper = new Swiper(msEl, { slidesPerView: 1, spaceBetween: 0, loop: false, grabCursor: true, watchOverflow: true, pagination: { el: '.pd-mobile-pagination', clickable: true } });
       });
       cleanups.push(() => mobileSwiper?.destroy(true, true));

@@ -1,6 +1,6 @@
 // clientside/zayqora/index.blade.php
 import { Fragment } from 'react';
-import { mediaUrl, thumbUrl } from '@/lib/media';
+import { CARD_SIZES, cardSrcSet, mediaUrl, thumbUrl } from '@/lib/media';
 import { numberFormat, plural, strLimit, strTitle, formatDate } from '@/lib/format';
 import { buildMetadata, JsonLd } from '@/lib/seo';
 import { PageStyles } from '@/components/store/LegacyStyles';
@@ -79,7 +79,7 @@ export default async function HomePage() {
     <>
       <PageStyles
         // Arimo 500/600 were an @import inside home.css (fetched only after home.css itself); a link loads them alongside it
-        pushed={['https://fonts.googleapis.com/css2?family=Arimo:wght@500;600&display=swap', '/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', '/legacy/css/clientside__zayqora__partials__home-reviews.1.css?v=3']}
+        pushed={['https://fonts.googleapis.com/css2?family=Arimo:wght@500;600&display=swap', '/clientside/zayqora/css/home.css', 'clientside__zayqora__index.1', 'clientside__zayqora__partials__zq-hero.1', '/legacy/css/clientside__zayqora__partials__home-reviews.1.css?v=4']}
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
@@ -141,7 +141,7 @@ export default async function HomePage() {
                     <span className="dc-na-badge dc-na-badge--new">New</span>
                     <WishlistToggle productId={product.id} className="wishlist-btn dc-na-wish" ariaLabel="Wishlist" />
                     <StoreLink href={`/product/${product.slug}`} className="dc-na-photo-link">
-                      <img src={img(product)} alt={product.name} loading="lazy" />
+                      <img src={img(product)} srcSet={product.primary_image ? cardSrcSet(product.primary_image) : undefined} sizes={CARD_SIZES} alt={product.name} loading="lazy" />
                     </StoreLink>
                     <StoreLink href={`/product/${product.slug}`} className="dc-na-overlay">
                       <span>Explore</span> <i className="ri-arrow-right-line"></i>
@@ -237,7 +237,7 @@ export default async function HomePage() {
                         <span className="dc-badge-tag">Best Seller</span>
                         <WishlistToggle productId={product.id} className="wishlist-btn dc-wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} iconHidden />
                         <StoreLink href={`/product/${product.slug}`}>
-                          <img src={img(product)} alt={product.name} loading="lazy" />
+                          <img src={img(product)} srcSet={product.primary_image ? cardSrcSet(product.primary_image) : undefined} sizes={CARD_SIZES} alt={product.name} loading="lazy" />
                         </StoreLink>
                         <StoreLink href={`/product/${product.slug}`} className="dc-product-explore">
                           Explore <i className="ri-arrow-right-line"></i>
@@ -354,7 +354,7 @@ export default async function HomePage() {
                         <div className="dc-product-card">
                           <div className="dc-product-img-wrap">
                             <StoreLink href={`/product/${product.slug}`}>
-                              <img src={img(product)} alt={product.name} loading="lazy" />
+                              <img src={img(product)} srcSet={product.primary_image ? cardSrcSet(product.primary_image) : undefined} sizes={CARD_SIZES} alt={product.name} loading="lazy" />
                             </StoreLink>
                             <StoreLink href={`/product/${product.slug}`} className="dc-product-explore">
                               Explore <i className="ri-arrow-right-line"></i>
@@ -413,7 +413,7 @@ export default async function HomePage() {
                       <div className="dc-product-img-wrap">
                         <WishlistToggle productId={product.id} className="wishlist-btn dc-wishlist-btn" ariaLabel={{ on: 'Remove from wishlist', off: 'Add to wishlist' }} iconHidden />
                         <StoreLink href={`/product/${product.slug}`}>
-                          <img src={img(product)} alt={product.name} loading="lazy" />
+                          <img src={img(product)} srcSet={product.primary_image ? cardSrcSet(product.primary_image) : undefined} sizes={CARD_SIZES} alt={product.name} loading="lazy" />
                         </StoreLink>
                         <StoreLink href={`/product/${product.slug}`} className="dc-product-explore">
                           Explore <i className="ri-arrow-right-line"></i>
@@ -508,8 +508,8 @@ export default async function HomePage() {
                       <span className="name">{strTitle(r.name)}</span>
                     </div>
                     <StoreLink className="product" href={`/product/${r.product.slug}#reviews`}>
-                      {/* the 600px version: the full photo was several hundred KB for a 40px box */}
-                      {primary && <img src={thumbUrl(primary.image_path)} alt="" width={40} height={50} loading="lazy" />}
+                      {/* the 200px copy: the full photo was several hundred KB for a 40px box */}
+                      {primary && <img src={thumbUrl(primary.image_path, 200)} alt="" width={40} height={50} loading="lazy" />}
                       <span>{r.product.name}</span>
                       <i className="ri-arrow-right-up-line" aria-hidden="true"></i>
                     </StoreLink>

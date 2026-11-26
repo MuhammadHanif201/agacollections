@@ -46,7 +46,7 @@ async function load(slug: string) {
   let imgUrls = gallery.map((i) => mediaUrl(i.image_path));
   if (!imgUrls.length) imgUrls = ['/images/placeholder.png'];
   // small versions for the thumbnail strip and the sticky bar (the main image and lightbox keep the full photos)
-  const thumbs = gallery.length ? gallery.map((i) => thumbUrl(i.image_path)) : imgUrls;
+  const thumbs = gallery.length ? gallery.map((i) => thumbUrl(i.image_path, 200)) : imgUrls;
 
   // Pricing: price = what the customer pays, sale_price = old (higher) price
   const hasVariants = product.variants.length > 0;
