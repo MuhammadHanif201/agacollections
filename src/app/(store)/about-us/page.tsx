@@ -14,8 +14,8 @@ export async function generateMetadata() {
   const brand = s?.name ?? 'AGA Collections';
   return buildMetadata({
     page: 'about',
-    // share card: the About page's own hero photo at 1200x630, instead of the logo
-    image: '/clientside/share/about.jpg',
+    // share card: the About page's own hero banner at 1200x630, instead of the logo
+    image: '/clientside/share/about-2.jpg',
     metaDesc: `The story behind ${brand}, a Karachi streetwear label making baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies.`,
   });
 }
@@ -53,8 +53,11 @@ export default async function AboutPage() {
       <PageStyles pushed={['clientside__zayqora__partials__zq-hero.1', 'clientside__zayqora__about.1']} />
 
       <ZqHero
-        image={img1}
-        position="center 12%"
+        // a photo banner like the Home and Shop ones, in warm browns and greens; the admin's two About photos
+        // stay in the story section below, where a wide banner would not fit
+        image={mediaUrl('uploads/about/zq-about-grid.jpg')}
+        imageMobile={mediaUrl('uploads/about/zq-about-grid-m.jpg')}
+        position="50% 50%"
         crumbs={[{ label: 'Home', url: '/' }, { label: 'Our Story' }]}
         // the page heading (H1) says what the page is; the admin's hero title ("Made for Your Style") is the line above it
         eyebrow={heroTitle}
