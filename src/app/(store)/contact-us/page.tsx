@@ -16,7 +16,7 @@ async function meta(): Promise<MetaOptions> {
   return {
     page: 'contact',
     // share card: the Contact hero banner at 1200x630, instead of the logo
-    image: '/clientside/share/contact.jpg',
+    image: '/clientside/share/contact-2.jpg',
     metaDesc: `Contact ${brand} for order support, sizing help, or any inquiries.` + (phone ? ` Reach us via WhatsApp ${phone} or our contact form.` : " We're here to help — reach us via WhatsApp or our contact form."),
   };
 }
@@ -124,8 +124,8 @@ export default async function ContactPage() {
 
       <ZqHero
         // four couples in black and white, from the store's own photos (like the Home and Shop banners)
-        image={mediaUrl('banners/zq-contact-grid.jpg')}
-        imageMobile={mediaUrl('banners/zq-contact-grid-m.jpg')}
+        image={mediaUrl('banners/zq-contact-grid-2.jpg')}
+        imageMobile={mediaUrl('banners/zq-contact-grid-2-m.jpg')}
         crumbs={[{ label: 'Home', url: '/' }, { label: 'Contact' }]}
         eyebrow="AGA Collections — Pakistan"
         title="Get in Touch"
