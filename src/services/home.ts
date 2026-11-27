@@ -32,6 +32,11 @@ export async function homeData() {
   if (!bestSellers.length) {
     bestSellers = await Product.find({ ...active, quantity: { $gt: 0 } }).sort({ views: -1, _id: 1 }).limit(8).lean();
   }
+  // Winter order (owner, Nov 2026): zip, printed and plain hoodies first, other ranges next, baggy jeans at the end.
+  // Done here, not with sort_order, which also sets the shop's default order.
+  const RANK: Record<number, number> = { 5: 0, 11: 1, 10: 2, 1: 9 }; // category ids: zipper, printed, plain hoodies; jeans
+  const rank = (p: { category_ids?: number[] }) => Math.min(...(p.category_ids ?? []).map((c) => RANK[c] ?? 5), 5);
+  bestSellers = sortStable(bestSellers, (a, b) => rank(a) - rank(b));
 
   // Last Call: products with a real discount, biggest first
   const sale = await Product.find({ ...active, sale_price: { $ne: null }, $expr: { $gt: ['$sale_price', '$price'] }, ...inStockFilter }).lean();

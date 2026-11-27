@@ -43,3 +43,6 @@
             /* category names sit on a dark image veil: keep them light (global h1-h6 rule forces dark) */
             .dc-cat-tile .dc-cat-name { color: #fff !important; }
         
+            /* Most Loved: the "Best Seller" tag in the brand terracotta (the reviews' accent), so it reads apart from the
+               yellow sale badges and the black "New" tags */
+            .zq-bestsellers .dc-product-card .dc-badge-tag { background: #a3563f; color: #fff; letter-spacing: .14em; padding: 4px 10px; border-radius: 3px; }
