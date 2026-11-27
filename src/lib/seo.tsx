@@ -221,8 +221,9 @@ export async function JsonLd(opts: MetaOptions) {
           shippingRate: { '@type': 'MonetaryAmount', value: shipFee.toFixed(2), currency: 'PKR' },
           deliveryTime: {
             '@type': 'ShippingDeliveryTime',
-            handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 2, unitCode: 'DAY' },
-            transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 8, unitCode: 'DAY' },
+            // same as the Merchant Center shipping policy (Nov 2026): processed in 1-2 working days, 2-6 days by courier
+            handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+            transitTime: { '@type': 'QuantitativeValue', minValue: 2, maxValue: 6, unitCode: 'DAY' },
           },
         },
         // the store's Return & Exchange Policy: 7 days, exchange or store credit (no cash refunds), customer pays return shipping
