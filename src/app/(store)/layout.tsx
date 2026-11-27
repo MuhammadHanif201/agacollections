@@ -60,6 +60,16 @@ export default async function StoreLayout({ children }: { children: ReactNode })
           {env.metaPixelId && <PixelPageView />}
         </StoreProvider>
 
+        {/* Vercel Web Analytics (visitors, pages, referrers; no cookies): starts counting once Analytics is enabled for
+            the project in Vercel. The plain script, not @vercel/analytics, whose peer range did not include this Next. */}
+        {process.env.VERCEL === '1' && (
+          <>
+            <Script id="vercel-analytics-queue" strategy="afterInteractive">
+              {'window.va=window.va||function(){(window.vaq=window.vaq||[]).push(arguments)};'}
+            </Script>
+            <Script src="/_vercel/insights/script.js" strategy="afterInteractive" />
+          </>
+        )}
         {/* Microsoft Clarity: only when CLARITY_ID is set (use AGA Collections's own project) */}
         {env.clarityId && (
           <Script id="clarity" strategy="afterInteractive">

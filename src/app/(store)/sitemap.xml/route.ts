@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache';
 import { connectDb } from '@/lib/db';
 import { env } from '@/lib/env';
 import { escapeHtml } from '@/lib/format';
@@ -13,7 +14,7 @@ const abs = (u: string) => (/^https?:/.test(u) ? u : env.appUrl + u);
 const atom = (d?: Date | null) => (d ? d.toISOString().replace(/\.\d{3}Z$/, '+00:00') : '');
 
 /** ClientController::siteMapping — only pages a shopper can use */
-export async function GET() {
+async function build(): Promise<string> {
   await connectDb();
   const [products, cats, counts] = await Promise.all([
     Product.find({ status: 'active' }).sort({ sort_order: 1, _id: 1 }).select('slug updated_at images').lean(),
@@ -56,5 +57,13 @@ export async function GET() {
     '',
     '</urlset>',
   );
-  return new Response(lines.join('\n') + '\n', { headers: { 'Content-Type': 'application/xml; charset=UTF-8' } });
+  return lines.join('\n') + '\n';
+}
+
+// Built at most once an hour (the finished XML is cached, so dates stay as written), so search engines fetching the
+// sitemap do not query the database each time, and a short database outage does not turn it into an error page
+const cachedSitemap = unstable_cache(build, ['sitemap-xml'], { revalidate: 3600 });
+
+export async function GET() {
+  return new Response(await cachedSitemap(), { headers: { 'Content-Type': 'application/xml; charset=UTF-8' } });
 }

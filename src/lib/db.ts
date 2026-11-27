@@ -9,13 +9,25 @@ const g = globalThis as unknown as { __zqMongoose?: Cache };
 const cache: Cache = g.__zqMongoose ?? (g.__zqMongoose = { conn: null, promise: null });
 
 export async function connectDb(): Promise<typeof mongoose> {
-  if (cache.conn) return cache.conn;
+  const state = mongoose.connection.readyState; // 0 disconnected, 1 connected, 2 connecting, 3 disconnecting
+  if (cache.conn && state === 1) return cache.conn;
+  // Reconnecting on its own: wait for it rather than failing the request (commands are not buffered)
+  if (cache.conn && state === 2) {
+    await mongoose.connection.asPromise();
+    return cache.conn;
+  }
+  // A connection that dropped (Atlas refused new connections while overloaded on 2026-11-27 and one server
+  // instance kept answering 500 afterwards) is opened again instead of being reused
+  if (cache.conn) { cache.conn = null; cache.promise = null; }
   if (!cache.promise) {
     cache.promise = mongoose
       .connect(env.mongodbUri, {
         dbName: env.mongodbDb || undefined,
         bufferCommands: false,
-        maxPoolSize: 10,
+        // the free Atlas cluster allows 500 connections in all; each server instance keeps a few,
+        // and closes the ones it has not used for a minute
+        maxPoolSize: 5,
+        maxIdleTimeMS: 60_000,
         serverSelectionTimeoutMS: 10000,
       })
       .catch((err) => {
