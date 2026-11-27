@@ -75,8 +75,8 @@ async function base(opts: MetaOptions) {
   let robots = opts.robots || p.robots;
   if (opts.hasSearch) robots = 'noindex, follow';
 
-  // The brand's 1200x630 logo card ships with the site (the old uploaded logo/favicon files are gone)
-  const defaultImg = `${env.appUrl}/clientside/company_logo/default-logo.png`;
+  // The brand's 1200x630 logo card ships with the site (the old uploaded logo/favicon files are gone); the AGA monogram since Nov 2026
+  const defaultImg = `${env.appUrl}/clientside/company_logo/default-logo-2.png`;
   // The 1200x630 share card (storage/logos/zayqora-share.jpg) when it was uploaded, else the logo
   let image = opts.image ?? (process.env.SHARE_IMAGE_PATH ? absolute(mediaUrl(process.env.SHARE_IMAGE_PATH)) : defaultImg);
   if (image && !/^https?:\/\//i.test(image)) image = env.appUrl + (image.startsWith('/') ? image : '/' + image);
@@ -141,6 +141,8 @@ export async function JsonLd(opts: MetaOptions) {
   const waNum = s?.whatsapps?.[0] ?? null;
   const city = addr.toLowerCase().includes('karachi') ? 'Karachi' : addr.toLowerCase().includes('lahore') ? 'Lahore' : 'Pakistan';
   const defaultImg = b.defaultImg;
+  // Google shows an Organization logo in a square: the AGA monogram on navy, 512x512 (the card above is 1200x630)
+  const logoImg = `${env.appUrl}/clientside/company_logo/logo-aga-512.png`;
   const blocks: Record<string, unknown>[] = [];
 
   const org: Record<string, unknown> = {
@@ -149,7 +151,7 @@ export async function JsonLd(opts: MetaOptions) {
     '@id': baseUrl + '/#store',
     name: b.brand,
     url: baseUrl,
-    logo: { '@type': 'ImageObject', url: defaultImg },
+    logo: { '@type': 'ImageObject', url: logoImg, width: 512, height: 512 },
     image: defaultImg,
     description: s?.description || `Streetwear from ${b.brand}: ${RANGE}.`,
     areaServed: 'PK',
@@ -262,7 +264,7 @@ export async function JsonLd(opts: MetaOptions) {
       name: b.brand,
       url: baseUrl,
       image: defaultImg,
-      logo: defaultImg,
+      logo: logoImg,
     };
     if (addr) local.address = { '@type': 'PostalAddress', streetAddress: addr, addressLocality: city, addressCountry: 'PK' };
     if (phone) local.telephone = phone;
