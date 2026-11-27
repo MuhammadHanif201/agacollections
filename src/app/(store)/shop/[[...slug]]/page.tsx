@@ -16,7 +16,7 @@ import { mediaExists } from '@/services/media';
 import { categoryTitle, getCompanySetting, getMenuCategories } from '@/services/settings';
 import { shopQuery } from '@/services/shop';
 import StoreLink from '@/components/store/StoreLink';
-import { SWAPPED_M, swapBanner } from '@/lib/banners';
+import { SWAPPED_M, heroSrc, swapBanner } from '@/lib/banners';
 
 type Props = { params: Promise<{ slug?: string[] }>; searchParams: Promise<Record<string, string | string[] | undefined>> };
 
@@ -149,7 +149,7 @@ async function load(props: Props) {
     seoTitle: cat ? searchTitle ?? seo?.title ?? `${metaTitle} | ${brand} Pakistan` : `Shop Streetwear Online in Pakistan | ${brand}`,
     metaDesc: cat
       ? seo?.desc ?? `Shop ${metaTitle} at ${brand}. Cash on delivery across Pakistan.`
-      : `Shop the full ${brand} collection: baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies. Cash on delivery across Pakistan.`,
+      : `Shop ${brand}: baggy jeans, oversized tees, button-down shirts, sports jerseys, and plain, printed and zip-up hoodies. Cash on delivery across Pakistan.`,
     // An empty category is thin content: keep it out of search results
     robots: cat && result.total === 0 ? 'noindex, follow' : null,
     // Shop All (and a category without a banner) shares the Shop All banner as a 1200x630 card, instead of the logo
@@ -176,7 +176,7 @@ export default async function ShopPage(props: Props) {
   const banner = swapBanner(cat?.banner ? cat.banner : company?.default_category_banner ?? null);
   const bannerM = banner ? SWAPPED_M[banner] ?? banner.replace(/(\.[a-z0-9]+)$/i, '-m$1') : null;
   const hasM = Boolean(banner && SWAPPED_M[banner]) || (await mediaExists(bannerM));
-  const sub = `${total} ${plural('style', total)}` + (zqSlug ? (LINES[zqSlug] ? ' · ' + LINES[zqSlug] : '') : ' across denim, tees, shirts and jerseys.');
+  const sub = `${total} ${plural('style', total)}` + (zqSlug ? (LINES[zqSlug] ? ' · ' + LINES[zqSlug] : '') : ' across denim, tees, shirts, jerseys and hoodies.');
   // PHP reads size[]=M as size, so the [] form counts too
   const hasFilters = FILTER_KEYS.some((k) => query[k] !== undefined || query[`${k}[]`] !== undefined);
   const path = slugStr ? `/shop/${slugStr}` : '/shop';
@@ -216,8 +216,8 @@ export default async function ShopPage(props: Props) {
       <JsonLd {...meta} />
 
       <ZqHero
-        image={banner ? mediaUrl(banner) : null}
-        imageMobile={hasM ? mediaUrl(bannerM) : null}
+        image={banner ? mediaUrl(heroSrc(banner)) : null}
+        imageMobile={hasM ? mediaUrl(heroSrc(bannerM)) : null}
         position={(zqSlug && POSITIONS[zqSlug]) || 'center'}
         crumbs={cat
           ? [{ label: 'Home', url: '/' }, { label: 'Shop', url: '/shop' }, { label: catTitle }]

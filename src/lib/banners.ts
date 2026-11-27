@@ -36,5 +36,9 @@ export const SWAPPED_M: Record<string, string> = {
   'uploads/categories/zq-printed-hoodies-grid-2.jpg': 'uploads/categories/zq-printed-hoodies-grid-2-m.jpg',
   'banners/zq-shop-grid-4.jpg': 'banners/zq-shop-grid-4-m.jpg',
 };
+// The page hero shows a WebP copy of these banners (about 40% smaller, same look). The desktop JPGs stay: share previews
+// (og:image) and the side menu's featured card are made from them.
+const HERO_WEBP = new Set([...Object.values(SWAPPED), ...Object.values(SWAPPED_M)]);
+export const heroSrc = (p: string | null | undefined) => (p && HERO_WEBP.has(p) ? p.replace(/\.jpg$/i, '.webp') : p ?? null);
 // saved paths may carry a leading "/" or "storage/" (mediaUrl drops both), so match on the bare path
 export const swapBanner = (b: string | null | undefined) => (b ? SWAPPED[b.replace(/^\/+/, '').replace(/^storage\//, '')] ?? b : null);

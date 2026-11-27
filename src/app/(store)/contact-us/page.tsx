@@ -124,8 +124,8 @@ export default async function ContactPage() {
 
       <ZqHero
         // four couples in black and white, from the store's own photos (like the Home and Shop banners)
-        image={mediaUrl('banners/zq-contact-grid-3.jpg')}
-        imageMobile={mediaUrl('banners/zq-contact-grid-3-m.jpg')}
+        image={mediaUrl('banners/zq-contact-grid-3.webp')}
+        imageMobile={mediaUrl('banners/zq-contact-grid-3-m.webp')}
         crumbs={[{ label: 'Home', url: '/' }, { label: 'Contact' }]}
         eyebrow="AGA Collections — Pakistan"
         title="Get in Touch"

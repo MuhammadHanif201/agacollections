@@ -26,7 +26,7 @@ async function meta() {
     page: 'home' as const,
     // share card (WhatsApp, Facebook): the home banner on a 1200x630 card, instead of the logo
     image: '/clientside/share/home-5.jpg',
-    metaDesc: `Baggy jeans, oversized tees, button-down shirts, sports jerseys and zip-up hoodies from ${brand}, Karachi. Cash on delivery across Pakistan.`,
+    metaDesc: `Baggy jeans, oversized tees, button-down shirts, sports jerseys and plain, printed and zip hoodies from ${brand}, Karachi. Cash on delivery in Pakistan.`,
   };
 }
 
@@ -83,8 +83,8 @@ export default async function HomePage() {
         inline={catTiles.length ? ['clientside__zayqora__index.2'] : []}
       />
       {/* Each screen size preloads only the hero picture it shows (matches the <source media> in ZqHero) */}
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-4.jpg')} media="(min-width: 768px)" fetchPriority="high" />
-      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-4-m.jpg')} media="(max-width: 767px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-4.webp')} media="(min-width: 768px)" fetchPriority="high" />
+      <link rel="preload" as="image" href={mediaUrl('banners/zq-home-grid-4-m.webp')} media="(max-width: 767px)" fetchPriority="high" />
       <JsonLd {...await meta()} />
       <ScrollReveal threshold={0.08} />
 
@@ -92,8 +92,8 @@ export default async function HomePage() {
       <ZqHero
         // four couples, one per range (white button-downs, brown zip hoodies, cream hoodie with ice blue jeans,
         // black graphic tees), so the first thing a visitor sees is menswear and womenswear together; phones get them 2x2
-        image={mediaUrl('banners/zq-home-grid-4.jpg')}
-        imageMobile={mediaUrl('banners/zq-home-grid-4-m.jpg')}
+        image={mediaUrl('banners/zq-home-grid-4.webp')}
+        imageMobile={mediaUrl('banners/zq-home-grid-4-m.webp')}
         position="50% 50%"
         eyebrow={`New Collection · ${year}`}
         title="Made for Your Style"
