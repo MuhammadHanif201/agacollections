@@ -50,6 +50,22 @@ function catSeo(brand: string): Record<string, { title: string; desc: string; in
       desc: `Unisex zip-up hoodies: the soft fleece Essential Zip Hoodie in 11 colours, plus printed zips. Order online at ${brand} with cash on delivery across Pakistan.`,
       intro: 'Unisex zip-up hoodies: the soft fleece Essential Zip Hoodie in 11 colours, with an oversized fit, full-length zip and front pockets, plus printed zip hoodies.',
     },
+    // the three hoodie pages had only the generic "Shop X at brand" line and the store-wide guide text (owner approved this copy)
+    hoodies: {
+      title: `Hoodies in Pakistan – Plain, Printed & Zip | ${brand}`,
+      desc: `Plain, printed and zip-up hoodies in an oversized unisex fit, including 450 GSM heavyweight fleece. Shop ${brand} with cash on delivery across Pakistan.`,
+      intro: 'Hoodies in an oversized unisex fit: 450 GSM heavyweight plain hoodies in 9 colours, bold graphic print hoodies and zip-up hoodies.',
+    },
+    'plain-hoodies': {
+      title: `Plain Hoodies in Pakistan | ${brand}`,
+      desc: 'Plain 450 GSM heavyweight fleece hoodies in an oversized unisex fit, in 9 colours from black and off-white to forest green. Cash on delivery across Pakistan.',
+      intro: 'The 450 GSM Essential Oversized Hoodie: heavyweight fleece and an oversized unisex fit, in black, dusty lavender, sky blue, light grey, purple, off-white, forest green, chocolate brown and navy blue.',
+    },
+    'printed-hoodies': {
+      title: `Printed Hoodies in Pakistan | ${brand}`,
+      desc: `Oversized unisex hoodies with bold graphic prints: gothic script, portrait, flame and logo designs. Shop ${brand} with cash on delivery across Pakistan.`,
+      intro: 'Oversized unisex hoodies with bold graphic prints, from gothic script and arch lettering to portrait, flame and logo designs.',
+    },
   };
 }
 
