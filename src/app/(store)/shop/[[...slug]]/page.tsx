@@ -46,8 +46,9 @@ function catSeo(brand: string): Record<string, { title: string; desc: string; in
       intro: 'Sports jerseys in breathable, sweat-wicking fabric with an oversized street fit.',
     },
     'zipper-hoodies': {
-      title: `Zip Up Hoodies in Pakistan | ${brand}`,
-      desc: `Unisex zip-up hoodies: the soft fleece Essential Zip Hoodie in 11 colours, plus printed zips. Order online at ${brand} with cash on delivery across Pakistan.`,
+      // "zipper hoodies pakistan" and "zip up hoodie" are both searched (Search Console, Nov 2026); owner approved this copy
+      title: `Zip Up & Zipper Hoodies in Pakistan | ${brand}`,
+      desc: 'Unisex zip up and zipper hoodies: the soft fleece Essential Zip Hoodie in 11 colours, plus plain and printed zips. Cash on delivery across Pakistan.',
       intro: 'Unisex zip-up hoodies: the soft fleece Essential Zip Hoodie in 11 colours, with an oversized fit, full-length zip and front pockets, plus printed zip hoodies.',
     },
     // the three hoodie pages had only the generic "Shop X at brand" line and the store-wide guide text (owner approved this copy)
@@ -108,7 +109,7 @@ const SEARCH_TITLES: Record<string, (from: string) => string> = {
   't-shirts': (f) => `Oversized T-Shirts in Pakistan${f} | COD`,
   'button-down-shirts': (f) => `Button Down Shirts in Pakistan${f} | COD`,
   'sports-jerseys': (f) => `Sports Jerseys in Pakistan${f} | Cash on Delivery`,
-  'zipper-hoodies': (f) => `Zip Up Hoodies in Pakistan${f} | Cash on Delivery`,
+  'zipper-hoodies': (f) => `Zip Up & Zipper Hoodies in Pakistan${f} | COD`,
   hoodies: () => 'Hoodies in Pakistan – Plain, Printed & Zip | Cash on Delivery',
   'plain-hoodies': (f) => `Plain Hoodies in Pakistan${f} | Cash on Delivery`,
   'printed-hoodies': (f) => `Printed Hoodies in Pakistan${f} | Cash on Delivery`,
