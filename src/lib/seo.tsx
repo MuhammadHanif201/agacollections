@@ -93,7 +93,8 @@ export async function buildMetadata(opts: MetaOptions): Promise<Metadata> {
   const b = await base(opts);
   const twUrl = b.sameAs.find((u) => /(twitter|x)\.com\//i.test(u));
   const twHandle = twUrl?.match(/(?:twitter|x)\.com\/([^/?]+)/i)?.[1];
-  const fav = '/clientside/company_logo/favicon.png';
+  // the AGA monogram on navy (Nov 2026); ?v= so browsers and Google fetch the new icon instead of a cached one
+  const fav = '/clientside/company_logo/favicon.png?v=2';
   return {
     metadataBase: new URL(env.appUrl),
     title: b.title,
@@ -119,8 +120,8 @@ export async function buildMetadata(opts: MetaOptions): Promise<Metadata> {
       site: twHandle ? '@' + twHandle : undefined,
     },
     icons: {
-      icon: [{ url: fav, type: 'image/png' }, { url: '/favicon.ico', sizes: '48x48' }],
-      apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+      icon: [{ url: fav, type: 'image/png' }, { url: '/favicon.ico?v=2', sizes: '48x48' }],
+      apple: [{ url: '/apple-touch-icon.png?v=2', sizes: '180x180' }],
     },
     manifest: '/site.webmanifest',
   };
