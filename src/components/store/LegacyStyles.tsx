@@ -8,53 +8,27 @@
 // group's place), and pages add their sheets to "zq-page" or "zq-inline".
 
 import StyleScope from './StyleScope';
+import GROUPS from './css-groups.json';
+import BUNDLES from './css-bundles.json';
 
 const css = (name: string) => `/legacy/css/${name}.css`;
 
 export const PAGE_GROUP = 'zq-page';
 export const INLINE_GROUP = 'zq-inline';
 
-const BASE = [
-  // components/common-assets.blade.php
-  '/clientside/common_assets/css/magnific-popup.css',
-  // fontawesome-all.min.css was here: the store's few icons now use Remix Icon (loaded below), which saves
-  // its four font files (about 350KB) on every first visit. The admin panel still loads Font Awesome itself.
-  '/clientside/common_assets/css/futura-std-font.css',
-  // Bootstrap 5.3.0 from the CDN, served from this site: no extra connection before first paint
-  '/clientside/common_assets/css/bootstrap-5.3.0.min.css',
-  // remixicon.css was linked here too; the identical copy below wins the cascade either way
-  css('components__common-assets.1'),
-  // header.blade.php <head>
-  '/clientside/zayqora/assets/css/animate.min.css',
-  '/clientside/zayqora/assets/css/futura-std-font.css',
-  '/clientside/zayqora/assets/css/meanmenu.css',
-  '/clientside/zayqora/assets/css/swiper-bundle.min.css',
-  '/clientside/zayqora/assets/css/style.css',
-  '/clientside/zayqora/assets/css/responsive.css',
-  '/clientside/zayqora/css/global.css',
-  // only the faces the store shows (checked in a browser on every store page): Fraunces for headings, Arimo for text.
-  // Cormorant Garamond (only ever a fallback behind --heading-font) and Work Sans were never used.
-  'https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Arimo:wght@400;700&display=swap',
-  // remixicon.css was linked a second time here (that later position in the cascade is kept). The store now loads
-  // remixicon-store.css: only the icons it uses, a 7KB font instead of the full 176KB set
-  '/clientside/common_assets/fonts/remixicon-store.css',
-  css('clientside__zayqora__layout__header.1'), // #theme-style
-  css('clientside__zayqora__layout__header.2'), // #product-card-style
-];
-
-const CHROME = [
-  css('clientside__zayqora__layout__header.3'),
-  css('clientside__zayqora__layout__header.4'),
-  css('clientside__zayqora__layout__header.5'), // #dc-modern-luxe
-  css('clientside__zayqora__layout__header.6'), // #zq-drawer
-];
-
-const FOOTER = [
-  css('clientside__zayqora__layout__footer.1'),
-  css('components__newsletter-form.1'),
-  // 8px corners on buttons and form fields; last so it wins over global.css
-  '/clientside/zayqora/css/rounded.css',
-];
+// The layout's stylesheets, in their original cascade order, are listed in css-groups.json:
+//   base:   components/common-assets.blade.php (magnific popup, Futura, Bootstrap 5.3.0 served from this site,
+//           common-assets.1) then header.blade.php <head> (animate, Futura, meanmenu, swiper, theme style.css,
+//           responsive, global.css), remixicon-store.css (only the 86 icons the store uses), header.1 (#theme-style)
+//           and header.2 (#product-card-style). Font Awesome was dropped: the store's icons are Remix Icon.
+//   chrome: header.3 to header.6 (#dc-modern-luxe, #zq-drawer)
+//   footer: footer.1, the newsletter form and rounded.css (8px corners, last so it wins over global.css)
+// scripts/build-css.mjs joins each group into one minified, hashed file (css-bundles.json), so a page asks for
+// 3 layout stylesheets instead of 21; it runs before `next build` and `next dev`.
+// The Google Fonts sheet (Fraunces for headings, Arimo for text) only declares @font-face, so it can go first.
+const BASE = [GROUPS.fonts, BUNDLES.base];
+const CHROME = [BUNDLES.chrome];
+const FOOTER = [BUNDLES.footer];
 
 export function LayoutStyles({ productCardRatio }: { productCardRatio?: string }) {
   return (

@@ -1,0 +1,30 @@
+{
+  "fonts": "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Arimo:wght@400;700&display=swap",
+  "base": [
+    "/clientside/common_assets/css/magnific-popup.css",
+    "/clientside/common_assets/css/futura-std-font.css",
+    "/clientside/common_assets/css/bootstrap-5.3.0.min.css",
+    "/legacy/css/components__common-assets.1.css",
+    "/clientside/zayqora/assets/css/animate.min.css",
+    "/clientside/zayqora/assets/css/futura-std-font.css",
+    "/clientside/zayqora/assets/css/meanmenu.css",
+    "/clientside/zayqora/assets/css/swiper-bundle.min.css",
+    "/clientside/zayqora/assets/css/style.css",
+    "/clientside/zayqora/assets/css/responsive.css",
+    "/clientside/zayqora/css/global.css",
+    "/clientside/common_assets/fonts/remixicon-store.css",
+    "/legacy/css/clientside__zayqora__layout__header.1.css",
+    "/legacy/css/clientside__zayqora__layout__header.2.css"
+  ],
+  "chrome": [
+    "/legacy/css/clientside__zayqora__layout__header.3.css",
+    "/legacy/css/clientside__zayqora__layout__header.4.css",
+    "/legacy/css/clientside__zayqora__layout__header.5.css",
+    "/legacy/css/clientside__zayqora__layout__header.6.css"
+  ],
+  "footer": [
+    "/legacy/css/clientside__zayqora__layout__footer.1.css",
+    "/legacy/css/components__newsletter-form.1.css",
+    "/clientside/zayqora/css/rounded.css"
+  ]
+}

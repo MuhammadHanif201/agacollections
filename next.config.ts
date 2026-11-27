@@ -38,6 +38,8 @@ const nextConfig: NextConfig = {
           { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
         ],
       },
+      // joined layout stylesheets (scripts/build-css.mjs): the name changes with the content, so they never go stale
+      { source: '/bundles/:path*', headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] },
       { source: '/storage/:path*', headers: keepADay },
       { source: '/images/:path*', headers: keepADay },
       { source: '/clientside/company_logo/:path*', headers: keepADay },
