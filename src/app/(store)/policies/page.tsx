@@ -21,8 +21,9 @@ export default async function PoliciesPage() {
       <PageStyles pushed={['clientside__zayqora__policies.1', 'clientside__zayqora__partials__zq-hero.1']} />
 
       <ZqHero
-        image={mediaUrl('banners/zq-jeans.jpg')}
-        imageMobile={mediaUrl('banners/zq-jeans-m.jpg')}
+        // four new-model couples like the other banners (it was a stock photo of folded denim)
+        image={mediaUrl('banners/zq-policies-grid.webp')}
+        imageMobile={mediaUrl('banners/zq-policies-grid-m.webp')}
         crumbs={[{ label: 'Home', url: '/' }, { label: 'Policies' }]}
         eyebrow="AGA Collections"
         title="Our Policies"
