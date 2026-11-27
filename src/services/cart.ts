@@ -62,6 +62,7 @@ export async function addToCart(data: SessionData, input: { product_id?: unknown
   const variantId = input.variant_id ? Number(input.variant_id) : null;
   const productId = input.product_id ? Number(input.product_id) : null;
   const cart: Record<string, CartLine> = { ...(data.cart ?? {}) };
+  let unitPrice = 0; // for the Meta Pixel AddToCart value
   await connectDb();
 
   if (variantId) {
@@ -85,7 +86,7 @@ export async function addToCart(data: SessionData, input: { product_id?: unknown
       slug: product.slug,
       sku: variant.sku ?? '',
       // A variant without its own price uses the product price (as the product page shows)
-      price: Number(variant.price || product.price || 0),
+      price: (unitPrice = Number(variant.price || product.price || 0)),
       quantity: existing + quantity,
       image: variant.primary_image ?? primary?.image_path ?? 'placeholder.png',
       variant_options: variant.option_values ?? {},
@@ -111,7 +112,7 @@ export async function addToCart(data: SessionData, input: { product_id?: unknown
       name: product.name,
       slug: product.slug,
       sku: product.sku ?? '',
-      price: Number(product.price ?? 0),
+      price: (unitPrice = Number(product.price ?? 0)),
       quantity: existing + quantity,
       image: primary?.image_path ?? 'placeholder.png',
       variant_options: {},
@@ -120,7 +121,8 @@ export async function addToCart(data: SessionData, input: { product_id?: unknown
 
   data.cart = cart;
   const flash = await recalculateCoupon(data);
-  return { httpStatus: 200, body: { status: 'success' }, flash };
+  // value: what was just added (StoreProvider sends it with the Meta Pixel AddToCart event)
+  return { httpStatus: 200, body: { status: 'success', value: unitPrice * quantity }, flash };
 }
 
 export async function updateCartLine(data: SessionData, rawKey: unknown, rawQty: unknown): Promise<{ httpStatus: number; body: Result; flash?: string | null }> {
