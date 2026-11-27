@@ -53,12 +53,15 @@ export default async function StoreLayout({ children }: { children: ReactNode })
         <LayoutStyles productCardRatio={env.productCardImageRatio || undefined} />
         {/* Meta (Facebook) Pixel base code, only when META_PIXEL_ID is set. In <head> as Meta asks, so fbq exists before the
             page's own scripts run: loaded after hydration (next/script afterInteractive), it missed the ViewContent and
-            InitiateCheckout events that the product and checkout pages send on load. fbevents.js itself still loads async. */}
+            InitiateCheckout events that the product and checkout pages send on load.
+            fbq queues every call at once; fbevents.js itself (about 90KB of script) is fetched only after the page has
+            loaded and the browser is idle, so it no longer competes with the page while it opens (it added ~450ms of
+            blocking time on a phone). The queued PageView, ViewContent etc. are sent as soon as it arrives. */}
         {env.metaPixelId && (
           <script
             id="meta-pixel"
             dangerouslySetInnerHTML={{
-              __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', ${JSON.stringify(env.metaPixelId)});fbq('track', 'PageView');`,
+              __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];var go=function(){t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)};var later=function(){(f.requestIdleCallback||function(c){setTimeout(c,1)})(go,{timeout:3000})};b.readyState==='complete'?later():f.addEventListener('load',later)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init', ${JSON.stringify(env.metaPixelId)});fbq('track', 'PageView');`,
             }}
           />
         )}
