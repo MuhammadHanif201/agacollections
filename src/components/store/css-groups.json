@@ -25,6 +25,7 @@
   "footer": [
     "/legacy/css/clientside__zayqora__layout__footer.1.css",
     "/legacy/css/components__newsletter-form.1.css",
-    "/clientside/zayqora/css/rounded.css"
+    "/clientside/zayqora/css/rounded.css",
+    "/clientside/zayqora/css/product-card.css"
   ]
 }

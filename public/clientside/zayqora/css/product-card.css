@@ -1,0 +1,26 @@
+/* Product card (components/store/ProductCard.tsx): these were inline style="" attributes on every card, which also went
+   into each page's React data (about 1KB a card). Same values; the selectors are specific enough to win over the
+   theme's ordinary rules as the inline styles did, and the !important rules in global.css / shop CSS still win as before.
+   The struck-through old price keeps its inline style: global.css matches it with span[style*="line-through"]. */
+.product-card.h-100.flex-column { background: #fff; border-bottom: 1px solid var(--dc-border); }
+.product-card .swiper.product-img-swiper { background: var(--dc-cream); }
+.product-card .pc-info.pc-info { padding: 12px 14px 14px; display: flex; flex-direction: column; flex-grow: 1; }
+.product-card .pc-info .pc-category {
+  font-family: var(--body-font); font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--dc-muted); margin-bottom: 5px;
+}
+.product-card .pc-info .pc-category a { color: var(--dc-muted); text-decoration: none; }
+.product-card .pc-info .pc-name {
+  font-family: var(--body-font); font-weight: 500; font-size: 0.86rem; color: var(--dc-dark); text-decoration: none;
+  line-height: 1.45; display: block; margin-bottom: 10px;
+}
+.product-card .pc-info .pc-price {
+  font-family: var(--body-font); font-size: 0.88rem; font-weight: 600; color: var(--dc-dark);
+  display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+}
+.product-card .pc-info .pc-price .pc-now { color: var(--dc-gold); }
+.product-card .pc-info .pc-cta.pc-oos {
+  display: block; width: 100%; padding: 10px 0; background: #ebebeb; border: 1.5px solid #e2e2e2; color: #bbb;
+  font-family: var(--body-font); font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; text-align: center;
+  margin-top: auto; cursor: not-allowed;
+}

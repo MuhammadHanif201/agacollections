@@ -1,6 +1,7 @@
 // AGA Collections — Product Card (Zilbil-style). Same markup as partials/product-card.blade.php.
 import { Fragment } from 'react';
 import { CARD_SIZES, cardSrcSet, thumbUrl } from '@/lib/media';
+// the card's look is in /clientside/zayqora/css/product-card.css (it was inline style on every card)
 import { numberFormat } from '@/lib/format';
 import type { CardProduct } from '@/types/catalog';
 import { AddToCartButton, WishlistButton } from './StoreButtons';
@@ -20,20 +21,20 @@ export default function ProductCard({ product }: { product: CardProduct }) {
   const url = `/product/${product.slug}`;
 
   return (
-    <div className="product-card h-100 d-flex flex-column position-relative" style={{ background: '#fff', borderBottom: '1px solid var(--dc-border)' }}>
+    <div className="product-card h-100 d-flex flex-column position-relative">
       <WishlistButton productId={product.id} productName={product.name} />
 
       <ProductImageSwiper>
         {product.images.map((img, i) => (
           <div className="swiper-slide" key={i}>
             <StoreLink href={url} title={product.name}>
-              {/* the first photo loads with the page; the rest wait (data-src) until the shopper reaches the card's slider */}
+              {/* the first photo loads with the page; the rest wait (data-src only: ProductImageSwiper adds their srcset
+                  and sizes) until the shopper reaches the card's slider */}
               <img
                 src={i === 0 ? thumbUrl(img) : undefined}
                 srcSet={i === 0 ? cardSrcSet(img) : undefined}
                 data-src={i === 0 ? undefined : thumbUrl(img)}
-                data-srcset={i === 0 ? undefined : cardSrcSet(img)}
-                sizes={CARD_SIZES}
+                sizes={i === 0 ? CARD_SIZES : undefined}
                 alt={product.name}
                 loading="lazy"
                 className="w-100 h-100 object-fit-cover"
@@ -43,13 +44,13 @@ export default function ProductCard({ product }: { product: CardProduct }) {
         ))}
       </ProductImageSwiper>
 
-      <div className="pc-info" style={{ padding: '12px 14px 14px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+      <div className="pc-info">
         {product.categories.length > 0 && (
-          <div className="pc-category" style={{ fontFamily: 'var(--body-font)', fontSize: '0.65rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--dc-muted)', marginBottom: 5 }}>
+          <div className="pc-category">
             {product.categories.map((cat, i) =>
               cat.title !== 'Home Page - New Arrival' ? (
                 <Fragment key={i}>
-                  <StoreLink href={`/shop/${cat.slug}`} style={{ color: 'var(--dc-muted)', textDecoration: 'none' }}>{cat.title}</StoreLink>
+                  <StoreLink href={`/shop/${cat.slug}`}>{cat.title}</StoreLink>
                   {i < product.categories.length - 1 ? ', ' : ' '}
                 </Fragment>
               ) : null,
@@ -57,18 +58,18 @@ export default function ProductCard({ product }: { product: CardProduct }) {
           </div>
         )}
 
-        <StoreLink href={url} className="pc-name" style={{ fontFamily: 'var(--body-font)', fontWeight: 500, fontSize: '0.86rem', color: 'var(--dc-dark)', textDecoration: 'none', lineHeight: 1.45, display: 'block', marginBottom: 10 }}>
+        <StoreLink href={url} className="pc-name">
           {product.name}
         </StoreLink>
 
         <CardRating rating={product.rating} />
 
-        <div className="pc-price" style={{ fontFamily: 'var(--body-font)', fontSize: '0.88rem', fontWeight: 600, color: 'var(--dc-dark)', display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <div className="pc-price">
           PKR
           {salePrice && salePrice > (basePrice ?? 0) ? (
             <>
               <span style={{ fontWeight: 400, fontSize: '0.78rem', color: '#7a788c', textDecoration: 'line-through' }}>{numberFormat(salePrice)}</span>
-              <span style={{ color: 'var(--dc-gold)' }}>{numberFormat(basePrice)}</span>
+              <span className="pc-now">{numberFormat(basePrice)}</span>
               <OffBadge now={basePrice} was={salePrice} />
             </>
           ) : (
@@ -77,7 +78,7 @@ export default function ProductCard({ product }: { product: CardProduct }) {
         </div>
 
         {isOutOfStock ? (
-          <span className="pc-cta" style={{ display: 'block', width: '100%', padding: '10px 0', background: '#ebebeb', border: '1.5px solid #e2e2e2', color: '#bbb', fontFamily: 'var(--body-font)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', textAlign: 'center', marginTop: 'auto', cursor: 'not-allowed' }}>
+          <span className="pc-cta pc-oos">
             Out of Stock
           </span>
         ) : (

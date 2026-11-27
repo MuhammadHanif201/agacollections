@@ -4,16 +4,13 @@ import { connectDb } from '@/lib/db';
 import { thumbUrl } from '@/lib/media';
 import { swapBanner } from '@/lib/banners';
 import { numberFormat, plural, strTitle, waLink } from '@/lib/format';
-import { Product } from '@/models/Product';
 import type { CompanySettingDoc } from '@/models/content';
 import type { CartLine } from '@/models/Session';
 import { getActiveHeadlines, getHoodieCategories, HOODIE_MENU, type MenuCategory } from '@/services/settings';
-import { toCards } from '@/services/catalog';
 import { cartSubtotal } from '@/services/pricing';
 import CartBadge from './CartBadge';
 import HeadlineBar from './HeadlineBar';
 import HeaderInteractions from './HeaderInteractions';
-import ProductCard from './ProductCard';
 import SearchOverlay from './SearchOverlay';
 import CartSidebarItems from './CartSidebarItems';
 import StoreLink from './StoreLink';
@@ -32,8 +29,6 @@ export default async function Header({
   cart: Record<string, CartLine>;
 }) {
   await connectDb();
-  const latest = await Product.find({ status: 'active' }).sort({ created_at: -1, _id: 1 }).limit(4).lean();
-  const latestCards = await toCards(latest);
   const headlines = (await getActiveHeadlines())
     .filter((h) => h.message_en?.trim())
     .map((h) => ({ message: h.message_en.trim(), link: h.link_url || null, bg: h.bg_color || '#161426', color: h.text_color || '#ffffff' }));
@@ -264,11 +259,7 @@ export default async function Header({
       <SearchOverlay
         categories={menuCategories.slice(0, 8).filter((c) => c.title !== NEW_ARRIVAL).map((c) => ({ title: c.title, slug: c.slug ?? '' }))}
         showCategories={menuCategories.length > 0}
-      >
-        {latestCards.map((p) => (
-          <div key={p.id}><ProductCard product={p} /></div>
-        ))}
-      </SearchOverlay>
+      />
 
       <div className="offcanvas-overlay"></div>
       <div className="cart__sidebar d-none">

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, type ReactNode } from 'react';
 import { loadSwiper } from '@/lib/swiper-lite';
+import { CARD_SIZES } from '@/lib/media';
 
 /** The card photo slider: window.initProductSwipers() from the product-card partial.
  *  Only the first photo loads with the page; the card's other photos (rendered with data-src, see ProductCard) load
@@ -14,8 +15,11 @@ export default function ProductImageSwiper({ children }: { children: ReactNode }
     if (!el) return;
     const loadRest = () => {
       el.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => {
+        const src = img.dataset.src ?? '';
         if (img.dataset.srcset) { img.srcset = img.dataset.srcset; img.removeAttribute('data-srcset'); }
-        img.src = img.dataset.src ?? '';
+        // card photos carry only the 600px link (less page data); the 400px copy is the same path at /thumb/400/
+        else if (src.startsWith('/thumb/600/')) { img.srcset = `${src.replace('/thumb/600/', '/thumb/400/')} 400w, ${src} 600w`; img.sizes = CARD_SIZES; }
+        img.src = src;
         img.removeAttribute('data-src');
       });
     };
@@ -51,7 +55,7 @@ export default function ProductImageSwiper({ children }: { children: ReactNode }
   }, []);
 
   return (
-    <div ref={ref} className="swiper product-img-swiper overflow-hidden position-relative" style={{ background: 'var(--dc-cream)' }}>
+    <div ref={ref} className="swiper product-img-swiper overflow-hidden position-relative">
       <div className="swiper-wrapper">{children}</div>
       <div className="swiper-button-prev"></div>
       <div className="swiper-button-next"></div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CardProduct } from '@/types/catalog';
 import ProductCard from './ProductCard';
 import { useStore } from './StoreProvider';
@@ -13,11 +13,9 @@ type View = 'default' | 'loading' | 'results' | 'empty';
 export default function SearchOverlay({
   categories,
   showCategories,
-  children,
 }: {
   categories: { title: string; slug: string }[];
   showCategories: boolean;
-  children: ReactNode; // the "New Arrivals" cards, rendered on the server
 }) {
   const { searchOpen, openSearch, closeSearch } = useStore();
   const [q, setQ] = useState('');
@@ -27,6 +25,21 @@ export default function SearchOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const seq = useRef(0);
+  // "New Arrivals": fetched the first time the overlay opens, instead of four full cards in every page's markup
+  const [latest, setLatest] = useState<CardProduct[] | null>(null);
+  const latestAsked = useRef(false);
+  useEffect(() => {
+    if (!searchOpen || latestAsked.current) return;
+    latestAsked.current = true;
+    fetch('/shop/ajax-search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+      body: JSON.stringify({ latest: true }),
+    })
+      .then((r) => r.json() as Promise<{ products: CardProduct[] }>)
+      .then((d) => setLatest(d.products ?? []))
+      .catch(() => { latestAsked.current = false; });
+  }, [searchOpen]);
 
   // Following a suggestion or a result opens another page without a reload: close the overlay
   const navKey = useNavKey();
@@ -149,7 +162,7 @@ export default function SearchOverlay({
               )}
 
               <p className="dc-so-label">New Arrivals</p>
-              <div className="dc-so-grid">{children}</div>
+              <div className="dc-so-grid">{latest?.map((p) => <div key={p.id}><ProductCard product={p} /></div>)}</div>
             </div>
 
             <div id="dcSearchResults" style={view === 'results' ? undefined : { display: 'none' }}>
