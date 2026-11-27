@@ -46,6 +46,8 @@ export default async function StoreLayout({ children }: { children: ReactNode })
     <html lang="en" dir="ltr" data-scroll-behavior="smooth">
       <head>
         <meta name="google-site-verification" content="Z_-YrkQkSPqhVSDAc26pOrKID2LeAV0ZS7Fp3BcQ-hQ" />
+        {/* Meta Business: domain verification for agacollections.com */}
+        <meta name="facebook-domain-verification" content="tumtyi4kjb8gxlplbj9a9mggr3fgwl" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <LayoutStyles productCardRatio={env.productCardImageRatio || undefined} />
